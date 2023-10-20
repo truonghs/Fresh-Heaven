@@ -22,7 +22,7 @@ function Home() {
       </View>
       <ScrollView>
         <Welcome />
-        {/* <Carousels /> */}
+        <Carousels />
       </ScrollView>
     </View>
   );
