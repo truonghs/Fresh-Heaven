@@ -2,7 +2,8 @@ import {Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './home.style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import {Welcome, Carousels} from '../../components/home';
+import {Welcome, Carousels, Heading} from '../../components/home';
+import ProductRow from '../../products/ProductRow/ProductRow';
 function Home() {
   return (
     <View>
@@ -23,6 +24,8 @@ function Home() {
       <ScrollView>
         <Welcome />
         <Carousels />
+        <Heading />
+        <ProductRow />
       </ScrollView>
     </View>
   );
