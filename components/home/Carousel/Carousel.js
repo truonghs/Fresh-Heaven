@@ -1,6 +1,7 @@
 import {Image, View} from 'react-native';
 import React from 'react';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
+
 import styles from './carousel.style';
 const Carousel = () => {
   const sliders = [
@@ -24,6 +25,7 @@ const Carousel = () => {
         autoplayLoop
         index={0}
         showPagination
+        disableGesture
         data={sliders}
         renderItem={({item}) => <Image source={item} style={styles.child} />}
       />
