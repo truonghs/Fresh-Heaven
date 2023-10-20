@@ -7,7 +7,7 @@ const products = [1, 2, 3, 4, 5, 6, 7];
 
 const ProductRow = () => {
   return (
-    <View style={{marginTop: SIZES.medium, marginLeft: 12}}>
+    <View style={styles.container}>
       <FlatList
         data={products}
         horizontal

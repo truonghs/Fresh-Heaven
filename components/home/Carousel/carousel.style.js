@@ -1,17 +1,16 @@
 import {COLORS, SIZES} from '../../../constants';
 import {StyleSheet, Dimensions} from 'react-native';
-const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     height: 200,
-    width: width - SIZES.xLarge,
+    width: SIZES.width - SIZES.xLarge,
     marginHorizontal: SIZES.small,
     borderRadius: SIZES.small,
     overflow: 'hidden',
   },
   child: {
     height: 200,
-    width: width,
+    width: SIZES.width,
   },
 
   dot: {
