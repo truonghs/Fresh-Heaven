@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     marginEnd: 22,
     borderRadius: SIZES.medium,
     backgroundColor: COLORS.secondary,
-    marginLeft: SIZES.small,
   },
   imgContainer: {
     flex: 1,

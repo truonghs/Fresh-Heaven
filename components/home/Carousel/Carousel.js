@@ -14,7 +14,6 @@ const Carousel = () => {
   return (
     <View style={styles.container}>
       <SwiperFlatList
-        style={styles.swiper}
         autoplayDelay={3}
         autoplayLoopKeepAnimation={true}
         paginationStyleItem={styles.dot}
@@ -23,14 +22,10 @@ const Carousel = () => {
         renderAll={true}
         autoplay
         autoplayLoop
-        index={2}
+        index={0}
         showPagination
         data={sliders}
-        renderItem={({item}) => (
-          <View style={styles.imgContainer}>
-            <Image source={item} style={styles.child} />
-          </View>
-        )}
+        renderItem={({item}) => <Image source={item} style={styles.child} />}
       />
     </View>
   );
