@@ -7,6 +7,8 @@ const Carousel = () => {
     require('../../../assets/SliderImage/slider1.jpg'),
     require('../../../assets/SliderImage/slider2.jpg'),
     require('../../../assets/SliderImage/slider3.jpg'),
+    require('../../../assets/SliderImage/slider4.jpg'),
+    require('../../../assets/SliderImage/slider5.jpg'),
   ];
 
   return (
