@@ -1,19 +1,28 @@
-import {Text, View, FlatList} from 'react-native';
+import {Text, View, FlatList, ActivityIndicator} from 'react-native';
 import React from 'react';
 import styles from './productRow.style';
-import {SIZES} from '../../constants';
+import {COLORS, SIZES} from '../../constants';
 import ProductCartView from '../ProductCartView/ProductCartView';
-const products = [1, 2, 3, 4, 5, 6, 7];
+import useFectch from '../../hooks/useFectch';
 
 const ProductRow = () => {
+  const {data, isLoading, error} = useFectch();
+  console.log(error)
   return (
     <View style={styles.container}>
-      <FlatList
-        data={products}
-        horizontal
-        contentContainerStyle={{columnGap: SIZES.medium}}
-        renderItem={({item}) => <ProductCartView />}
-      />
+      {isLoading ? (
+        <ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary} />
+      ) : error ? (
+        <Text>Something went wrong</Text>
+      ) : (
+        <FlatList
+          data={data}
+          keyExtractor={item => item._id}
+          horizontal
+          contentContainerStyle={{columnGap: SIZES.medium}}
+          renderItem={({item}) => <ProductCartView item = {item}/>}
+        />
+      )}
     </View>
   );
 };

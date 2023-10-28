@@ -5,7 +5,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import {COLORS} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
 
-const ProductCartView = () => {
+const ProductCartView = ({item}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity onPress={() => navigation.navigate('ProductDetail')}>
@@ -13,17 +13,17 @@ const ProductCartView = () => {
         <View style={styles.imgContainer}>
           <Image
             style={styles.img}
-            source={require('../../assets/images/fn1.jpg')}
+            source={{uri: item.imageUrl}}
           />
         </View>
         <View style={styles.details}>
           <Text style={styles.title} numberOfLines={1}>
-            Product
+            {item.title}
           </Text>
           <Text style={styles.suplier} numberOfLines={1}>
-            Product
+          {item.suplier}
           </Text>
-          <Text style={styles.price}>$2353</Text>
+          <Text style={styles.price}>${item.price}</Text>
         </View>
         <TouchableOpacity style={styles.addBtn}>
           <Ionicon name={'add-circle'} size={35} color={COLORS.primary} />

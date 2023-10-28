@@ -4,9 +4,13 @@ import React from 'react';
 import {Cart, ProductDetail} from './screens';
 import BottomTabNavigatior from './navigation/BottomTabNavigation';
 
+
+
 const Stack = createNativeStackNavigator();
 
+
 function App() {
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -31,3 +35,4 @@ function App() {
 }
 
 export default App;
+
