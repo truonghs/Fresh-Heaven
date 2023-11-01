@@ -7,21 +7,20 @@ import {useNavigation} from '@react-navigation/native';
 
 const ProductCartView = ({item}) => {
   const navigation = useNavigation();
+  // console.log(item._id);
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('ProductDetail')}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('ProductDetail', {item})}>
       <View style={styles.container}>
         <View style={styles.imgContainer}>
-          <Image
-            style={styles.img}
-            source={{uri: item.imageUrl}}
-          />
+          <Image style={styles.img} source={{uri: item.imageUrl}} />
         </View>
         <View style={styles.details}>
           <Text style={styles.title} numberOfLines={1}>
             {item.title}
           </Text>
           <Text style={styles.suplier} numberOfLines={1}>
-          {item.suplier}
+            {item.suplier}
           </Text>
           <Text style={styles.price}>${item.price}</Text>
         </View>

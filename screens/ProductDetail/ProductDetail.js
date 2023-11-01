@@ -6,8 +6,7 @@ import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {COLORS} from '../../constants';
-
-const ProducDetail = ({navigation}) => {
+const ProducDetail = ({navigation, route}) => {
   const [rating, setRating] = useState(1);
   const increase = () => {
     rating < 5 ? setRating(rating + 1) : null;
@@ -15,6 +14,8 @@ const ProducDetail = ({navigation}) => {
   const decrease = () => {
     rating > 0 ? setRating(rating - 1) : null;
   };
+  const {item} = route.params;
+
   return (
     <View style={styles.container}>
       <View style={styles.upperRow}>
@@ -25,15 +26,12 @@ const ProducDetail = ({navigation}) => {
           <Ionicon name="heart" size={30} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
-      <Image
-        style={styles.img}
-        source={require('../../assets/images/fn1.jpg')}
-      />
+      <Image style={styles.img} source={{uri: item.imageUrl}} />
       <View style={styles.detail}>
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Product</Text>
+          <Text style={styles.title}>{item.title}</Text>
           <View style={styles.priceWrapper}>
-            <Text style={styles.price}>$1234.00</Text>
+            <Text style={styles.price}>{item.price}</Text>
           </View>
         </View>
         <View style={styles.ratingRow}>
@@ -55,25 +53,14 @@ const ProducDetail = ({navigation}) => {
         </View>
         <View style={styles.descWraper}>
           <Text style={styles.desc}>Description</Text>
-          <Text style={styles.descText}>
-            Bàn là một món đồ nội thất quan trọng và không thể thiếu trong mọi
-            không gian sống và làm việc. Nó không chỉ là nơi để đặt những vật
-            dụng cần thiết mà còn thể hiện phong cách và sở thích cá nhân của
-            chủ nhân. Bàn có nhiều kiểu dáng và chất liệu khác nhau, từ bàn gỗ
-            truyền thống đến bàn hiện đại bằng kính, kim loại hoặc acrylic. Một
-            chiếc bàn tạo điểm nhấn trong phòng khách, nơi bạn có thể sắp xếp
-            sách, hoa và các vật trang trí. Trên bàn là nơi chúng ta làm việc,
-            viết, hoặc thậm chí là thưởng thức bữa ăn nhanh vào buổi sáng. Chọn
-            bàn phù hợp là việc làm quan trọng để tạo nên không gian ấm cúng và
-            thú vị.
-          </Text>
+          <Text style={styles.descText}>{item.description}</Text>
         </View>
         <View style={styles.locationWrapper}>
           <View style={styles.location}>
             <View style={styles.locationRow}>
               <Ionicon name="location-outline" size={20} color="#000" />
               <View style={styles.locationTxt}>
-                <Text style={styles.locationTxt}>VungTau</Text>
+                <Text style={styles.locationTxt}>{item.product_location}</Text>
               </View>
             </View>
             <View style={styles.locationRow}>
