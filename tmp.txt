@@ -1,0 +1,130 @@
+const express = require('express');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+const app = express();
+const cors = require('cors');
+
+app.use(cors());
+const productRouter = require('./routes/products');
+const User = require('./models/user');
+const Order = require('./models/order');
+const port = 3000;
+dotenv.config();
+app.use(express.json({limit: '10mb'}));
+app.use(express.urlencoded({limit: '10mb', extend: true}));
+app.use('/api/products', productRouter);
+
+// mongoose
+//   .connect(process.env.MONGO_URL)
+//   .then(() => console.log('db connected'))
+//   .catch(err => console.log('db fail', err));
+
+mongoose
+  .connect(
+    'mongodb+srv://huynhtruong293:truong123@cluster0.bciytmu.mongodb.net/',
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+  )
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch(err => {
+    console.log('Error connecting to MongoDb', err);
+  });
+
+app.listen(process.env.PORT || port, () =>
+  console.log(`Example app listening on port ${process.env.PORT}!`),
+);
+
+//send Email function
+const sendVerificationEmail = async (email, verificationToken) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'sendFromTruonghs@gmail.com',
+      pass: 'axaapgzfkkvxobkc',
+      //'axaa pgzf kkvx obkc'
+    },
+  });
+  const mailOptions = {
+    form: 'LuFu.vn',
+    to: email,
+    subject: 'Email Verification',
+    text: `Please click the following link to verify your email: http://192.168.1.4:3000/api/verify/${verificationToken}/`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.log('Error sending verification email', error);
+  }
+};
+
+app.post('/register', async (req, res) => {
+  try {
+    const {name, email, password} = req.body;
+    //check email is already registered
+    const existingUser = await User.findOne({email});
+    existingUser
+      ? res.status(400).json({message: 'This email already registered'})
+      : null;
+  } catch (error) {
+    console.log('Registation failed!', error);
+    res.status(500).json({message: 'Registation failed!'});
+  }
+  //create new user
+  const newUser = new User({name, email, password});
+  //generate and store Token
+  newUser.verificationToken = crypto.randomBytes(20).toString('hex');
+
+  //store user to db
+  await newUser.save();
+  //send verification email
+  sendVerificationEmail(newUser.email, newUser.verificationToken);
+});
+//endpoint to verify the email
+app.get('/verify/:token', async (req, res) => {
+  try {
+    const token = req.params.token;
+
+    //Find the user witht the given verification token
+    const user = await User.findOne({verificationToken: token});
+    user ? res.status(404).json({message: 'Invalid verification token'}) : null;
+
+    //Mark the user as verified
+    user.verified = true;
+    user.verificationToken = undefined;
+
+    await user.save();
+
+    res.status(200).json({message: 'Email verified successfully'});
+  } catch (error) {
+    res.status(500).json({message: 'Email Verification Failed'});
+  }
+});
+
+const generateSecretKey = () => {
+  const secretKey = crypto.randomBytes(32).toString('hex');
+
+  return secretKey;
+};
+
+const secretKey = generateSecretKey();
+
+const axios = require('axios');
+
+// axios.get('http://localhost:3000/api/products/');
+
+// .then((res) => console.log(res))
+const fetchData = async () => {
+  await axios.get('http://192.168.1.4:3000/api/products/').then(response => {
+    console.log(response.data);
+  });
+};
+
+fetchData();

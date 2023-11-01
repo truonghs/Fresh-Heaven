@@ -1,16 +1,18 @@
 import {COLORS, SIZES} from '../../../constants';
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     height: 200,
-    width: SIZES.width - SIZES.xLarge,
-    marginHorizontal: SIZES.small,
     borderRadius: SIZES.small,
+    width: SIZES.width,
+
     overflow: 'hidden',
   },
   child: {
-    height: 200,
+    height: (SIZES.width * 9) / 16,
     width: SIZES.width,
+
+    resizeMode: 'contain',
   },
 
   dot: {

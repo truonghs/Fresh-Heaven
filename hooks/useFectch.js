@@ -8,7 +8,7 @@ export default function useFectch() {
   const fetchData = async () => {
     setIsLoading(true);
     await axios
-      .get('http://localhost:3000/api/products/')
+      .get('http://192.168.1.4:3000/api/products/')
       .then(response => {
         setData(response.data);
         setIsLoading(false);

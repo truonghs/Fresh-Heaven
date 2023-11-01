@@ -11,10 +11,10 @@ export default function Welcome() {
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.welcomeTxt('#000', SIZES.xSmall)}>
+        <Text style={styles.welcomeTxt(COLORS.primary, SIZES.xSmall)}>
           Find The Most
         </Text>
-        <Text style={styles.welcomeTxt(COLORS.primary, 0)}>
+        <Text style={styles.welcomeTxt(COLORS.thirth, 0)}>
           Luxurious Furniture
         </Text>
       </View>
