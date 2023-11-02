@@ -7,7 +7,6 @@ import {useNavigation} from '@react-navigation/native';
 
 const ProductCartView = ({item}) => {
   const navigation = useNavigation();
-  // console.log(item._id);
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('ProductDetail', {item})}>

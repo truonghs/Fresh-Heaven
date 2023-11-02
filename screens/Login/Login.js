@@ -10,13 +10,14 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import Ip from '../../constants/ipAddress';
+import {UserType} from '../../UserContext';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './Login.style';
@@ -26,6 +27,8 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const {userId, setUserId} = useContext(UserType);
+
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
@@ -45,23 +48,21 @@ function Login() {
       email: email,
       password: password,
     };
-    console.log(user);
     axios
       .post(`http://${Ip}:3000/login`, user)
       .then(response => {
-        // console.log(response);
         const token = response.data.token;
         if (token) {
+          setUserId(userId);
+
           AsyncStorage.setItem('authToken', token);
           navigation.replace('BottomTabNavigation');
-          r;
         } else {
           Alert.alert('Please verify your email!');
         }
       })
       .catch(error => {
         Alert.alert('Login Error', error.response.data.message);
-        // console.log(error);
       });
   };
   return (

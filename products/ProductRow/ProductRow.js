@@ -7,7 +7,7 @@ import useFectch from '../../hooks/useFectch';
 
 const ProductRow = () => {
   const {data, isLoading, error} = useFectch();
-  console.log(error)
+  error ? console.log(error) : null;
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -20,7 +20,7 @@ const ProductRow = () => {
           keyExtractor={item => item._id}
           horizontal
           contentContainerStyle={{columnGap: SIZES.medium}}
-          renderItem={({item}) => <ProductCartView item = {item}/>}
+          renderItem={({item}) => <ProductCartView item={item} />}
         />
       )}
     </View>

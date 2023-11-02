@@ -41,14 +41,14 @@ function Register() {
       axios
         .post(`http://${Ip}:3000/register`, user)
         .then(response => {
-          console.log(response);
           Alert.alert(
             'Registration successful',
             'You have been registered Successfully',
           );
-          setName('');
-          setEmail('');
-          setPassword('');
+          // setName('');
+          // setEmail('');
+          // setPassword('');
+          // setCPassword('');
         })
         .catch(error => {
           Alert.alert(

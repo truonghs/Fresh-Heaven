@@ -37,8 +37,8 @@ const sendVerificationEmail = async (email, verificationToken) => {
     // Configure the email service or SMTP details here
     service: 'gmail',
     auth: {
-      user: 'sendFromTruonghs@gmail.com',
-      pass: 'axaapgzfkkvxobkc',
+      user: 'sendfromtruonghs@gmail.com',
+      pass: 'cmgmhgmfkqxglddr',
     },
   });
 
@@ -272,10 +272,11 @@ const axios = require('axios');
 // axios.get("http://localhost:3000/api/products/")
 
 // .then((res) => console.log(res))
+/*
 const fetchData = async () => {
   await axios.get('http://localhost:3000/api/products/').then(response => {
     console.log(response.data);
   });
 };
-
-fetchData();
+*/
+// fetchData();

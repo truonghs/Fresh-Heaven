@@ -6,8 +6,12 @@ import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {COLORS} from '../../constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart} from '../../redux/CartReducer';
 const ProducDetail = ({navigation, route}) => {
   const [rating, setRating] = useState(1);
+  const dispatch = useDispatch();
+  const [addedToCart, setAddedToCart] = useState(false);
   const increase = () => {
     rating < 5 ? setRating(rating + 1) : null;
   };
@@ -15,7 +19,15 @@ const ProducDetail = ({navigation, route}) => {
     rating > 0 ? setRating(rating - 1) : null;
   };
   const {item} = route.params;
-
+  const addItemToCart = item => {
+    setAddedToCart(true);
+    dispatch(addToCart(item));
+    setTimeout(() => {
+      setAddedToCart(false);
+    }, 6000);
+  };
+  const cart = useSelector(state => state.cart.cart);
+  console.log(cart);
   return (
     <View style={styles.container}>
       <View style={styles.upperRow}>
@@ -79,7 +91,9 @@ const ProducDetail = ({navigation, route}) => {
           <TouchableOpacity style={styles.cartBtn} onPress={() => {}}>
             <Text style={styles.cartTitle}>BUY NOW</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.addCart} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.addCart}
+            onPress={() => addItemToCart(item)}>
             <Fontisto name="shopping-bag" size={20} color={COLORS.lightWhite} />
           </TouchableOpacity>
         </View>
