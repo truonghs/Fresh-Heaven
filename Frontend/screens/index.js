@@ -6,6 +6,7 @@ import ProductDetail from './ProductDetail/ProductDetail';
 import Login from './Login/Login';
 import Register from './Register/Register';
 import AddAddress from './AddAddress/AddAddress';
+import AddressDetail from './AddressDetail/AddressDetail';
 
 export {
   Home,
@@ -16,4 +17,5 @@ export {
   Login,
   Register,
   AddAddress,
+  AddressDetail,
 };

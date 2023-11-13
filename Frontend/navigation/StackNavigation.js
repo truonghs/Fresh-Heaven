@@ -2,9 +2,17 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Cart, ProductDetail, Login, Register, AddAddress} from '../screens';
+import {
+  Cart,
+  ProductDetail,
+  Login,
+  Register,
+  AddAddress,
+  AddressDetail,
+} from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
 import {COLORS} from '../constants';
+import font from '../assets/fonts/font';
 
 const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
@@ -26,11 +34,20 @@ const StackNavigation = () => {
           component={BottomTabNavigatior}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name="Cart"
           component={Cart}
-          options={{headerShown: false}}
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: COLORS.thirth,
+            },
+            headerTitleStyle: {
+              fontFamily: font.bold,
+            },
+            headerTintColor: '#fff',
+            title: 'Cart',
+          }}
         />
         <Stack.Screen
           name="ProductDetail"
@@ -44,6 +61,23 @@ const StackNavigation = () => {
             headerShown: true,
             headerStyle: {
               backgroundColor: COLORS.thirth,
+            },
+            headerTitleStyle: {
+              fontFamily: font.bold,
+            },
+            headerTintColor: '#fff',
+          }}
+        />
+        <Stack.Screen
+          name="AddressDetail"
+          component={AddressDetail}
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: COLORS.thirth,
+            },
+            headerTitleStyle: {
+              fontFamily: font.bold,
             },
             headerTintColor: '#fff',
           }}

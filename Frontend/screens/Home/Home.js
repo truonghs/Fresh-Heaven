@@ -11,6 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import jwt_decode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import Ip from '../../constants/ipAddress';
 import {
   BottomModal,
   SlideAnimation,
@@ -34,14 +35,12 @@ function Home() {
   }, [userId, modalVisible]);
   const fetchAddresses = async () => {
     try {
-      const response = await axios.get(
-        `http://192.168.1.4:3000/addresses/${userId}`,
-      );
+      const response = await axios.get(`http://${Ip}:3000/addresses/${userId}`);
       const {addresses} = response.data;
 
       setAddresses(addresses);
     } catch (error) {
-      console.log('error', error);
+      console.log('error home', error);
     }
   };
   useEffect(() => {
@@ -57,7 +56,10 @@ function Home() {
 
     fetchUser();
   }, []);
-
+  const handlePickAddress = item => {
+    setSelectedAdress(item);
+    setModalVisible(!modalVisible);
+  };
   return (
     <View>
       <View style={styles.appBarWrapper}>
@@ -73,7 +75,8 @@ function Home() {
             onPress={() => setModalVisible(!modalVisible)}>
             {selectedAddress ? (
               <Text style={styles.location}>
-                {selectedAddress?.name} - {selectedAddress?.street}
+                {selectedAddress?.name} - {selectedAddress?.houseNumber},{' '}
+                {selectedAddress?.detail}
               </Text>
             ) : (
               <Text style={styles.location}>Add an Address</Text>
@@ -84,7 +87,10 @@ function Home() {
             <View style={styles.cartCount}>
               <Text style={styles.cartNumber}>8</Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Cart');
+              }}>
               <Fontisto name="shopping-bag" size={24} />
             </TouchableOpacity>
           </View>
@@ -140,9 +146,9 @@ function Home() {
               {addresses?.map((item, index) => (
                 <TouchableOpacity
                   key={index}
-                  onPress={() => setSelectedAdress(item)}
+                  onPress={() => handlePickAddress(item)}
                   style={styles.addressLect(
-                    selectedAddress === item ? '#FBCEB1' : 'white',
+                    selectedAddress._id == item._id ? '#FBCEB1' : 'white',
                   )}>
                   <View style={styles.addressName}>
                     <Text style={styles.addressTxt}>{item?.name}</Text>
@@ -156,7 +162,7 @@ function Home() {
                     {item?.city}
                   </Text>
                   <Text numberOfLines={1} style={styles.addressDetail}>
-                    {item?.houseNumber},{item?.street}
+                    {item?.houseNumber},{item?.detail}
                   </Text>
 
                   <Text numberOfLines={1} style={styles.addressDetail}>
@@ -173,13 +179,16 @@ function Home() {
               <Text style={styles.addressOptTxt}>Use My Currect location</Text>
             </View>
 
-            <View style={styles.addressOpt}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+                navigation.navigate('AddressDetail');
+              }}
+              style={styles.addressOpt}>
               <AntDesign name="earth" size={22} color={COLORS.blue} />
 
-              <Text style={styles.addressOptTxt}>
-                Deliver outside Ho Chi Minh city
-              </Text>
-            </View>
+              <Text style={styles.addressOptTxt}>View all Addresses</Text>
+            </TouchableOpacity>
           </View>
         </ModalContent>
       </BottomModal>

@@ -22,12 +22,15 @@ const ProducDetail = ({navigation, route}) => {
   const addItemToCart = item => {
     setAddedToCart(true);
     dispatch(addToCart(item));
+    console.log(item);
+    console.log(1);
+    console.log(cart);
     setTimeout(() => {
       setAddedToCart(false);
-    }, 6000);
+    }, 5000);
   };
   const cart = useSelector(state => state.cart.cart);
-  console.log(cart);
+  // console.log(cart);
   return (
     <View style={styles.container}>
       <View style={styles.upperRow}>
@@ -43,7 +46,7 @@ const ProducDetail = ({navigation, route}) => {
         <View style={styles.titleRow}>
           <Text style={styles.title}>{item.title}</Text>
           <View style={styles.priceWrapper}>
-            <Text style={styles.price}>{item.price}</Text>
+            <Text style={styles.price}>${item.price}</Text>
           </View>
         </View>
         <View style={styles.ratingRow}>

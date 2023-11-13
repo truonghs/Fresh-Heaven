@@ -54,7 +54,6 @@ function Login() {
         const token = response.data.token;
         if (token) {
           setUserId(userId);
-
           AsyncStorage.setItem('authToken', token);
           navigation.replace('BottomTabNavigation');
         } else {

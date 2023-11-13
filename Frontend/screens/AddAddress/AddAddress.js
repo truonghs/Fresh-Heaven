@@ -14,15 +14,15 @@ import {UserType} from '../../UserContext';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import styles from './AddAddress.style';
-
+import Ip from '../../constants/ipAddress';
 const AddressScreen = () => {
   const navigation = useNavigation();
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
-  const [street, setStreet] = useState('');
-  const [landmark, setLandmark] = useState('');
-  const [postalCode, setPostalCode] = useState('');
+  const [detail, setDetail] = useState('');
+  const [city, setCity] = useState('');
+
   const {userId, setUserId} = useContext(UserType);
   useEffect(() => {
     const fetchUser = async () => {
@@ -39,20 +39,21 @@ const AddressScreen = () => {
     const address = {
       name,
       phoneNumber,
+      city,
+      detail,
       houseNumber,
-      street,
     };
+    console.log(address);
 
     axios
-      .post('http://192.168.1.4:3000/addresses', {userId, address})
+      .post(`http://${Ip}:3000/addresses`, {userId, address})
       .then(response => {
         Alert.alert('Success', 'Addresses added successfully');
         setName('');
         setPhoneNumber('');
         setHouseNumber('');
-        setStreet('');
-        setLandmark('');
-        setPostalCode('');
+        setDetail('');
+        setCity('');
 
         setTimeout(() => {
           navigation.goBack();
@@ -72,18 +73,14 @@ const AddressScreen = () => {
         />
       </View>
       <View style={{padding: 10}}>
-        <Text style={styles.title}>Add a new Address</Text>
-
-        <TextInput placeholder="Ho Chi Minh" style={styles.input} />
-
         <View style={styles.inputContainer}>
-          <Text style={styles.title}>Full name (First and last name)</Text>
+          <Text style={styles.title}>Address name</Text>
 
           <TextInput
             value={name}
             onChangeText={text => setName(text)}
             style={styles.input}
-            placeholder="enter your name"
+            placeholder="Name"
           />
         </View>
 
@@ -99,26 +96,34 @@ const AddressScreen = () => {
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.title}>City, Province</Text>
+          <Text style={styles.title}>Province, City</Text>
 
           <TextInput
-            value={houseNumber}
-            onChangeText={text => setHouseNumber(text)}
+            value={city}
+            onChangeText={text => setCity(text)}
             style={styles.input}
-            placeholder=""
+            placeholder="Province, City"
           />
         </View>
 
         <View>
-          <Text style={styles.title}>Area,Street, House Number</Text>
+          <Text style={styles.title}>Detail address</Text>
           <TextInput
-            value={street}
-            onChangeText={text => setStreet(text)}
+            value={detail}
+            onChangeText={text => setDetail(text)}
             style={styles.input}
-            placeholder=""
+            placeholder="Detail address"
           />
         </View>
-
+        <View>
+          <Text style={styles.title}>House Number</Text>
+          <TextInput
+            value={houseNumber}
+            onChangeText={text => setHouseNumber(text)}
+            style={styles.input}
+            placeholder="House Numbe"
+          />
+        </View>
         <TouchableOpacity onPress={handleAddAddress} style={styles.btn}>
           <Text style={styles.btnTxt}>Add Address</Text>
         </TouchableOpacity>
