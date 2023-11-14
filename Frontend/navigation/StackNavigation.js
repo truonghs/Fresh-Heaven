@@ -9,6 +9,7 @@ import {
   Register,
   AddAddress,
   AddressDetail,
+  NewRivals
 } from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
 import {COLORS} from '../constants';
@@ -52,6 +53,11 @@ const StackNavigation = () => {
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetail}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name="ProductList"
+          component={NewRivals}
           options={{headerShown: false}}
         />
         <Stack.Screen

@@ -7,7 +7,7 @@ import Login from './Login/Login';
 import Register from './Register/Register';
 import AddAddress from './AddAddress/AddAddress';
 import AddressDetail from './AddressDetail/AddressDetail';
-
+import NewRivals from './Rivals/NewRivals'
 export {
   Home,
   Search,
@@ -18,4 +18,5 @@ export {
   Register,
   AddAddress,
   AddressDetail,
+  NewRivals,
 };
