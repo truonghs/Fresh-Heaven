@@ -45,6 +45,7 @@ function Search() {
             value={searchValue}
             onChangeText={value => setSearchValue(value)}
             placeholder="What are you looking for"
+            placeholderTextColor={COLORS.gray}
           />
         </View>
         <View>

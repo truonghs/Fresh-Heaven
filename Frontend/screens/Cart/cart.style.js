@@ -9,7 +9,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-
+  empty: {
+    fontFamily: font.bold,
+    fontSize: SIZES.large,
+    color: '#000',
+    paddingHorizontal: 20,
+    textAlign: 'center',
+    marginTop: 20,
+  },
   main: {
     backgroundColor: 'white',
     marginVertical: 10,
@@ -111,6 +118,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 10,
     marginBottom: 50,
+  },
+  buyBtnInActive: {
+    backgroundColor: COLORS.thirth,
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginTop: 10,
+    marginBottom: 50,
+    opacity: 0.5,
   },
   btnTxt: {
     color: '#fff',

@@ -10,6 +10,7 @@ import {UserType} from '../../UserContext';
 import {useNavigation} from '@react-navigation/native';
 import jwt_decode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSelector} from 'react-redux';
 import axios from 'axios';
 import Ip from '../../constants/ipAddress';
 import {
@@ -28,6 +29,8 @@ function Home() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAdress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const cartTotal = useSelector(state => state.cart.total);
+
   useEffect(() => {
     if (userId) {
       fetchAddresses();
@@ -50,7 +53,7 @@ function Home() {
       const decodedToken = jwt_decode(token);
 
       const userId = decodedToken.userId;
-      console.log(userId);
+      console.log('home userId: ', userId);
       setUserId(userId);
     };
 
@@ -67,7 +70,7 @@ function Home() {
           <TouchableOpacity
             hitSlop={{top: 40, bottom: 40, left: 40, right: 40}}
             onPress={() => setModalVisible(!modalVisible)}>
-            <Ionicons name="location-outline" size={24} />
+            <Ionicons name="location-outline" size={24} color={COLORS.gray} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -84,14 +87,14 @@ function Home() {
           </TouchableOpacity>
 
           <View style={{alignItems: 'flex-end'}}>
-            <View style={styles.cartCount}>
-              <Text style={styles.cartNumber}>8</Text>
-            </View>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('Cart');
               }}>
-              <Fontisto name="shopping-bag" size={24} />
+              <View style={styles.cartCount}>
+                <Text style={styles.cartNumber}>{cartTotal}</Text>
+              </View>
+              <Fontisto name="shopping-bag" size={24} color={COLORS.gray} />
             </TouchableOpacity>
           </View>
         </View>

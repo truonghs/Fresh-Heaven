@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   },
   cartCount: {
     position: 'absolute',
+    right: -10,
     bottom: SIZES.medium,
     width: SIZES.medium,
     height: SIZES.medium,

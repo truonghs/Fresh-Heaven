@@ -47,5 +47,8 @@ const styles = StyleSheet.create({
     fontFamily: font.regular,
     color: '#181818',
   },
+  btn: {
+    color: '#000',
+  },
 });
 export default styles;

@@ -35,23 +35,19 @@ const orderSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
-        mobileNo: {
+        phoneNumber: {
             type: String,
             required: true,
         },
-        houseNo: {
+        houseNumber: {
             type: String,
             required: true,
         },
-        street: {
+        detail: {
             type: String,
             required: true,
         },
-        landmark: {
-            type: String,
-            required: true,
-        },
-        postalCode: {
+        city: {
             type: String,
             required: true,
         },

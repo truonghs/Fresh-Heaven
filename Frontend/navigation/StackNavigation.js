@@ -9,7 +9,10 @@ import {
   Register,
   AddAddress,
   AddressDetail,
-  NewRivals
+  NewRivals,
+  Confirm,
+  Order,
+  VnPay,
 } from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
 import {COLORS} from '../constants';
@@ -55,7 +58,7 @@ const StackNavigation = () => {
           component={ProductDetail}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="ProductList"
           component={NewRivals}
           options={{headerShown: false}}
@@ -87,6 +90,30 @@ const StackNavigation = () => {
             },
             headerTintColor: '#fff',
           }}
+        />
+        <Stack.Screen
+          name="Confirm"
+          component={Confirm}
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: COLORS.thirth,
+            },
+            headerTitleStyle: {
+              fontFamily: font.bold,
+            },
+            headerTintColor: '#fff',
+          }}
+        />
+        <Stack.Screen
+          name="Order"
+          component={Order}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="VnPay"
+          component={VnPay}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

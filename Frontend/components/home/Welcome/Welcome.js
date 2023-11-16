@@ -28,6 +28,7 @@ export default function Welcome() {
             value=""
             onPressIn={() => navigation.navigate('Search')}
             placeholder="What are you looking for"
+            placeholderTextColor={COLORS.gray}
           />
         </View>
         <TouchableOpacity style={styles.searchBtn}>

@@ -15,6 +15,7 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import styles from './AddAddress.style';
 import Ip from '../../constants/ipAddress';
+import {COLORS} from '../../constants';
 const AddressScreen = () => {
   const navigation = useNavigation();
   const [name, setName] = useState('');
@@ -77,6 +78,7 @@ const AddressScreen = () => {
           <Text style={styles.title}>Address name</Text>
 
           <TextInput
+            placeholderTextColor={COLORS.gray}
             value={name}
             onChangeText={text => setName(text)}
             style={styles.input}
@@ -88,6 +90,7 @@ const AddressScreen = () => {
           <Text style={styles.title}>Phone number</Text>
 
           <TextInput
+            placeholderTextColor={COLORS.gray}
             value={phoneNumber}
             onChangeText={text => setPhoneNumber(text)}
             style={styles.input}
@@ -99,6 +102,7 @@ const AddressScreen = () => {
           <Text style={styles.title}>Province, City</Text>
 
           <TextInput
+            placeholderTextColor={COLORS.gray}
             value={city}
             onChangeText={text => setCity(text)}
             style={styles.input}
@@ -109,6 +113,7 @@ const AddressScreen = () => {
         <View>
           <Text style={styles.title}>Detail address</Text>
           <TextInput
+            placeholderTextColor={COLORS.gray}
             value={detail}
             onChangeText={text => setDetail(text)}
             style={styles.input}
@@ -118,6 +123,7 @@ const AddressScreen = () => {
         <View>
           <Text style={styles.title}>House Number</Text>
           <TextInput
+            placeholderTextColor={COLORS.gray}
             value={houseNumber}
             onChangeText={text => setHouseNumber(text)}
             style={styles.input}

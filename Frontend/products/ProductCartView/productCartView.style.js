@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
   price: {
     fontFamily: font.bold,
     fontSize: SIZES.medium,
+    color: COLORS.gray,
   },
   addBtn: {
     position: 'absolute',

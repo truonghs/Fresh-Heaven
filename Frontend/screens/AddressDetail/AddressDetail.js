@@ -96,7 +96,7 @@ const AddressDetail = () => {
                       borderWidth: 0.9,
                       borderColor: '#D0D0D0',
                     }}>
-                    <Text>Edit</Text>
+                    <Text style={styles.btn}>Edit</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -108,7 +108,7 @@ const AddressDetail = () => {
                       borderWidth: 0.9,
                       borderColor: '#D0D0D0',
                     }}>
-                    <Text>Remove</Text>
+                    <Text style={styles.btn}>Remove</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -120,7 +120,7 @@ const AddressDetail = () => {
                       borderWidth: 0.9,
                       borderColor: '#D0D0D0',
                     }}>
-                    <Text>Set as Default</Text>
+                    <Text style={styles.btn}>Set as Default</Text>
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>

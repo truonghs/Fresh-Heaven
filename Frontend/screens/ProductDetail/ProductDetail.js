@@ -22,9 +22,6 @@ const ProducDetail = ({navigation, route}) => {
   const addItemToCart = item => {
     setAddedToCart(true);
     dispatch(addToCart(item));
-    console.log(item);
-    console.log(1);
-    console.log(cart);
     setTimeout(() => {
       setAddedToCart(false);
     }, 5000);

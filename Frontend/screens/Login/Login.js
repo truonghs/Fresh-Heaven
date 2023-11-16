@@ -38,7 +38,7 @@ function Login() {
           navigation.replace('BottomTabNavigation');
         }
       } catch (err) {
-        console.log('error message', err);
+        console.log('error login', err);
       }
     };
     checkLoginStatus();

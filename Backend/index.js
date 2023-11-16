@@ -8,7 +8,7 @@ const productRouter = require("./routes/products");
 const app = express();
 const port = 3000;
 const cors = require("cors");
-const Ip = "10.0.186.100";
+const Ip = "192.168.1.2";
 app.use(cors());
 
 app.use(express.json({ limit: "10mb" }));
@@ -211,7 +211,7 @@ app.post("/orders", async (req, res) => {
             name: item?.title,
             quantity: item.quantity,
             price: item.price,
-            image: item?.image,
+            image: item?.imageUrl,
         }));
 
         //create a new Order

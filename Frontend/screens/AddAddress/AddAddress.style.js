@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 10,
     borderRadius: 5,
+    color: '#000',
   },
   inputContainer: {
     marginVertical: 10,

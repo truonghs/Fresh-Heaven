@@ -9,14 +9,14 @@ import {
   removeFromCart,
 } from '../../redux/CartReducer';
 import {useNavigation} from '@react-navigation/native';
-import styles from './cart.style';
+import styles from './Cart.style';
 
 const Cart = () => {
   const cart = useSelector(state => state.cart.cart);
-  console.log(cart);
-  const total = cart
-    ?.map(item => item.price * item.quantity)
-    .reduce((curr, prev) => curr + prev, 0);
+  // const total = cart
+  //   ?.map(item => item.price * item.quantity)
+  //   .reduce((curr, prev) => curr + prev, 0);
+  const total = useSelector(state => state.cart.total);
   const dispatch = useDispatch();
   const increaseQuantity = item => {
     dispatch(incementQuantity(item));
@@ -32,6 +32,11 @@ const Cart = () => {
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scroll}>
         <View style={{marginHorizontal: 10}}>
+          {!cart[0] ? (
+            <Text style={styles.empty}>
+              You don't have any thing in your cart.
+            </Text>
+          ) : null}
           {cart?.map((item, index) => (
             <View style={styles.main} key={index}>
               <View style={styles.productInfo}>
@@ -99,13 +104,17 @@ const Cart = () => {
           <Text style={styles.totalTitle}>Subtotal : </Text>
           <Text style={styles.totalValue}>{total}</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Confirm')}
-          style={styles.buyBtn}>
-          <Text style={styles.btnTxt}>
-            Proceed to Buy ({cart.length}) items
-          </Text>
-        </TouchableOpacity>
+        {cart[0] ? (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Confirm')}
+            style={styles.buyBtn}>
+            <Text style={styles.btnTxt}>Proceed to Buy ({total}) items</Text>
+          </TouchableOpacity>
+        ) : (
+          <View onPress={null} style={styles.buyBtnInActive}>
+            <Text style={styles.btnTxt}>Proceed to Buy ({total}) items</Text>
+          </View>
+        )}
       </View>
     </View>
   );
