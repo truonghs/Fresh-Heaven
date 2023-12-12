@@ -18,6 +18,7 @@ export default function useFectch() {
         setError(error);
       })
       .finally(() => {
+        console.log(data);
         setIsLoading(false);
       });
   };
