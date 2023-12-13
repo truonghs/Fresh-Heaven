@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
+
 const productRouter = require("./routes/products");
 const userRouter = require("./routes/user");
 const orderRouter = require("./routes/order");
-const cors = require("cors");
 
 const app = express();
 const port = 3000;
