@@ -12,11 +12,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LottieView from 'lottie-react-native';
 import axios from 'axios';
-import {UserType} from '../../UserContext';
+import {userContext} from '../../Context/UserContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ip from '../../constants/ipAddress';
 const Profile = () => {
-  const {userId, setUserId} = useContext(UserType);
+  const {userId, setUserId} = useContext(userContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -64,6 +64,7 @@ const Profile = () => {
     fetchUserProfile();
   }, []);
   const logout = () => {
+    clearCart();
     clearAuthToken();
   };
   const clearAuthToken = async () => {
@@ -71,20 +72,23 @@ const Profile = () => {
     console.log('auth token cleared');
     navigation.replace('Login');
   };
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get(`http:/${Ip}:3000/orders/${userId}`);
-        const orders = response.data.orders;
-        setOrders(orders);
-        setLoading(false);
-      } catch (error) {
-        console.log('error profile order', error);
-      }
-    };
+  const clearCart = async () => {
+    console.log('cart cleared');
+  };
+  // useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     try {
+  //       const response = await axios.get(`http:/${Ip}:3000/orders/${userId}`);
+  //       const orders = response.data.orders;
+  //       setOrders(orders);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.log('error profile order', error);
+  //     }
+  //   };
 
-    fetchOrders();
-  }, []);
+  //   fetchOrders();
+  // }, []);
   console.log('orders', orders);
   return (
     <ScrollView style={{padding: 10, flex: 1, backgroundColor: 'white'}}>

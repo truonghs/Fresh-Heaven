@@ -7,7 +7,7 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
-  Pressable,
+  TouchableOpacity,
   Alert,
   ScrollView,
 } from 'react-native';
@@ -140,9 +140,9 @@ function Register() {
               <Text style={styles.forgot}>Forgot Password</Text>
             </View>
 
-            <Pressable onPress={handleRegister} style={styles.btn}>
+            <TouchableOpacity onPress={handleRegister} style={styles.btn}>
               <Text style={styles.btnText}>Register</Text>
-            </Pressable>
+            </TouchableOpacity>
 
             <View style={styles.linkContainer}>
               <Text style={styles.linkText}>

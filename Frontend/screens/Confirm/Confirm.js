@@ -14,9 +14,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ip from '../../constants/ipAddress';
-import {UserType} from '../../UserContext';
-import {useDispatch, useSelector} from 'react-redux';
-import {cleanCart} from '../../redux/CartReducer';
+import {UserType} from '../../Context/UserContext';
+// import {useDispatch, useSelector} from 'react-redux';
+// import {cleanCart} from '../../redux/CartReducer';
 import {useNavigation} from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
 import {COLORS, SIZES} from '../../constants';
@@ -32,13 +32,13 @@ const Confirm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [addresses, setAddresses] = useState([]);
   const {userId, setUserId} = useContext(UserType);
-  const cart = useSelector(state => state.cart.cart);
-  const total = cart
-    ?.map(item => item.price * item.quantity)
-    .reduce((curr, prev) => curr + prev, 0);
-  useEffect(() => {
-    fetchAddresses();
-  }, []);
+  // const cart = useSelector(state => state.cart.cart);
+  // const total = cart
+  //   ?.map(item => item.price * item.quantity)
+  //   .reduce((curr, prev) => curr + prev, 0);
+  // useEffect(() => {
+  //   fetchAddresses();
+  // }, []);
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(`http://${Ip}:3000/addresses/${userId}`);

@@ -10,7 +10,7 @@ import {
 import React, {useEffect, useState, useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from 'jwt-decode';
-import {UserType} from '../../UserContext';
+import {UserType} from '../../Context/UserContext';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import styles from './AddAddress.style';

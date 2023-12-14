@@ -1,24 +1,24 @@
-import {StyleSheet, Text, View} from 'react-native';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Ip from '../constants/ipAddress';
 export default function useFectch() {
-  const [data, setData] = useState([]);
+  console.log('useFetch-1');
+  const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [fetchError, setFetchError] = useState(null);
   const fetchData = async () => {
     setIsLoading(true);
     await axios
       .get(`http://${Ip}:3000/api/products/`)
       .then(response => {
-        setData(response.data);
+        setProducts(response.data);
         setIsLoading(false);
       })
       .catch(error => {
-        setError(error);
+        setFetchError(error);
       })
       .finally(() => {
-        console.log(data);
+        console.log(products);
         setIsLoading(false);
       });
   };
@@ -30,7 +30,5 @@ export default function useFectch() {
     setIsLoading(true);
     fetchData();
   };
-  return {data, isLoading, error, reFetch};
+  return {products, isLoading, fetchError, reFetch};
 }
-
-const styles = StyleSheet.create({});

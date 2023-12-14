@@ -1,17 +1,19 @@
-import {Provider} from 'react-redux';
 import StackNavigation from './navigation/StackNavigation';
-import store from './store';
-import {UserContext} from './UserContext';
+import {CartProvider} from './Context/CartContext';
+import {ProductsProvider} from './Context/ProductContext';
+import {UserProvider} from './Context/UserContext';
 import SplashScreen from 'react-native-splash-screen';
 
 function App() {
   SplashScreen.hide();
   return (
-    <Provider store={store}>
-      <UserContext>
-        <StackNavigation />
-      </UserContext>
-    </Provider>
+    <UserProvider>
+      <ProductsProvider>
+        <CartProvider>
+          <StackNavigation />
+        </CartProvider>
+      </ProductsProvider>
+    </UserProvider>
   );
 }
 

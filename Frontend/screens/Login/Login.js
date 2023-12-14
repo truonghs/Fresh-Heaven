@@ -7,34 +7,44 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
-  Pressable,
+  TouchableOpacity,
   Alert,
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-import {useNavigation} from '@react-navigation/native';
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import Ip from '../../constants/ipAddress';
-import {UserType} from '../../UserContext';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './Login.style';
-import {COLORS} from '../../constants';
+//---------------//---------------//
+import Ip from '../../constants/ipAddress';
+import {useNavigation} from '@react-navigation/native';
+//---------------/Context/---------------//
+import {cartContext} from '../../Context/CartContext';
+import {userContext} from '../../Context/UserContext';
 
+// import {COLORS} from '../../constants';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
-  const {userId, setUserId} = useContext(UserType);
+  const {setUserId} = useContext(userContext);
+  const {FetchCart} = useContext(cartContext);
 
+  var userId;
   useEffect(() => {
     const checkLoginStatus = async () => {
+      console.log('login');
       try {
         const token = await AsyncStorage.getItem('authToken');
 
         if (token) {
+          const decodedToken = jwt_decode(token);
+          userId = decodedToken.userId;
+          console.log('login id: ', userId);
+          setUserId(userId);
+          FetchCart(userId);
           navigation.replace('BottomTabNavigation');
         }
       } catch (err) {
@@ -55,6 +65,11 @@ function Login() {
         if (token) {
           setUserId(userId);
           AsyncStorage.setItem('authToken', token);
+          const decodedToken = jwt_decode(token);
+          userId = decodedToken.userId;
+          console.log('login id: ', userId);
+          setUserId(userId);
+          FetchCart(userId);
           navigation.replace('BottomTabNavigation');
         } else {
           Alert.alert('Please verify your email!');
@@ -126,9 +141,9 @@ function Login() {
             <Text style={styles.forgot}>Forgot Password</Text>
           </View>
 
-          <Pressable onPress={handleLogin} style={styles.btn}>
+          <TouchableOpacity onPress={handleLogin} style={styles.btn}>
             <Text style={styles.btnText}>Login</Text>
-          </Pressable>
+          </TouchableOpacity>
 
           <View style={styles.linkContainer}>
             <Text style={styles.linkText}>

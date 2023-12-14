@@ -15,7 +15,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Ip from '../../constants/ipAddress';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {UserType} from '../../UserContext';
+import {UserType} from '../../Context/UserContext';
 import styles from './AddressDetail.style';
 import {COLORS} from '../../constants';
 

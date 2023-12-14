@@ -1,12 +1,13 @@
 import {FlatList, Text, View, ActivityIndicator} from 'react-native';
-import React from 'react';
-import useFectch from '../../hooks/useFectch';
+import React, {useContext} from 'react';
 import {COLORS, SIZES} from '../../constants';
 import styles from './ProductList.style';
 import ProductCartView from '../ProductCartView/ProductCartView';
+import {Context} from '../../Context/UserContext';
 
 export default function ProductList() {
-  const {data, isLoading, error, reFetch} = useFectch();
+  console.log('list');
+  const {products, isLoading} = useContext(Context);
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -17,12 +18,12 @@ export default function ProductList() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={products}
         keyExtractor={item => item._id}
         numColumns={2}
         renderItem={({item}) => <ProductCartView item={item} />}
         contentContainerStyle={styles.container}
-        ItemSeparatorComponent={() => <View style={styles.separator}/>}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
     </View>
   );

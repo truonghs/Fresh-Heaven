@@ -1,17 +1,19 @@
-import {View, TouchableOpacity, Image, Text} from 'react-native';
-import React, {useState} from 'react';
+import {View, TouchableOpacity, Image, Text, Alert} from 'react-native';
+import React, {useState, useContext} from 'react';
 import styles from './productDetail.style';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {COLORS} from '../../constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {addToCart} from '../../redux/CartReducer';
+import axios from 'axios';
+import {userContext} from '../../Context/UserContext';
+import {cartContext} from '../../Context/CartContext';
+import Ip from '../../constants/ipAddress';
+
 const ProducDetail = ({navigation, route}) => {
   const [rating, setRating] = useState(1);
-  const dispatch = useDispatch();
-  const [addedToCart, setAddedToCart] = useState(false);
+  // const [addedToCart, setAddedToCart] = useState(false);
   const increase = () => {
     rating < 5 ? setRating(rating + 1) : null;
   };
@@ -19,14 +21,30 @@ const ProducDetail = ({navigation, route}) => {
     rating > 0 ? setRating(rating - 1) : null;
   };
   const {item} = route.params;
+  const {userId} = useContext(userContext);
+  const {FetchCart} = useContext(cartContext);
+
+  const addToCart = async (id, price) => {
+    console.log(id);
+
+    await axios
+      .post(`http://${Ip}:3000/addcart/${userId}`, {productId: id})
+      .then(response => {
+        Alert.alert('Success', 'Addresses added successfully');
+        // setAddedToCart(true);
+        FetchCart(userId);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   const addItemToCart = item => {
-    setAddedToCart(true);
-    dispatch(addToCart(item));
+    addToCart(item._id);
     setTimeout(() => {
-      setAddedToCart(false);
+      // setAddedToCart(false);
     }, 5000);
   };
-  const cart = useSelector(state => state.cart.cart);
+  // const cart = useSelector(state => state.cart.cart);
   // console.log(cart);
   return (
     <View style={styles.container}>

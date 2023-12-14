@@ -6,6 +6,7 @@ const cors = require("cors");
 const productRouter = require("./routes/products");
 const userRouter = require("./routes/user");
 const orderRouter = require("./routes/order");
+const cartRouter = require("./routes/cart");
 
 const app = express();
 const port = 3000;
@@ -32,3 +33,4 @@ mongoose
 app.use("/api/products", productRouter);
 app.use("/", userRouter);
 app.use("/", orderRouter);
+app.use("/", cartRouter);

@@ -9,10 +9,8 @@ module.exports = {
 
             //create an array of product objects from the cart Items
             const products = cartItems.map((item) => ({
-                name: item?.title,
+                id: item?.id,
                 quantity: item.quantity,
-                price: item.price,
-                image: item?.imageUrl,
             }));
 
             //create a new Order

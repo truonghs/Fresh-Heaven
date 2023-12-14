@@ -6,11 +6,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Welcome, Carousels, Heading} from '../../components/home';
 import ProductRow from '../../products/ProductRow/ProductRow';
 import {useState, useEffect, useContext} from 'react';
-import {UserType} from '../../UserContext';
+import {userContext} from '../../Context/UserContext';
+import {productsContext} from '../../Context/ProductContext';
+import {cartContext} from '../../Context/CartContext';
 import {useNavigation} from '@react-navigation/native';
-import jwt_decode from 'jwt-decode';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSelector} from 'react-redux';
 import axios from 'axios';
 import Ip from '../../constants/ipAddress';
 import {
@@ -22,14 +21,14 @@ import {
 import {COLORS} from '../../constants';
 
 function Home() {
+  console.log('home');
   const navigation = useNavigation();
-
-  const {userId, setUserId} = useContext(UserType);
-
+  const {cart} = useContext(cartContext);
+  const {userId, setUserId} = useContext(userContext);
+  const {products, isLoadingProduct} = useContext(productsContext);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAdress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const cartTotal = useSelector(state => state.cart.total);
 
   useEffect(() => {
     if (userId) {
@@ -40,25 +39,12 @@ function Home() {
     try {
       const response = await axios.get(`http://${Ip}:3000/addresses/${userId}`);
       const {addresses} = response.data;
-
       setAddresses(addresses);
     } catch (error) {
       console.log('error home', error);
     }
   };
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = await AsyncStorage.getItem('authToken');
 
-      const decodedToken = jwt_decode(token);
-
-      const userId = decodedToken.userId;
-      console.log('home userId: ', userId);
-      setUserId(userId);
-    };
-
-    fetchUser();
-  }, []);
   const handlePickAddress = item => {
     setSelectedAdress(item);
     setModalVisible(!modalVisible);
@@ -92,7 +78,7 @@ function Home() {
                 navigation.navigate('Cart');
               }}>
               <View style={styles.cartCount}>
-                <Text style={styles.cartNumber}>{cartTotal}</Text>
+                <Text style={styles.cartNumber}>{cart.totalProduct}</Text>
               </View>
               <Fontisto name="shopping-bag" size={24} color={COLORS.gray} />
             </TouchableOpacity>
@@ -103,7 +89,7 @@ function Home() {
         <Welcome />
         <Carousels />
         <Heading />
-        <ProductRow />
+        <ProductRow products={products} isLoading={isLoadingProduct} />
       </ScrollView>
       <BottomModal
         onBackdropPress={() => setModalVisible(!modalVisible)}
