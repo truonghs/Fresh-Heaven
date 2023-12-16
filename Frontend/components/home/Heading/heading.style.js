@@ -11,9 +11,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerTitle: {
-    fontFamily: font.semiBold,
+    fontFamily: font.bold,
     fontSize: SIZES.xLarge - 2,
     color: '#000',
+  },
+  more: {
+    color: COLORS.brown,
+    fontFamily: font.regular,
+    padding: 4,
   },
 });
 

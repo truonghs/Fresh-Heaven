@@ -7,9 +7,9 @@ const Heading = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>New Rivals</Text>
+        <Text style={styles.headerTitle}>Super Fresh!!!</Text>
         <TouchableOpacity>
-          <Ionicon name={'grid'} size={24} color={COLORS.primary} />
+          <Text style={styles.more}>View More</Text>
         </TouchableOpacity>
       </View>
     </View>

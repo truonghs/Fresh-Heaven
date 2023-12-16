@@ -70,7 +70,7 @@ const AddressScreen = () => {
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
-          source={require('../../assets/images/logo-icon.png')}
+          source={require('../../assets/images/logo-trans.png')}
         />
       </View>
       <View style={{padding: 10}}>

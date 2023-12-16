@@ -1,5 +1,5 @@
 import {Text, View, ScrollView, Image, TouchableOpacity} from 'react-native';
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
@@ -48,11 +48,12 @@ const Cart = () => {
         console.log('Cart error: ', error);
       });
   };
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scroll}>
         <View style={{marginHorizontal: 10}}>
-          {!cart.products ? (
+          {cart.totalProduct == 0 ? (
             <Text style={styles.empty}>
               You don't have any thing in your cart.
             </Text>

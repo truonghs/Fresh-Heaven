@@ -3,39 +3,40 @@ import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import styles from './welcome.style';
 import {COLORS, SIZES} from '../../../constants';
 import Feather from 'react-native-vector-icons/Feather';
-import Ionicon from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 
 export default function Welcome() {
   const navigation = useNavigation();
   return (
-    <View>
-      <View style={styles.container}>
-        <Text style={styles.welcomeTxt(COLORS.primary, SIZES.xSmall)}>
-          Find The Most
-        </Text>
-        <Text style={styles.welcomeTxt(COLORS.thirth, 0)}>
-          Luxurious Furniture
-        </Text>
+    <View style={styles.container}>
+      <View style={styles.headingContainer}>
+        <Text style={styles.welcomeTxt}>Find Your</Text>
+        <Text style={styles.welcomeTxt}>Favorite Fruit</Text>
       </View>
       <View style={styles.searchContainer}>
-        <TouchableOpacity>
-          <Feather name="search" size={24} style={styles.searchIcon} />
-        </TouchableOpacity>
         <View style={styles.searchWrapper}>
+          <TouchableOpacity>
+            <Feather
+              name="search"
+              size={24}
+              style={styles.searchIcon}
+              color={COLORS.brown}
+            />
+          </TouchableOpacity>
           <TextInput
             style={styles.searchInput}
             value=""
             onPressIn={() => navigation.navigate('Search')}
             placeholder="What are you looking for"
-            placeholderTextColor={COLORS.gray}
+            placeholderTextColor={COLORS.orange}
           />
         </View>
         <TouchableOpacity style={styles.searchBtn}>
-          <Ionicon
-            name="camera-outline"
+          <FontAwesome
+            name="sliders"
             size={SIZES.xLarge}
-            color={COLORS.offwhite}
+            color={COLORS.brown}
           />
         </TouchableOpacity>
       </View>

@@ -2,60 +2,96 @@ import {StyleSheet} from 'react-native';
 import {COLORS, SIZES} from '../../constants';
 import font from '../../assets/fonts/font';
 const styles = StyleSheet.create({
+  imageBackground: {
+    position: 'absolute',
+    width: SIZES.width,
+    height: SIZES.height,
+  },
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     alignItems: 'center',
-    paddingTop: 70,
+    paddingTop: 50,
+  },
+  headingContainer: {
+    alignItems: 'center',
   },
   logo: {
-    width: 266,
-    height: 92,
+    width: 110,
+    height: 110,
+    resizeMode: 'contain',
+    marginBottom: 4,
+  },
+  // name: {
+  //   fontFamily: font.bold,
+  //   fontSize: SIZES.medium - 2,
+  //   color: COLORS.primary,
+  //   margin: 0,
+  // },
+  slogan: {
+    fontFamily: font.semiBold,
+    fontSize: SIZES.medium - 4,
+    padding: 0,
+    lineHeight: SIZES.medium - 2,
+    color: '#000',
   },
   title: {
     fontFamily: font.semiBold,
-    fontSize: SIZES.xxLarge,
+    fontSize: SIZES.xLarge,
     marginTop: 30,
-    color: '#041E42',
+    color: '#000',
   },
   inputContainer: {
     marginTop: 10,
+    // shadowColor: '#000',
+    // shadowOffset: {width: 10, height: 0},
+    // shadowRadius: 5,
+    // shadowOpacity: 0.5,
   },
+  // shadow: {
+  //   shadowColor: '#000',
+  //   shadowOffset: {width: 10, height: 0},
+  //   shadowRadius: 5,
+  //   shadowOpacity: 0.5,
+  // },
   inputField: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: 'lightgray',
-    borderRadius: 5,
+    backgroundColor: '#fff',
+    borderRadius: 20,
     marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#cecece',
   },
   input: {
-    color: 'gray',
-    marginVertical: 10,
-    width: 300,
-    fontSize: 16,
-  },
-  textContainer: {
-    marginTop: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  text: {
     color: '#000',
-    fontFamily: font.regular,
+    marginVertical: 10,
+    width: 240,
+    fontSize: 16,
+    paddingVertical: 2,
   },
   iconContainer: {
     alignItems: 'center',
     width: 36,
   },
   icon: {
-    color: COLORS.thirth,
+    color: COLORS.primary,
     marginLeft: 8,
+  },
+  forgotContainer: {
+    marginTop: 10,
+    width: '100%',
+    paddingHorizontal: 30,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   linkContainer: {
     alignItems: 'center',
     marginTop: 20,
+    justifyContent: 'center',
   },
   linkText: {
     color: '#000',
@@ -63,26 +99,25 @@ const styles = StyleSheet.create({
   },
   link: {
     color: '#007FFF',
-    fontWeight: 'bold',
+    fontFamily: font.semiBold,
   },
-  forgot: {
-    color: '#007FFF',
-    fontWeight: '500',
+  eye: {
+    marginRight: 10,
+    color: '#dbdbdb',
   },
-  btn: {
-    width: 200,
-    backgroundColor: COLORS.thirth,
-    borderRadius: 6,
-    marginTop: 30,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    padding: 15,
+  flex: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
-  btnText: {
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+  flexCheck: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkText: {
+    color: '#000',
+    fontFamily: font.regular,
+    marginLeft: 6,
   },
 });
 export default styles;

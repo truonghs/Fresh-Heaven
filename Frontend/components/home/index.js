@@ -1,4 +1,4 @@
 import Welcome from './Welcome/Welcome';
-import Carousels from './Carousel/Carousel';
+import Slider from './Slider/Slider';
 import Heading from './Heading/Heading';
-export {Welcome, Carousels, Heading};
+export {Welcome, Slider, Heading};

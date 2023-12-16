@@ -9,10 +9,14 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ImageBackground,
 } from 'react-native';
+import GradientText from 'react-native-gradient-texts';
 import React, {useState, useEffect, useContext} from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,15 +27,20 @@ import {useNavigation} from '@react-navigation/native';
 //---------------/Context/---------------//
 import {cartContext} from '../../Context/CartContext';
 import {userContext} from '../../Context/UserContext';
+import font from '../../assets/fonts/font';
+import {COLORS, SIZES} from '../../constants';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 // import {COLORS} from '../../constants';
 function Login() {
+  const [isStay, setIsStay] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const {setUserId} = useContext(userContext);
   const {FetchCart} = useContext(cartContext);
-
+  const [isEyePressed, setIsEyePressed] = useState(false);
+  // const [onSelected, setOnSelected] = useState('');
   var userId;
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -64,7 +73,9 @@ function Login() {
         const token = response.data.token;
         if (token) {
           setUserId(userId);
-          AsyncStorage.setItem('authToken', token);
+          if (isStay) {
+            AsyncStorage.setItem('authToken', token);
+          }
           const decodedToken = jwt_decode(token);
           userId = decodedToken.userId;
           console.log('login id: ', userId);
@@ -80,84 +91,114 @@ function Login() {
       });
   };
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <View>
-          <Image
-            style={styles.logo}
-            source={require('../../assets/images/logo-trans.png')}
-          />
-        </View>
+    <KeyboardAvoidingView style={{flex: 1}}>
+      <ImageBackground
+        style={styles.imageBackground}
+        source={require('../../assets/images/bgImage.png')}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.headingContainer}>
+              <Image
+                style={styles.logo}
+                source={require('../../assets/images/logo-trans.png')}
+              />
+              <GradientText
+                text={'Fresh Heaven'}
+                fontSize={34}
+                width={420}
+                locations={{x: 210, y: 32}}
+                isGradientFill
+                height={40}
+                style={styles.name}
+                gradientColors={[COLORS.primary, COLORS.secondary]}
+                fontFamily={font.bold}
+              />
+              {/* <Text style={styles.name}>Fresh Heaven</Text> */}
+              <Text style={styles.slogan}>Taste the Difference</Text>
+              <Text style={styles.slogan}>Choose Fresh Heaven</Text>
+            </View>
 
-        <KeyboardAvoidingView>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.title}>Login</Text>
-          </View>
+            <View style={{alignItems: 'center'}}>
+              <Text style={styles.title}>Login To Your Account</Text>
+            </View>
 
-          <View style={styles.inputContainer}>
-            <View>
-              <View style={styles.inputField}>
-                <View style={styles.iconContainer}>
-                  <MaterialIcons
-                    style={styles.icon}
-                    name="email"
-                    size={24}
-                    color="gray"
+            <View style={styles.inputContainer}>
+              <View style={styles.shadow}>
+                <View style={styles.inputField}>
+                  <View style={styles.iconContainer}>
+                    <MaterialIcons style={styles.icon} name="email" size={24} />
+                  </View>
+                  <TextInput
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                    style={styles.input}
+                    placeholder="Enter your Email"
+                    placeholderTextColor={'#cecece'}
                   />
                 </View>
-                <TextInput
-                  value={email}
-                  onChangeText={text => setEmail(text)}
-                  style={styles.input}
-                  placeholder="Enter your Email"
-                />
+              </View>
+
+              <View style={styles.shadow}>
+                <View style={styles.inputField}>
+                  <View style={styles.flex}>
+                    <View style={styles.iconContainer}>
+                      <Fontisto name="locked" size={24} style={styles.icon} />
+                    </View>
+                    <TextInput
+                      value={password}
+                      onChangeText={text => setPassword(text)}
+                      secureTextEntry={!isEyePressed}
+                      style={styles.input}
+                      placeholder="Enter your Password"
+                      placeholderTextColor={'#cecece'}
+                    />
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => setIsEyePressed(!isEyePressed)}>
+                    <Entypo
+                      name={!isEyePressed ? 'eye-with-line' : 'eye'}
+                      style={styles.eye}
+                      size={24}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
 
-            <View>
-              <View style={styles.inputField}>
-                <View style={styles.iconContainer}>
-                  <Fontisto
-                    name="locked"
-                    size={24}
-                    color="gray"
-                    style={styles.icon}
-                  />
-                </View>
-                <TextInput
-                  value={password}
-                  onChangeText={text => setPassword(text)}
-                  secureTextEntry={true}
-                  style={styles.input}
-                  placeholder="Enter your Password"
+            <View style={styles.forgotContainer}>
+              <View style={styles.flexCheck}>
+                <BouncyCheckbox
+                  isChecked={isStay}
+                  size={20}
+                  fillColor={COLORS.primary}
+                  unfillColor="#FFFFFF"
+                  disableText={true}
+                  iconStyle={{borderColor: COLORS.primary}}
+                  innerIconStyle={{borderWidth: 2}}
+                  textStyle={{fontFamily: font.regular}}
+                  onPress={() => setIsStay(!isStay)}
                 />
+                <Text style={styles.checkText}>Keep me logged in</Text>
               </View>
+              <Text style={styles.link}>Forgot Password</Text>
             </View>
-          </View>
 
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>Keep me logged in</Text>
+            <CustomButton onPress={() => handleLogin()} text={'Login'} />
 
-            <Text style={styles.forgot}>Forgot Password</Text>
-          </View>
-
-          <TouchableOpacity onPress={handleLogin} style={styles.btn}>
-            <Text style={styles.btnText}>Login</Text>
-          </TouchableOpacity>
-
-          <View style={styles.linkContainer}>
-            <Text style={styles.linkText}>
-              Don't have an account?{' '}
-              <Text
-                onPress={() => navigation.navigate('Register')}
-                style={styles.link}>
-                Sign up here!
+            <View style={styles.linkContainer}>
+              <Text style={styles.linkText}>
+                Don't have an account?{' '}
+                <Text
+                  onPress={() => navigation.navigate('Register')}
+                  style={styles.link}>
+                  Sign up here!
+                </Text>
               </Text>
-            </Text>
+            </View>
           </View>
-        </KeyboardAvoidingView>
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 }
 

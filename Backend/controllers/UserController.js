@@ -44,7 +44,6 @@ module.exports = {
                 console.log("Email already registered:", email); // Debugging statement
                 return res.status(400).json({ message: "Email already registered" });
             }
-
             // Create a new user
             const newUser = new User({ name, email, password });
 

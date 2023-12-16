@@ -9,9 +9,9 @@ const orderSchema = new mongoose.Schema({
     products: [
         {
             product: {
-                type: mongoose.Schema.Types.ObjectId,
+                type: Object,
                 ref: "Product",
-                require: true,
+                required: true,
             },
             quantity: {
                 type: Number,
@@ -52,6 +52,10 @@ const orderSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
+    },
+    shippingMethod: {
+        type: String,
+        required: true,
     },
 });
 

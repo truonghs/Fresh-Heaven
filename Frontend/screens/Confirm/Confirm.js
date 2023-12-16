@@ -15,12 +15,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ip from '../../constants/ipAddress';
 import {UserType} from '../../Context/UserContext';
-// import {useDispatch, useSelector} from 'react-redux';
-// import {cleanCart} from '../../redux/CartReducer';
 import {useNavigation} from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
 import {COLORS, SIZES} from '../../constants';
-
+import {userContext} from '../../Context/UserContext';
+import {cartContext} from '../../Context/CartContext';
 const Confirm = () => {
   const steps = [
     {title: 'Address', content: 'Address Form'},
@@ -31,14 +30,9 @@ const Confirm = () => {
   const navigation = useNavigation();
   const [currentStep, setCurrentStep] = useState(0);
   const [addresses, setAddresses] = useState([]);
-  const {userId, setUserId} = useContext(UserType);
-  // const cart = useSelector(state => state.cart.cart);
-  // const total = cart
-  //   ?.map(item => item.price * item.quantity)
-  //   .reduce((curr, prev) => curr + prev, 0);
-  // useEffect(() => {
-  //   fetchAddresses();
-  // }, []);
+  const {userId, setUserId} = useContext(userContext);
+  const {cart, FetchCart, setCartData} = useContext(cartContext);
+
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(`http://${Ip}:3000/addresses/${userId}`);
@@ -49,29 +43,27 @@ const Confirm = () => {
       console.log('error', error);
     }
   };
-  const dispatch = useDispatch();
   const [address, setAdress] = useState('');
   const [delivery, setDelivery] = useState('');
   const [payment, setPayment] = useState('');
-  const [totalFee, setTotalFee] = useState(total);
+  const [totalFee, setTotalFee] = useState(cart.totalPrice);
   const handlePlaceOrder = async () => {
     try {
       const orderData = {
         userId: userId,
-        cartItems: cart,
+        cartProducts: cart.products,
         totalPrice: totalFee,
         shippingAddress: address,
         paymentMethod: payment,
+        shippingMethod: delivery,
       };
-      console.log(cart);
-
       const response = await axios.post(`http://${Ip}:3000/orders`, orderData);
       if (response.status === 200) {
+        FetchCart(userId);
         navigation.navigate('Order');
-        dispatch(cleanCart());
-        console.log('order created successfully', response.data);
+        console.log('order created successfully');
       } else {
-        console.log('error creating order', response.data);
+        console.log('error creating order');
       }
     } catch (error) {
       console.log('errror', error);
@@ -123,7 +115,7 @@ const Confirm = () => {
       const response = await axios.post(`http://${Ip}:3000/orders`, orderData);
       if (response.status === 200) {
         navigation.navigate('Order');
-        dispatch(cleanCart());
+        setCartData({cart: response.data.cart, isLoadingCart: false});
         console.log('order created successfully', response.data);
       } else {
         console.log('error creating order', response.data);
@@ -132,6 +124,9 @@ const Confirm = () => {
       console.log('error', error);
     }
   };
+  useEffect(() => {
+    fetchAddresses();
+  });
   return (
     <ScrollView>
       <View style={styles.mainContainer}>
@@ -243,7 +238,7 @@ const Confirm = () => {
             ]}
             onPress={() => {
               setDelivery('standard');
-              setTotalFee(total + 2);
+              setTotalFee(parseInt(cart.totalPrice) + 2);
             }}>
             <View>
               <Text style={styles.deliveryTitle}>Standard: </Text>
@@ -263,7 +258,7 @@ const Confirm = () => {
             ]}
             onPress={() => {
               setDelivery('fast');
-              setTotalFee(total + 4);
+              setTotalFee(cart.totalPrice + 4);
             }}>
             <View>
               <Text style={styles.deliveryTitle}>Fast: </Text>
@@ -363,13 +358,15 @@ const Confirm = () => {
             <View style={styles.orderFee}>
               <Text style={styles.orderFeeTitle}>Items</Text>
 
-              <Text style={styles.orderFeeTxt}>${total}</Text>
+              <Text style={styles.orderFeeTxt}>${cart.totalPrice}</Text>
             </View>
 
             <View style={styles.orderFee}>
               <Text style={styles.orderFeeTitle}>Delivery</Text>
 
-              <Text style={styles.orderFeeTxt}>{totalFee - total}</Text>
+              <Text style={styles.orderFeeTxt}>
+                {totalFee - cart.totalPrice}
+              </Text>
             </View>
 
             <View style={styles.orderFee}>

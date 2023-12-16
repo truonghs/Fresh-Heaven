@@ -12,14 +12,14 @@ module.exports = {
             }
 
             const userId = req.params.id;
-            const user = await User.findById(userId);
-
-            if (!user) {
-                return res.status(402).json({ message: "User not found" });
-            }
 
             const cart = await Cart.findOne({ user: userId });
             if (!cart) {
+                const user = await User.findById(userId);
+
+                if (!user) {
+                    return res.status(402).json({ message: "User not found" });
+                }
                 const newCart = new Cart({
                     user: userId,
                     products: [
@@ -35,7 +35,7 @@ module.exports = {
                 await newCart.save();
                 console.log("add to cart success");
 
-                res.status(200).json({ message: "Cart created successfully!" });
+                res.status(200).json({ message: "Cart created successfully!", cart: cart });
             } else {
                 var isExist;
                 cart.products.forEach((item, index) => {
@@ -50,7 +50,7 @@ module.exports = {
                 !isExist ? cart.products.push({ product: { ...product }, quantity: 1 }) : null;
                 cart.totalProduct++;
                 await cart.save();
-                res.status(200).json({ message: "Product added to cart successfully!" });
+                res.status(200).json({ message: "Product added to cart successfully!", cart: cart });
             }
         } catch (error) {
             res.status(500).json({ message: "Add to cart Error!" });
@@ -61,11 +61,18 @@ module.exports = {
             const userId = req.params.id;
 
             const cart = await Cart.findOne({ user: userId });
-
-            if (!cart || cart.length === 0) {
-                return res.status(404).json({ message: "No orders found for this user" });
+            if (!cart) {
+                const newCart = new Cart({
+                    user: userId,
+                    products: [],
+                    totalPrice: 0,
+                    totalProduct: 0,
+                });
+                await newCart.save();
+                res.status(200).json(newCart);
+            } else {
+                res.status(200).json(cart);
             }
-            res.status(200).json(cart);
         } catch (error) {
             res.status(500).json({ message: "Get cart error!" });
         }
@@ -81,12 +88,6 @@ module.exports = {
             }
 
             const userId = req.params.id;
-            const user = await User.findById(userId);
-
-            if (!user) {
-                return res.status(402).json({ message: "User not found" });
-            }
-
             const cart = await Cart.findOne({ user: userId });
             if (!cart) {
                 res.status(400).json({ message: "Cart not found!" });
@@ -132,11 +133,6 @@ module.exports = {
             }
 
             const userId = req.params.id;
-            const user = await User.findById(userId);
-
-            if (!user) {
-                return res.status(402).json({ message: "User not found" });
-            }
 
             const cart = await Cart.findOne({ user: userId });
             if (!cart) {
@@ -172,13 +168,7 @@ module.exports = {
             if (!product) {
                 res.status(404).json({ message: "This product not in exist!" });
             }
-
             const userId = req.params.id;
-            const user = await User.findById(userId);
-
-            if (!user) {
-                return res.status(402).json({ message: "User not found" });
-            }
 
             const cart = await Cart.findOne({ user: userId });
             if (!cart) {
@@ -204,6 +194,20 @@ module.exports = {
             }
         } catch (error) {
             res.status(500).json({ message: "Delete product from cart  Error!" });
+        }
+    },
+    deleteCart: async (req, res) => {
+        try {
+            const userId = req.params.id;
+            var cart = await Cart.findOne({ user: userId });
+            if (!cart) {
+                res.status(400).json({ message: "Cart not found!" });
+            } else {
+                Cart.remove(cart);
+                res.status(200).json({ message: "Cart delete success!" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: "Delete cart  Error!" });
         }
     },
 };

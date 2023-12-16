@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, Profile, Search} from '../screens';
+import {Home, Profile, Search, Cart} from '../screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {COLORS} from '../constants';
-
+import {cartContext} from '../Context/CartContext';
 const Tab = createBottomTabNavigator();
 const screenOptions = {
   tabBarShowLabel: false,
@@ -19,6 +19,7 @@ const screenOptions = {
   },
 };
 function BottomTabNavigatior() {
+  const {cart} = useContext(cartContext);
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
@@ -45,6 +46,27 @@ function BottomTabNavigatior() {
             return (
               <Icon
                 name={'search-sharp'}
+                size={24}
+                color={focused ? COLORS.primary : COLORS.gray2}
+              />
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          tabBarBadge: cart.totalProduct ? cart.totalProduct : 0,
+          tabBarBadgeStyle: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: 1,
+          },
+          tabBarIcon: ({focused}) => {
+            return (
+              <Icon
+                name={focused ? 'cart' : 'cart-outline'}
                 size={24}
                 color={focused ? COLORS.primary : COLORS.gray2}
               />

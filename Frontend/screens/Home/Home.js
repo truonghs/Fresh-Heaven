@@ -1,9 +1,17 @@
-import {Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Pressable,
+} from 'react-native';
 import styles from './home.style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Welcome, Carousels, Heading} from '../../components/home';
+import Feather from 'react-native-vector-icons/Feather';
+
+import {Welcome, Slider, Heading} from '../../components/home';
 import ProductRow from '../../products/ProductRow/ProductRow';
 import {useState, useEffect, useContext} from 'react';
 import {userContext} from '../../Context/UserContext';
@@ -29,6 +37,7 @@ function Home() {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAdress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [isScrollEnable, setIsScrollEnable] = useState(true);
 
   useEffect(() => {
     if (userId) {
@@ -49,6 +58,17 @@ function Home() {
     setSelectedAdress(item);
     setModalVisible(!modalVisible);
   };
+  const addProduct = async () => {
+    try {
+      const response = await axios.post(`http://${Ip}:3000/api/products/add`);
+      console.log('added an product!');
+    } catch (error) {
+      console.log('error home', error);
+    }
+  };
+  const handleAddProduct = () => {
+    addProduct();
+  };
   return (
     <View>
       <View style={styles.appBarWrapper}>
@@ -56,20 +76,19 @@ function Home() {
           <TouchableOpacity
             hitSlop={{top: 40, bottom: 40, left: 40, right: 40}}
             onPress={() => setModalVisible(!modalVisible)}>
-            <Ionicons name="location-outline" size={24} color={COLORS.gray} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            hitSlop={{top: 40, bottom: 40}}
-            onPress={() => setModalVisible(!modalVisible)}>
-            {selectedAddress ? (
-              <Text style={styles.location}>
-                {selectedAddress?.name} - {selectedAddress?.houseNumber},{' '}
-                {selectedAddress?.detail}
-              </Text>
-            ) : (
-              <Text style={styles.location}>Add an Address</Text>
-            )}
+            <View style={styles.addressContainer}>
+              <Ionicons name="location-outline" size={26} color={COLORS.red} />
+              <View>
+                {selectedAddress ? (
+                  <Text numberOfLines={1} style={styles.location}>
+                    {selectedAddress?.name} - {selectedAddress?.houseNumber},{' '}
+                    {selectedAddress?.detail}
+                  </Text>
+                ) : (
+                  <Text style={styles.location}>Add an Address</Text>
+                )}
+              </View>
+            </View>
           </TouchableOpacity>
 
           <View style={{alignItems: 'flex-end'}}>
@@ -77,19 +96,25 @@ function Home() {
               onPress={() => {
                 navigation.navigate('Cart');
               }}>
-              <View style={styles.cartCount}>
-                <Text style={styles.cartNumber}>{cart.totalProduct}</Text>
+              <View style={styles.dot} />
+              <View style={styles.headingIcon}>
+                <Feather name="bell" size={24} color={COLORS.secondary} />
               </View>
-              <Fontisto name="shopping-bag" size={24} color={COLORS.gray} />
             </TouchableOpacity>
           </View>
         </View>
       </View>
-      <ScrollView>
-        <Welcome />
-        <Carousels />
-        <Heading />
-        <ProductRow products={products} isLoading={isLoadingProduct} />
+
+      <Welcome />
+      <ScrollView scrollEnabled={isScrollEnable}>
+        <View style={styles.scrollView}>
+          <Slider setIsScrollEnable={setIsScrollEnable} />
+          <Heading />
+          <TouchableOpacity onPress={handleAddProduct}>
+            <Text style={styles.addProduct}>Add Product</Text>
+          </TouchableOpacity>
+          <ProductRow products={products} isLoading={isLoadingProduct} />
+        </View>
       </ScrollView>
       <BottomModal
         onBackdropPress={() => setModalVisible(!modalVisible)}

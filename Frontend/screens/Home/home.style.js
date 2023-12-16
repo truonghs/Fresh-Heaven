@@ -16,14 +16,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+
   location: {
-    fontFamily: font.semiBold,
-    fontSize: SIZES.medium,
-    color: COLORS.gray,
+    fontFamily: font.regular,
+    fontSize: SIZES.small + 2,
+    color: '#000',
   },
   modal: {
     width: '100%',
     height: 450,
+    marginBottom: 180,
+  },
+  addressContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 200,
   },
   addressTitle: {
     color: COLORS.primary,
@@ -101,22 +108,41 @@ const styles = StyleSheet.create({
     color: COLORS.blue,
     fontFamily: font.bold,
   },
-  cartCount: {
+  dot: {
     position: 'absolute',
-    right: -10,
+    right: 10,
+    top: 6,
     bottom: SIZES.medium,
-    width: SIZES.medium,
-    height: SIZES.medium,
-    borderRadius: 8,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 999,
-    backgroundColor: 'green',
+    backgroundColor: 'red',
   },
   cartNumber: {
     fontFamily: font.regular,
     fontSize: 10,
     color: COLORS.lightWhite,
+  },
+  scrollView: {
+    width: '100%',
+    height: '100%',
+    paddingBottom: 200,
+  },
+  headingIcon: {
+    // width: 8,
+    // height: 8,
+    padding: 6,
+    backgroundColor: '#fff',
+    borderRadius: 14,
+  },
+  addProduct: {
+    alignSelf: 'center',
+    backgroundColor: 'green',
+    color: '#fff',
+    padding: 10,
   },
 });
 export default styles;

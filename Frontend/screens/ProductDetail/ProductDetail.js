@@ -22,7 +22,7 @@ const ProducDetail = ({navigation, route}) => {
   };
   const {item} = route.params;
   const {userId} = useContext(userContext);
-  const {FetchCart} = useContext(cartContext);
+  const {FetchCart, setCartData} = useContext(cartContext);
 
   const addToCart = async (id, price) => {
     console.log(id);
@@ -32,7 +32,8 @@ const ProducDetail = ({navigation, route}) => {
       .then(response => {
         Alert.alert('Success', 'Addresses added successfully');
         // setAddedToCart(true);
-        FetchCart(userId);
+        // FetchCart(userId);
+        setCartData({cart: response.data.cart, isLoadingCart: false});
       })
       .catch(error => {
         console.log(error);
@@ -56,7 +57,7 @@ const ProducDetail = ({navigation, route}) => {
           <Ionicon name="heart" size={30} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
-      <Image style={styles.img} source={{uri: item.imageUrl}} />
+      <Image style={styles.img} source={{uri: item.imageUrl[0]}} />
       <View style={styles.detail}>
         <View style={styles.titleRow}>
           <Text style={styles.title}>{item.title}</Text>
