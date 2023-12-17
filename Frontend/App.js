@@ -3,7 +3,7 @@ import {CartProvider} from './Context/CartContext';
 import {ProductsProvider} from './Context/ProductContext';
 import {UserProvider} from './Context/UserContext';
 import SplashScreen from 'react-native-splash-screen';
-
+import {useContext} from 'react';
 function App() {
   SplashScreen.hide();
   return (

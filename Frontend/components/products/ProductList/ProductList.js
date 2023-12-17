@@ -1,9 +1,9 @@
 import {FlatList, Text, View, ActivityIndicator} from 'react-native';
 import React, {useContext} from 'react';
-import {COLORS, SIZES} from '../../constants';
+import {COLORS, SIZES} from '../../../constants';
 import styles from './ProductList.style';
-import ProductCartView from '../ProductCartView/ProductCartView';
-import {Context} from '../../Context/UserContext';
+import ProductCartView from '../ProductCardView/ProductCardView';
+import {Context} from '../../../Context/UserContext';
 
 export default function ProductList() {
   console.log('list');

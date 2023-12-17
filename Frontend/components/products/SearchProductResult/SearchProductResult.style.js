@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-import {COLORS, SIZES, SHADOWS} from '../../constants';
+import {COLORS, SIZES, SHADOWS} from '../../../constants';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
   },
   supplier: {
     fontSize: SIZES.small + 2,
-    fontWeight:'500',
+    fontWeight: '500',
     color: COLORS.gray,
-    marginTop: 3
+    marginTop: 3,
   },
 });
 

@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     paddingBottom: 200,
+    marginBottom: 200,
   },
   headingIcon: {
     // width: 8,

@@ -7,7 +7,7 @@ const ProductSchema = new mongoose.Schema(
         packing: [
             {
                 unit: { type: String, required: true }, //1Kg, 2kg, 3kg,
-                price: { type: String, required: true }, //20k, 40k, 60k
+                price: { type: Number, required: true }, //20k, 40k, 60k
                 discount: { type: Number, required: true },
             },
         ],

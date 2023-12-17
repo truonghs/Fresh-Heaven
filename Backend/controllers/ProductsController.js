@@ -8,20 +8,20 @@ module.exports = {
             packing: [
                 {
                     unit: "1 Ống",
-                    price: "149,000₫",
-                    discount: 0,
+                    price: "25",
+                    discount: 10,
                 },
                 {
                     unit: "2 Ống",
-                    price: "298,000₫",
-                    discount: 0,
+                    price: "45",
+                    discount: 10,
                 },
             ],
-            rating: 5.0,
+            rating: 4.5,
             feedBack: [],
             imageUrl: [
-                "https://product.hstatic.net/1000141988/product/tao_rockit_new_zealand_-_ong_4_trai_3eaee984e42348a8972ae831e9d5ea74_1024x1024.jpg",
                 "https://product.hstatic.net/1000141988/product/tao_ong_52564f0c0b064117a0a422d167499b1f_1024x1024.jpg",
+                "https://product.hstatic.net/1000141988/product/tao_rockit_new_zealand_-_ong_4_trai_3eaee984e42348a8972ae831e9d5ea74_1024x1024.jpg",
                 "https://product.hstatic.net/1000141988/product/tao_ong1_7a45db3a81e4400cad74ff0180bd0803_1024x1024.jpg",
                 "https://product.hstatic.net/1000141988/product/tao_ong2_28ffe5fa9c2148ca91dadc547175d09a_1024x1024.jpg",
             ],

@@ -12,7 +12,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {Welcome, Slider, Heading} from '../../components/home';
-import ProductRow from '../../products/ProductRow/ProductRow';
+import ProductRow from '../../components/products/ProductRow/ProductRow';
 import {useState, useEffect, useContext} from 'react';
 import {userContext} from '../../Context/UserContext';
 import {productsContext} from '../../Context/ProductContext';
@@ -33,12 +33,15 @@ function Home() {
   const navigation = useNavigation();
   const {cart} = useContext(cartContext);
   const {userId, setUserId} = useContext(userContext);
-  const {products, isLoadingProduct} = useContext(productsContext);
+  const {products, isLoadingProducts} = useContext(productsContext);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAdress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [isScrollEnable, setIsScrollEnable] = useState(true);
-
+  const arr = [products[0], products[0], products[0], products[0], products[0]];
+  useEffect(() => {
+    console.log(isLoadingProducts);
+  }, [isLoadingProducts]);
   useEffect(() => {
     if (userId) {
       fetchAddresses();
@@ -110,10 +113,10 @@ function Home() {
         <View style={styles.scrollView}>
           <Slider setIsScrollEnable={setIsScrollEnable} />
           <Heading />
-          <TouchableOpacity onPress={handleAddProduct}>
+          {/* <TouchableOpacity onPress={handleAddProduct}>
             <Text style={styles.addProduct}>Add Product</Text>
-          </TouchableOpacity>
-          <ProductRow products={products} isLoading={isLoadingProduct} />
+          </TouchableOpacity> */}
+          <ProductRow products={arr} isLoadingProducts={isLoadingProducts} />
         </View>
       </ScrollView>
       <BottomModal

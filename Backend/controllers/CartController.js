@@ -1,10 +1,11 @@
 const Cart = require("../models/Cart");
 const Products = require("../models/Products");
 const User = require("../models/User");
+
 module.exports = {
     addToCart: async (req, res) => {
         try {
-            const { productId } = req.body;
+            const { productId, packing, productPrice } = req.body;
             const product = await Products.findById(productId);
             console.log("Added this product to cart: ", product);
             if (!product) {
@@ -25,10 +26,11 @@ module.exports = {
                     products: [
                         {
                             product: { ...product },
+                            packing: packing,
                             quantity: 1,
                         },
                     ],
-                    totalPrice: parseInt(product.price),
+                    totalPrice: parseInt(productPrice),
                     totalProduct: 1,
                 });
 
@@ -40,14 +42,14 @@ module.exports = {
                 var isExist;
                 cart.products.forEach((item, index) => {
                     item.product._id;
-                    if (item.product._id == productId) {
+                    if (item.product._id == productId && item.packing == packing) {
                         item.quantity += 1;
 
                         isExist = true;
                     }
                 });
-                cart.totalPrice = parseInt(product.price) + parseInt(cart.totalPrice);
-                !isExist ? cart.products.push({ product: { ...product }, quantity: 1 }) : null;
+                cart.totalPrice = parseInt(productPrice) + parseInt(cart.totalPrice);
+                !isExist ? cart.products.push({ product: { ...product }, packing: packing, quantity: 1 }) : null;
                 cart.totalProduct++;
                 await cart.save();
                 res.status(200).json({ message: "Product added to cart successfully!", cart: cart });
@@ -79,7 +81,7 @@ module.exports = {
     },
     decreaseProduct: async (req, res) => {
         try {
-            const { productId } = req.body;
+            const { productId, packing, productPrice } = req.body;
             console.log(productId);
 
             const product = await Products.findById(productId);
@@ -94,17 +96,14 @@ module.exports = {
             } else {
                 var isExist;
                 cart.products.forEach((item, index) => {
-                    console.log(index, ":   ", item.product._id);
-                    console.log(index, ":   ", productId);
-                    console.log(index, ":   ", item.product._id == productId);
-                    if (item.product._id == productId) {
+                    if (item.product._id == productId && item.packing == packing) {
                         if (item.quantity > 1) {
                             item.quantity--;
-                            cart.totalPrice = parseInt(cart.totalPrice) - parseInt(product.price);
+                            cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice);
                             isExist = true;
                         } else {
                             cart.products.pop({ product: product, quantity: 1 });
-                            cart.totalPrice = parseInt(cart.totalPrice) - parseInt(product.price);
+                            cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice);
                             isExist = true;
                         }
                     }
@@ -124,7 +123,7 @@ module.exports = {
     },
     increaseProduct: async (req, res) => {
         try {
-            const { productId } = req.body;
+            const { productId, packing, productPrice } = req.body;
             console.log(productId);
 
             const product = await Products.findById(productId);
@@ -140,9 +139,9 @@ module.exports = {
             } else {
                 var isExist;
                 cart.products.forEach((item, index) => {
-                    if (item.product._id == productId) {
+                    if (item.product._id == productId && item.packing == packing) {
                         item.quantity++;
-                        cart.totalPrice = parseInt(cart.totalPrice) + parseInt(product.price);
+                        cart.totalPrice = parseInt(cart.totalPrice) + parseInt(productPrice);
                         isExist = true;
                     }
                 });
@@ -161,8 +160,7 @@ module.exports = {
     },
     deleteProduct: async (req, res) => {
         try {
-            const { productId } = req.body;
-            console.log(productId);
+            const { productId, packing, productPrice } = req.body;
 
             const product = await Products.findById(productId);
             if (!product) {
@@ -176,8 +174,8 @@ module.exports = {
             } else {
                 var isExist;
                 cart.products.forEach((item, index) => {
-                    if (item.product._id == productId) {
-                        cart.totalPrice = parseInt(cart.totalPrice) - parseInt(product.price) * item.quantity;
+                    if (item.product._id == productId && item.packing == packing) {
+                        cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice) * item.quantity;
                         isExist = true;
                         cart.totalProduct = cart.totalProduct - item.quantity;
                         cart.products.splice(index, 1);

@@ -14,7 +14,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import styles from './search.stlye';
 import {COLORS, SIZES} from '../../constants';
-import SearchProductResult from '../../products/SearchProductResult/SearchProductResult';
+import SearchProductResult from '../../components/products/SearchProductResult/SearchProductResult';
 import Ip from '../../constants/ipAddress';
 function Search() {
   const [searchValue, setSearchValue] = useState('');
