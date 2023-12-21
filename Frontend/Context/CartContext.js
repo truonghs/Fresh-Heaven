@@ -3,31 +3,40 @@ import axios from 'axios';
 import Ip from '../constants/ipAddress';
 const cartContext = createContext();
 const CartProvider = ({children}) => {
-  const [cartData, setCartData] = useState({cart: {}, isLoading: true});
+  const [cartData, setCartData] = useState({
+    cart: {},
+    totalProduct: 0,
+    isLoading: true,
+  });
   const [fetchCartError, setFetchCartError] = useState(null);
 
   const FetchCart = async userId => {
     console.log('Fetching cart with userId: ', userId);
     await axios
-      .get(`http://${Ip}:3000/getcart/${userId}`)
+      .get(`http://${Ip}:3000/api/cart/getcart/${userId}`)
       .then(response => {
+        console.log('Cart fetched successfully!');
+        var total = 0;
+
+        response.data.products.forEach(item => {
+          total = total + parseInt(item.quantity);
+        });
         setCartData({
           cart: response.data,
+          totalProduct: total,
           isLoading: false,
         });
       })
       .catch(error => {
         setFetchCartError(error);
+        console.log('Cart fetched with error!!!!! ');
       })
-      .finally(() => {
-        console.log('Cart fetched!');
-      });
+      .finally(() => {});
   };
 
   const data = {
     FetchCart,
-    cart: cartData.cart,
-    isLoadingCart: cartData.isLoading,
+    cartData: cartData,
     fetchCartError,
     setCartData,
   };

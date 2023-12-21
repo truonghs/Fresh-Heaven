@@ -29,7 +29,7 @@ import {
 import {COLORS} from '../../constants';
 
 function Home() {
-  console.log('home');
+  // console.log('home');
   const navigation = useNavigation();
   const {cart} = useContext(cartContext);
   const {userId, setUserId} = useContext(userContext);
@@ -39,9 +39,7 @@ function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [isScrollEnable, setIsScrollEnable] = useState(true);
   const arr = [products[0], products[0], products[0], products[0], products[0]];
-  useEffect(() => {
-    console.log(isLoadingProducts);
-  }, [isLoadingProducts]);
+  // useEffect(() => {}, [isLoadingProducts]);
   useEffect(() => {
     if (userId) {
       fetchAddresses();

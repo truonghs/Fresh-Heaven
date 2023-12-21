@@ -38,7 +38,7 @@ const StackNavigation = () => {
           component={BottomTabNavigatior}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Cart"
           component={Cart}
           options={{
@@ -52,7 +52,7 @@ const StackNavigation = () => {
             headerTintColor: '#fff',
             title: 'Cart',
           }}
-        />
+        /> */}
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetail}

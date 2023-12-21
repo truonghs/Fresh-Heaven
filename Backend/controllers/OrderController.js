@@ -14,31 +14,37 @@ module.exports = {
             // }));
 
             //create a new Order
-            const order = new Order({
+            var order = new Order({
                 user: userId,
                 products: cartProducts,
                 totalPrice: totalPrice,
                 shippingAddress: shippingAddress,
                 paymentMethod: paymentMethod,
                 shippingMethod: shippingMethod,
-            });
-
-            await order.save();
-            var cart = await Cart.findOne({ user: userId });
-            const newCart = new Cart({
-                user: userId,
-                products: [],
-                totalPrice: 0,
                 totalProduct: 0,
             });
+            const cart = await Cart.findOne({ user: userId });
+            var newCart = cart;
+            var deleteAmount = 0;
+            newCart.products.forEach((cartItem, cartIndex) => {
+                order.products.forEach((orderItem, orderIndex) => {
+                    if (cartItem.productId.equals(orderItem.productId) && cartItem.packing == orderItem.packing) {
+                        deleteAmount += parseInt(cartItem.quantity);
+                        newCart.products.splice(cartIndex, 1);
+                    }
+                });
+            });
+            order.totalProduct = deleteAmount;
+
+            await order.save();
+            console.log(newCart);
+
             if (!cart) {
                 res.status(400).json({ message: "Cart not found!" });
             } else {
-                await Cart.deleteOne({ _id: cart._id });
-
-                await newCart.save();
+                await cart.save();
             }
-            res.status(200).json({ message: "Order created successfully!", cart: newCart });
+            res.status(200).json({ message: "Order created successfully!", cart: cart, deleteAmount: deleteAmount });
         } catch (error) {
             console.log("error creating orders", error);
             res.status(500).json({ message: "Error creating orders" });

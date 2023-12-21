@@ -32,5 +32,5 @@ mongoose
 
 app.use("/api/products", productRouter);
 app.use("/", userRouter);
-app.use("/", orderRouter);
-app.use("/", cartRouter);
+app.use("/api/order", orderRouter);
+app.use("/api/cart", cartRouter);

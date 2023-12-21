@@ -1,7 +1,6 @@
 import {createContext, useContext, useEffect, useState} from 'react';
 import axios from 'axios';
 import Ip from '../constants/ipAddress';
-
 const productsContext = createContext();
 const ProductsProvider = ({children}) => {
   const [productsData, setProductsData] = useState({
@@ -18,12 +17,11 @@ const ProductsProvider = ({children}) => {
           products: response.data,
           isLoading: false,
         });
+        console.log('Products fetched successfully!');
       })
       .catch(error => {
         setFetchProductsError(error);
-      })
-      .finally(() => {
-        console.log('Products fetched!');
+        console.log('Products fetched with error!');
       });
   };
   useEffect(() => {

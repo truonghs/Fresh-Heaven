@@ -28,34 +28,44 @@ import Rating from '../../components/Rating/Rating';
 const ProducDetail = ({navigation, route}) => {
   const [count, setCount] = useState(1);
   const [packingIndex, setPackingIndex] = useState(0);
-  ////////
+
+  //----------------------------------------------------------//
+
   const {products, isLoadingProducts} = useContext(productsContext);
   const arr = [products[0], products[0], products[0], products[0], products[0]];
+
+  //----------------------------------------------------------//
+
   const increase = () => {
-    count < 5 ? setCount(count + 1) : null;
+    setCount(count + 1);
   };
   const decrease = () => {
-    count > 0 ? setCount(count - 1) : null;
+    count > 1 ? setCount(count - 1) : null;
   };
   const {product} = route.params;
   const {userId} = useContext(userContext);
-  const {FetchCart, setCartData} = useContext(cartContext);
-
-  const addToCart = async (id, price) => {
-    console.log(id);
-
+  const {FetchCart, cartData, setCartData} = useContext(cartContext);
+  const addToCart = async (id, packingIndex) => {
     await axios
-      .post(`http://${Ip}:3000/addcart/${userId}`, {productId: id})
+      .post(`http://${Ip}:3000/api/cart/addcart/${userId}`, {
+        productId: id,
+        packingIndex: packingIndex,
+        quantity: count,
+      })
       .then(response => {
-        Alert.alert('Success', 'Addresses added successfully');
-        setCartData({cart: response.data.cart, isLoadingCart: false});
+        Alert.alert(`${count} product added to cart!`);
+        setCartData({
+          cart: response.data.cart,
+          totalProduct: cartData.totalProduct + count,
+          isLoadingCart: 'false',
+        });
       })
       .catch(error => {
         console.log(error);
       });
   };
-  const addItemToCart = product => {
-    addToCart(product._id);
+  const addItemToCart = () => {
+    addToCart(product._id, packingIndex);
     setTimeout(() => {
       // setAddedToCart(false);
     }, 5000);

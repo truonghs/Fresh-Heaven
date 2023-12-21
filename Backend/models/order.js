@@ -8,9 +8,17 @@ const orderSchema = new mongoose.Schema({
     },
     products: [
         {
-            product: {
-                type: Object,
+            productId: {
+                type: mongoose.Schema.Types.ObjectId,
                 ref: "Product",
+                required: true,
+            },
+            title: {
+                type: String,
+                required: true,
+            },
+            price: {
+                type: Number,
                 required: true,
             },
             packing: {
@@ -24,6 +32,10 @@ const orderSchema = new mongoose.Schema({
         },
     ],
     totalPrice: {
+        type: Number,
+        required: true,
+    },
+    totalProduct: {
         type: Number,
         required: true,
     },

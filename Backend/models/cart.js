@@ -8,8 +8,8 @@ const cartSchema = new mongoose.Schema({
     },
     products: [
         {
-            product: {
-                type: Object,
+            productId: {
+                type: mongoose.Schema.Types.ObjectId,
                 ref: "Product",
                 required: true,
             },
@@ -23,14 +23,6 @@ const cartSchema = new mongoose.Schema({
             },
         },
     ],
-    totalPrice: {
-        type: Number,
-        required: true,
-    },
-    totalProduct: {
-        type: Number,
-        required: true,
-    },
 });
 
 module.exports = mongoose.model("Cart", cartSchema);

@@ -4,10 +4,10 @@ import font from '../../assets/fonts/font';
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    backgroundColor: COLORS.offwhite,
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
   },
   empty: {
     fontFamily: font.bold,
@@ -19,83 +19,108 @@ const styles = StyleSheet.create({
   },
   main: {
     backgroundColor: 'white',
-    marginVertical: 10,
+    marginVertical: 4,
     borderBottomColor: '#F0F0F0',
-    borderWidth: 2,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-    borderRightWidth: 0,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    height: 160,
+  },
+  checkArea: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 30,
+  },
+  checkBox: {
+    height: '100%',
   },
   productInfo: {
     marginVertical: 4,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  imageContainer: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   productImg: {
-    width: 140,
-    height: 140,
+    width: 120,
+    height: 120,
     resizeMode: 'contain',
   },
   productName: {
     fontSize: 16,
-    width: 150,
+    width: 160,
     marginTop: 10,
     color: '#000',
-    fontFamily: font.regular,
+    fontFamily: font.semiBold,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    paddingVertical: 6,
   },
   productPrice: {
+    marginRight: 10,
+    textDecorationLine: 'line-through',
+  },
+  productPriceFinal: {
     fontSize: 20,
     fontFamily: font.bold,
-    color: '#000',
-    marginTop: 6,
+    color: COLORS.red,
+    lineHeight: 24,
   },
-  logo: {
-    top: -10,
-    width: 50,
-    height: 50,
-    resizeMode: 'contain',
+  classifyRow: {
+    flexDirection: 'row',
+  },
+  unitTitle: {
+    color: '#000',
+  },
+  unitText: {
+    color: '#000',
   },
   quantity: {
-    marginTop: 15,
     marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 20,
   },
   quantityLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    // paddingHorizontal: 10,
+    // paddingVertical: 5,
     borderRadius: 7,
+
+    marginTop: 4,
   },
   decreaseBtn: {
-    backgroundColor: '#D8D8D8',
-    padding: 7,
-    borderTopLeftRadius: 6,
-    borderBottomLeftRadius: 6,
+    backgroundColor: '#e8faee',
+    padding: 2,
+    borderRadius: 7,
   },
   increaseBtn: {
-    backgroundColor: '#D8D8D8',
-    padding: 7,
-    borderTopRightRadius: 6,
-    borderBottomRightRadius: 6,
+    padding: 2,
+    borderRadius: 7,
   },
   quantityTxt: {
     backgroundColor: 'white',
-    paddingHorizontal: 18,
-    paddingVertical: 6,
+    paddingHorizontal: 8,
+    color: '#000',
   },
   deleteItem: {
     backgroundColor: 'white',
-    paddingHorizontal: 8,
-    paddingVertical: 10,
+    width: 40,
+    height: 40,
     borderRadius: 5,
     borderColor: '#C0C0C0',
     borderWidth: 0.6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 20,
   },
   totalContainer: {
-    padding: 10,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -110,7 +135,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   buyBtn: {
-    backgroundColor: COLORS.thirth,
+    backgroundColor: COLORS.secondary,
     padding: 10,
     borderRadius: 5,
     justifyContent: 'center',
@@ -120,7 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   buyBtnInActive: {
-    backgroundColor: COLORS.thirth,
+    backgroundColor: COLORS.primary,
     padding: 10,
     borderRadius: 5,
     justifyContent: 'center',
@@ -134,14 +159,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: font.bold,
   },
-  line: {
-    height: 1,
-    borderColor: '#D0D0D0',
-    borderWidth: 1,
-    marginBottom: 16,
-  },
+
   txt: {
     color: '#000',
+  },
+  checkOutContainer: {
+    backgroundColor: '#fff',
+    elevation: 6,
   },
 });
 export default styles;

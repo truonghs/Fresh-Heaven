@@ -39,7 +39,6 @@ const Slider = ({setIsScrollEnable}) => {
         // onScrollBegin={() => setIsScrollEnable(false)}
         // onScrollEnd={() => setIsScrollEnable(true)}
         loop
-        onSnapToItem={console.log(1)}
         width={SIZES.width}
         height={SIZES.width / 2}
         autoPlay={true}
