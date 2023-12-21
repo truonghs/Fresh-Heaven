@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight:10
   }),
   btnText: {
     fontFamily: font.semiBold,

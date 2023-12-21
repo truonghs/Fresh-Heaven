@@ -6,7 +6,7 @@ import {COLORS} from '../constants';
 import {cartContext} from '../Context/CartContext';
 const Tab = createBottomTabNavigator();
 const screenOptions = {
-  tabBarShowLabel: false,
+  tabBarShowLabel: true,
   tabBarHideOnKeyboard: true,
   headerShown: false,
   tabBarStyle: {
@@ -17,6 +17,11 @@ const screenOptions = {
     elevation: 0,
     height: 50,
   },
+  tabBarActiveTintColor:COLORS.primary,
+  tabBarLabelStyle:{
+    fontWeight:'bold',
+    fontSize:14
+  }
 };
 function BottomTabNavigatior() {
   const {cart} = useContext(cartContext);
@@ -35,6 +40,7 @@ function BottomTabNavigatior() {
               />
             );
           },
+        
         }}
       />
 
@@ -87,6 +93,7 @@ function BottomTabNavigatior() {
               />
             );
           },
+         
         }}
       />
     </Tab.Navigator>

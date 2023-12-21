@@ -40,7 +40,7 @@ function Register() {
   const [name, setName] = useState('');
   const navigation = useNavigation();
   const handleRegister = () => {
-    if (cpassword == password) {
+    if (cpassword === password) {
       const user = {
         name: name,
         email: email,
@@ -192,7 +192,7 @@ function Register() {
                 </View>
 
                 <CustomButton
-                  onPress={() => handleLogin()}
+                  onPress={() => handleRegister()}
                   text={'Create Account'}
                 />
 

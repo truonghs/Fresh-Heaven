@@ -13,8 +13,10 @@ import {
   Confirm,
   Order,
   VnPay,
+  Congratulations
 } from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
+import GuidanceStack from './GuidanceStack';
 import {COLORS} from '../constants';
 import font from '../assets/fonts/font';
 
@@ -22,7 +24,7 @@ const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="GuidanceStack">
         <Stack.Screen
           name="Login"
           component={Login}
@@ -32,6 +34,11 @@ const StackNavigation = () => {
           name="Register"
           component={Register}
           options={{headerShown: false, presentation: 'transparentModal'}}
+        />
+        <Stack.Screen
+          name="GuidanceStack"
+          component={GuidanceStack}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="BottomTabNavigation"
