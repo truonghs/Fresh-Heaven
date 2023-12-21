@@ -14,13 +14,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ip from '../../constants/ipAddress';
-import {UserType} from '../../Context/UserContext';
 import {useNavigation} from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
 import {COLORS, SIZES} from '../../constants';
 import {userContext} from '../../Context/UserContext';
 import {cartContext} from '../../Context/CartContext';
-const Confirm = () => {
+const Confirm = ({route}) => {
   const steps = [
     {title: 'Address', content: 'Address Form'},
     {title: 'Delivery', content: 'Delivery Options'},
@@ -31,7 +30,10 @@ const Confirm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [addresses, setAddresses] = useState([]);
   const {userId, setUserId} = useContext(userContext);
-  const {cart, FetchCart, setCartData} = useContext(cartContext);
+  const {cartData, setCartData} = useContext(cartContext);
+
+  const {orderData} = route.params;
+  // console.log(orderData);
 
   const fetchAddresses = async () => {
     try {
@@ -46,20 +48,30 @@ const Confirm = () => {
   const [address, setAdress] = useState('');
   const [delivery, setDelivery] = useState('');
   const [payment, setPayment] = useState('');
-  const [totalFee, setTotalFee] = useState(cart.totalPrice);
+  const [totalFee, setTotalFee] = useState(parseFloat(orderData.totalPrice));
   const handlePlaceOrder = async () => {
     try {
-      const orderData = {
+      const orderParam = {
         userId: userId,
-        cartProducts: cart.products,
+        cartProducts: orderData.products,
         totalPrice: totalFee,
         shippingAddress: address,
         paymentMethod: payment,
         shippingMethod: delivery,
       };
-      const response = await axios.post(`http://${Ip}:3000/orders`, orderData);
+      console.log(orderParam);
+      const response = await axios.post(
+        `http://${Ip}:3000/api/order/orders`,
+        orderParam,
+      );
       if (response.status === 200) {
-        FetchCart(userId);
+        setCartData({
+          totalProduct:
+            cartData.totalProduct - parseInt(response.data.deleteAmount),
+          cart: response.data.cart,
+
+          isLoading: false,
+        });
         navigation.navigate('Order');
         console.log('order created successfully');
       } else {
@@ -93,29 +105,36 @@ const Confirm = () => {
       const options = {
         description: 'Adding To Wallet',
         currency: 'USD',
-        name: 'FuHu',
+        name: 'Fresh Heaven',
         key: 'rzp_test_sdciHp38y8KMZ1',
-        amount: totalFee,
+        amount: parseFloat(totalFee) * 100,
         prefill: {},
-        theme: {color: COLORS.thirth},
+        theme: {color: COLORS.secondary},
       };
 
       const data = await RazorpayCheckout.open(options);
 
-      console.log(data);
-
-      const orderData = {
+      const orderParam = {
         userId: userId,
-        cartItems: cart,
+        cartProducts: orderData.products,
         totalPrice: totalFee,
         shippingAddress: address,
-        paymentMethod: 'card',
+        paymentMethod: payment,
+        shippingMethod: delivery,
       };
-
-      const response = await axios.post(`http://${Ip}:3000/orders`, orderData);
+      const response = await axios.post(
+        `http://${Ip}:3000/api/order/orders`,
+        orderParam,
+      );
       if (response.status === 200) {
+        setCartData({
+          totalProduct:
+            cartData.totalProduct - parseInt(response.data.deleteAmount),
+          cart: response.data.cart,
+
+          isLoading: false,
+        });
         navigation.navigate('Order');
-        setCartData({cart: response.data.cart, isLoadingCart: false});
         console.log('order created successfully', response.data);
       } else {
         console.log('error creating order', response.data);
@@ -126,7 +145,7 @@ const Confirm = () => {
   };
   useEffect(() => {
     fetchAddresses();
-  });
+  }, []);
   return (
     <ScrollView>
       <View style={styles.mainContainer}>
@@ -238,7 +257,7 @@ const Confirm = () => {
             ]}
             onPress={() => {
               setDelivery('standard');
-              setTotalFee(parseInt(cart.totalPrice) + 2);
+              setTotalFee(parseFloat(orderData.totalPrice) + 2);
             }}>
             <View>
               <Text style={styles.deliveryTitle}>Standard: </Text>
@@ -358,14 +377,14 @@ const Confirm = () => {
             <View style={styles.orderFee}>
               <Text style={styles.orderFeeTitle}>Items</Text>
 
-              <Text style={styles.orderFeeTxt}>${cart.totalPrice}</Text>
+              <Text style={styles.orderFeeTxt}>${orderData.totalPrice}</Text>
             </View>
 
             <View style={styles.orderFee}>
               <Text style={styles.orderFeeTitle}>Delivery</Text>
 
               <Text style={styles.orderFeeTxt}>
-                {totalFee - cart.totalPrice}
+                {totalFee - orderData.totalPrice}
               </Text>
             </View>
 

@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  stepircleTxt: {
+    color: '#fff',
+  },
   stepTxt: {
     fontSize: 16,
     color: COLORS.gray,
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: SIZES.xLarge,
-    color: COLORS.primary,
+    color: COLORS.secondary,
     fontFamily: font.bold,
   },
   address: {
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   addressTitleTxt: {
-    color: '#000',
+    color: COLORS.secondary,
     fontSize: SIZES.medium,
     fontFamily: font.bold,
   },
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   submitActive: {
-    backgroundColor: COLORS.thirth,
+    backgroundColor: COLORS.secondary,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
@@ -103,6 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+    opacity: 0.5,
   },
   submitTxt: {
     textAlign: 'center',
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   deliveryTitle: {
-    color: 'green',
+    color: COLORS.secondary,
     fontSize: SIZES.medium,
     fontFamily: font.bold,
   },
@@ -150,7 +154,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   orderAddress: {
-    color: COLORS.primary,
+    color: COLORS.red,
     fontFamily: font.bold,
   },
   orderFee: {
@@ -161,7 +165,7 @@ const styles = StyleSheet.create({
   },
   orderFeeTitle: {
     fontSize: 16,
-    color: COLORS.thirth,
+    color: COLORS.secondary,
 
     fontFamily: font.bold,
   },
@@ -198,7 +202,7 @@ const styles = StyleSheet.create({
   orderPaymentTxt: {
     fontSize: 16,
     fontFamily: font.semiBold,
-    color: COLORS.primary,
+    color: COLORS.secondary,
     marginTop: 7,
   },
   orderFeeTxt: {

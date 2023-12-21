@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     fontFamily: font.semiBold,
     fontSize: 36,
     color: COLORS.red,
-    height: 36,
+    height: 40,
     backgroundColor: '#ccc',
   },
   priceFlex: {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     fontFamily: font.semiBold,
     fontSize: 36,
     color: COLORS.red,
-    height: 36,
+    height: 40,
     marginBottom: 18,
   },
   counter: {

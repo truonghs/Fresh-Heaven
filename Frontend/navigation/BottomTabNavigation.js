@@ -24,7 +24,7 @@ const screenOptions = {
   }
 };
 function BottomTabNavigatior() {
-  const {cart} = useContext(cartContext);
+  const {cartData} = useContext(cartContext);
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
@@ -63,7 +63,7 @@ function BottomTabNavigatior() {
         name="Cart"
         component={Cart}
         options={{
-          tabBarBadge: cart.totalProduct ? cart.totalProduct : 0,
+          tabBarBadge: cartData.totalProduct ? cartData.totalProduct : 0,
           tabBarBadgeStyle: {
             alignItems: 'center',
             justifyContent: 'center',

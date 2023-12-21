@@ -5,9 +5,9 @@ const User = require("../models/User");
 module.exports = {
     addToCart: async (req, res) => {
         try {
-            const { productId, packing, productPrice } = req.body;
+            const { productId, packingIndex, quantity } = req.body;
             const product = await Products.findById(productId);
-            console.log("Added this product to cart: ", product);
+            const packing = product.packing[packingIndex].unit;
             if (!product) {
                 res.status(404).json({ message: "Cart created successfully!" });
             }
@@ -25,13 +25,12 @@ module.exports = {
                     user: userId,
                     products: [
                         {
-                            product: { ...product },
+                            productId: productId,
+                            productTitle: product.title,
                             packing: packing,
-                            quantity: 1,
+                            quantity: parseInt(quantity),
                         },
                     ],
-                    totalPrice: parseInt(productPrice),
-                    totalProduct: 1,
                 });
 
                 await newCart.save();
@@ -41,16 +40,21 @@ module.exports = {
             } else {
                 var isExist;
                 cart.products.forEach((item, index) => {
-                    item.product._id;
-                    if (item.product._id == productId && item.packing == packing) {
-                        item.quantity += 1;
+                    if (item.productId == productId && item.packing == packing) {
+                        item.quantity = item.quantity + parseInt(quantity);
 
                         isExist = true;
                     }
                 });
-                cart.totalPrice = parseInt(productPrice) + parseInt(cart.totalPrice);
-                !isExist ? cart.products.push({ product: { ...product }, packing: packing, quantity: 1 }) : null;
-                cart.totalProduct++;
+                !isExist
+                    ? cart.products.push({
+                          productId: productId,
+                          productTitle: product.title,
+                          packing: packing,
+                          quantity: parseInt(quantity),
+                      })
+                    : null;
+                console.log(cart);
                 await cart.save();
                 res.status(200).json({ message: "Product added to cart successfully!", cart: cart });
             }
@@ -67,8 +71,6 @@ module.exports = {
                 const newCart = new Cart({
                     user: userId,
                     products: [],
-                    totalPrice: 0,
-                    totalProduct: 0,
                 });
                 await newCart.save();
                 res.status(200).json(newCart);
@@ -79,119 +81,23 @@ module.exports = {
             res.status(500).json({ message: "Get cart error!" });
         }
     },
-    decreaseProduct: async (req, res) => {
+    updateCart: async (req, res) => {
+        console.log(1);
         try {
-            const { productId, packing, productPrice } = req.body;
-            console.log(productId);
-
-            const product = await Products.findById(productId);
-            if (!product) {
-                res.status(404).json({ message: "This product not in exist!" });
-            }
-
             const userId = req.params.id;
-            const cart = await Cart.findOne({ user: userId });
+            const { newCart } = req.body;
+            var cart = await Cart.findOne({ user: userId });
             if (!cart) {
                 res.status(400).json({ message: "Cart not found!" });
             } else {
-                var isExist;
-                cart.products.forEach((item, index) => {
-                    if (item.product._id == productId && item.packing == packing) {
-                        if (item.quantity > 1) {
-                            item.quantity--;
-                            cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice);
-                            isExist = true;
-                        } else {
-                            cart.products.pop({ product: product, quantity: 1 });
-                            cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice);
-                            isExist = true;
-                        }
-                    }
-                });
-                if (isExist) {
-                    cart.totalProduct--;
-                    await cart.save();
-                    console.log("Cart decrease success!");
-                    res.status(200).json({ message: "Cart decrease success!", cart: cart });
-                } else {
-                    res.status(500).json({ message: "This product is not in cart" });
-                }
+                cart.user = newCart.user;
+                cart.products = newCart.products;
+                console.log(cart);
+                await cart.save();
+                res.status(200).json({ message: "Cart delete success!" });
             }
         } catch (error) {
-            res.status(500).json({ message: "Add to cart Error!" });
-        }
-    },
-    increaseProduct: async (req, res) => {
-        try {
-            const { productId, packing, productPrice } = req.body;
-            console.log(productId);
-
-            const product = await Products.findById(productId);
-            if (!product) {
-                res.status(404).json({ message: "This product not in exist!" });
-            }
-
-            const userId = req.params.id;
-
-            const cart = await Cart.findOne({ user: userId });
-            if (!cart) {
-                res.status(400).json({ message: "Cart not found!" });
-            } else {
-                var isExist;
-                cart.products.forEach((item, index) => {
-                    if (item.product._id == productId && item.packing == packing) {
-                        item.quantity++;
-                        cart.totalPrice = parseInt(cart.totalPrice) + parseInt(productPrice);
-                        isExist = true;
-                    }
-                });
-                if (isExist) {
-                    cart.totalProduct++;
-                    await cart.save();
-                    console.log("Cart increase success!");
-                    res.status(200).json({ message: "Cart increase success!", cart: cart });
-                } else {
-                    res.status(500).json({ message: "This product is not in cart" });
-                }
-            }
-        } catch (error) {
-            res.status(500).json({ message: "Add to cart Error!" });
-        }
-    },
-    deleteProduct: async (req, res) => {
-        try {
-            const { productId, packing, productPrice } = req.body;
-
-            const product = await Products.findById(productId);
-            if (!product) {
-                res.status(404).json({ message: "This product not in exist!" });
-            }
-            const userId = req.params.id;
-
-            const cart = await Cart.findOne({ user: userId });
-            if (!cart) {
-                res.status(400).json({ message: "Cart not found!" });
-            } else {
-                var isExist;
-                cart.products.forEach((item, index) => {
-                    if (item.product._id == productId && item.packing == packing) {
-                        cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice) * item.quantity;
-                        isExist = true;
-                        cart.totalProduct = cart.totalProduct - item.quantity;
-                        cart.products.splice(index, 1);
-                        console.log({ product: product, quantity: 1 });
-                    }
-                });
-                if (isExist) {
-                    await cart.save();
-                    console.log("Delete product from cart success!");
-                    res.status(200).json({ message: "Delete product from cart success!", cart: cart });
-                } else {
-                    res.status(500).json({ message: "This product is not in cart" });
-                }
-            }
-        } catch (error) {
-            res.status(500).json({ message: "Delete product from cart  Error!" });
+            res.status(500).json({ message: "Update cart  Error!" });
         }
     },
     deleteCart: async (req, res) => {
@@ -209,3 +115,119 @@ module.exports = {
         }
     },
 };
+
+// decreaseProduct: async (req, res) => {
+//     try {
+//         const { productId, packing, productPrice } = req.body;
+//         console.log(productId);
+
+//         const product = await Products.findById(productId);
+//         if (!product) {
+//             res.status(404).json({ message: "This product not in exist!" });
+//         }
+
+//         const userId = req.params.id;
+//         const cart = await Cart.findOne({ user: userId });
+//         if (!cart) {
+//             res.status(400).json({ message: "Cart not found!" });
+//         } else {
+//             var isExist;
+//             cart.products.forEach((item, index) => {
+//                 if (item.product._id == productId && item.packing == packing) {
+//                     if (item.quantity > 1) {
+//                         item.quantity--;
+//                         cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice);
+//                         isExist = true;
+//                     } else {
+//                         cart.products.pop({ product: product, quantity: 1 });
+//                         cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice);
+//                         isExist = true;
+//                     }
+//                 }
+//             });
+//             if (isExist) {
+//                 cart.totalProduct--;
+//                 await cart.save();
+//                 console.log("Cart decrease success!");
+//                 res.status(200).json({ message: "Cart decrease success!", cart: cart });
+//             } else {
+//                 res.status(500).json({ message: "This product is not in cart" });
+//             }
+//         }
+//     } catch (error) {
+//         res.status(500).json({ message: "Add to cart Error!" });
+//     }
+// },
+// increaseProduct: async (req, res) => {
+//     try {
+//         const { productId, packing, productPrice } = req.body;
+//         console.log(productId);
+
+//         const product = await Products.findById(productId);
+//         if (!product) {
+//             res.status(404).json({ message: "This product not in exist!" });
+//         }
+
+//         const userId = req.params.id;
+
+//         const cart = await Cart.findOne({ user: userId });
+//         if (!cart) {
+//             res.status(400).json({ message: "Cart not found!" });
+//         } else {
+//             var isExist;
+//             cart.products.forEach((item, index) => {
+//                 if (item.product._id == productId && item.packing == packing) {
+//                     item.quantity++;
+//                     cart.totalPrice = parseInt(cart.totalPrice) + parseInt(productPrice);
+//                     isExist = true;
+//                 }
+//             });
+//             if (isExist) {
+//                 cart.totalProduct++;
+//                 await cart.save();
+//                 console.log("Cart increase success!");
+//                 res.status(200).json({ message: "Cart increase success!", cart: cart });
+//             } else {
+//                 res.status(500).json({ message: "This product is not in cart" });
+//             }
+//         }
+//     } catch (error) {
+//         res.status(500).json({ message: "Add to cart Error!" });
+//     }
+// },
+// deleteProduct: async (req, res) => {
+//     try {
+//         const { productId, packing, productPrice } = req.body;
+
+//         const product = await Products.findById(productId);
+//         if (!product) {
+//             res.status(404).json({ message: "This product not in exist!" });
+//         }
+//         const userId = req.params.id;
+
+//         const cart = await Cart.findOne({ user: userId });
+//         if (!cart) {
+//             res.status(400).json({ message: "Cart not found!" });
+//         } else {
+//             var isExist;
+//             cart.products.forEach((item, index) => {
+//                 if (item.product._id == productId && item.packing == packing) {
+//                     cart.totalPrice = parseInt(cart.totalPrice) - parseInt(productPrice) * item.quantity;
+//                     isExist = true;
+//                     cart.totalProduct = cart.totalProduct - item.quantity;
+//                     cart.products.splice(index, 1);
+//                     console.log({ product: product, quantity: 1 });
+//                 }
+//             });
+//             if (isExist) {
+//                 await cart.save();
+//                 console.log("Delete product from cart success!");
+//                 res.status(200).json({ message: "Delete product from cart success!", cart: cart });
+//             } else {
+//                 res.status(500).json({ message: "This product is not in cart" });
+//             }
+//         }
+//     } catch (error) {
+//         res.status(500).json({ message: "Delete product from cart  Error!" });
+//     }
+// },
