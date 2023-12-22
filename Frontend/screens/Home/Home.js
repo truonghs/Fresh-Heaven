@@ -5,7 +5,7 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
-import styles from './home.style';
+import styles from './Home.style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';

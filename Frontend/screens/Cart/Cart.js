@@ -1,4 +1,11 @@
-import {Text, View, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -13,11 +20,22 @@ import {COLORS} from '../../constants';
 import font from '../../assets/fonts/font';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import LinearGradient from 'react-native-linear-gradient';
+import GradientText from 'react-native-gradient-texts';
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from 'react-native-alert-notification';
+import Alert from '../../components/CustomAlert/CustomAlert';
 const Cart = () => {
   const {userId} = useContext(userContext);
   const {cartData, setCartData} = useContext(cartContext);
   const {products} = useContext(productsContext);
   const navigation = useNavigation();
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertParams, setAlertParams] = useState(false);
+
   const [cartInfo, setCartInfo] = useState({
     cartProducts: [],
     totalPrice: 0,
@@ -66,9 +84,9 @@ const Cart = () => {
   };
   useEffect(() => {
     setRenderData();
-  }, [cartData.cart]);
+  }, [cartData]);
 
-  decreaseQuantity = item => {
+  const decreaseQuantity = item => {
     cartData.cart.products.forEach((element, index) => {
       if (
         element.productId == item.product._id &&
@@ -87,7 +105,7 @@ const Cart = () => {
     });
     updateCart(tmp);
   };
-  increaseQuantity = item => {
+  const increaseQuantity = item => {
     cartData.cart.products.forEach((element, index) => {
       if (
         element.productId == item.product._id &&
@@ -107,7 +125,7 @@ const Cart = () => {
     });
     updateCart(tmp);
   };
-  deleteItem = (item, productPrice) => {
+  const deleteItem = item => {
     cartData.cart.products.forEach((element, index) => {
       if (
         element.productId == item.product._id &&
@@ -125,6 +143,11 @@ const Cart = () => {
       }
     });
     updateCart(tmp);
+    setAlertVisible(false);
+  };
+  const handleDelete = item => {
+    setAlertParams(item);
+    setAlertVisible(true);
   };
   const updateCart = async item => {
     axios
@@ -212,37 +235,48 @@ const Cart = () => {
                     />
                   </TouchableOpacity>
 
-                  <View>
-                    <TouchableOpacity
-                    // onPress={() =>
-                    //   navigation.navigate('ProductDetail', {
-                    //     item: item.product,
-                    //   })
-                    // }
-                    >
-                      <Text numberOfLines={2} style={styles.productName}>
-                        {item.product?.title}
-                      </Text>
-                    </TouchableOpacity>
-                    {item.discount == 0 ? (
-                      <Text style={styles.productPriceFinal}>
-                        ${item?.price}
-                      </Text>
-                    ) : (
-                      <View style={styles.priceRow}>
-                        <Text style={styles.productPrice}>${item?.price}</Text>
-                        <Text style={styles.productPriceFinal}>
-                          ${item?.finalPrice}
+                  <View style={styles.detailArea}>
+                    <View style={styles.nameRow}>
+                      <TouchableOpacity
+                      // onPress={() =>
+                      //   navigation.navigate('ProductDetail', {
+                      //     item: item.product,
+                      //   })
+                      // }
+                      >
+                        <Text numberOfLines={1} style={styles.productName}>
+                          {item.product?.title}
                         </Text>
-                      </View>
-                    )}
-                    <View style={styles.classifyRow}>
-                      <Text style={styles.unitTitle}>Class: </Text>
-                      <Text style={styles.unitText}>{item?.packing}</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => handleDelete(item)}
+                        style={styles.deleteItem}>
+                        <AntDesign name="close" size={16} color={COLORS.red} />
+                      </TouchableOpacity>
                     </View>
-                    <View style={styles.quantity}>
-                      <View style={styles.quantityLeft}>
-                        {item?.quantity > 1 ? (
+                    <View style={styles.detailFlex}>
+                      <View>
+                        {item.discount == 0 ? (
+                          <Text style={styles.productPriceFinal}>
+                            ${item?.price}
+                          </Text>
+                        ) : (
+                          <View style={styles.priceRow}>
+                            <Text style={styles.productPrice}>
+                              ${item?.price}
+                            </Text>
+                            <Text style={styles.productPriceFinal}>
+                              ${item?.finalPrice}
+                            </Text>
+                          </View>
+                        )}
+                        <View style={styles.classifyRow}>
+                          <Text style={styles.unitTitle}>Type: </Text>
+                          <Text style={styles.unitText}>{item?.packing}</Text>
+                        </View>
+                      </View>
+                      <View style={styles.quantity}>
+                        <View style={styles.quantityLeft}>
                           <TouchableOpacity
                             onPress={() => decreaseQuantity(item)}
                             style={styles.decreaseBtn}>
@@ -252,42 +286,27 @@ const Cart = () => {
                               color={COLORS.secondary}
                             />
                           </TouchableOpacity>
-                        ) : (
+
+                          <View style={styles.quantityTxt}>
+                            <Text style={styles.txt}>{item?.quantity}</Text>
+                          </View>
+
                           <TouchableOpacity
-                            onPress={() => deleteItem(item)}
-                            style={styles.decreaseBtn}>
-                            <AntDesign
-                              name="delete"
-                              size={18}
-                              color={COLORS.secondary}
-                            />
+                            onPress={() => increaseQuantity(item)}>
+                            <LinearGradient
+                              start={{x: 0, y: 0}}
+                              end={{x: 1, y: 0}}
+                              colors={[COLORS.primary, COLORS.secondary]}
+                              style={styles.increaseBtn}>
+                              <Feather
+                                name="plus"
+                                size={18}
+                                color={COLORS.white}
+                              />
+                            </LinearGradient>
                           </TouchableOpacity>
-                        )}
-
-                        <View style={styles.quantityTxt}>
-                          <Text style={styles.txt}>{item?.quantity}</Text>
                         </View>
-
-                        <TouchableOpacity
-                          onPress={() => increaseQuantity(item)}>
-                          <LinearGradient
-                            start={{x: 0, y: 0}}
-                            end={{x: 1, y: 0}}
-                            colors={[COLORS.primary, COLORS.secondary]}
-                            style={styles.increaseBtn}>
-                            <Feather
-                              name="plus"
-                              size={18}
-                              color={COLORS.white}
-                            />
-                          </LinearGradient>
-                        </TouchableOpacity>
                       </View>
-                      <TouchableOpacity
-                        onPress={() => deleteItem(item)}
-                        style={styles.deleteItem}>
-                        <AntDesign name="close" size={24} color={COLORS.red} />
-                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
@@ -297,7 +316,12 @@ const Cart = () => {
         </View>
       </ScrollView>
 
-      <View style={styles.checkOutContainer}>
+      {/* <View style={styles.checkOutContainer}> */}
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        colors={[COLORS.primary, COLORS.secondary]}
+        style={styles.checkOutContainer}>
         <View style={styles.totalContainer}>
           <Text style={styles.totalTitle}>Subtotal in cart: </Text>
           <Text style={styles.totalValue}>{cartInfo?.totalPrice}</Text>
@@ -308,11 +332,11 @@ const Cart = () => {
               ...styles.totalTitle,
               fontFamily: font.semiBold,
               color: COLORS.red,
-              fontSize: 20,
+              fontSize: 18,
             }}>
             Subtotal selected:{' '}
           </Text>
-          <Text style={{...styles.totalValue, color: COLORS.red, fontSize: 24}}>
+          <Text style={{...styles.totalValue, color: COLORS.red, fontSize: 20}}>
             {orderInfo?.totalPrice}
           </Text>
         </View>
@@ -322,16 +346,36 @@ const Cart = () => {
               navigation.navigate('Confirm', {orderData: orderInfo})
             }
             style={styles.buyBtn}>
-            <Text style={styles.btnTxt}>
-              Proceed to Buy ({orderInfo.products?.length}) items
-            </Text>
+            <GradientText
+              text={`Proceed to Buy (${orderInfo.products?.length}) items`}
+              fontSize={13}
+              width={240}
+              locations={{x: 120, y: 26}}
+              isGradientFill
+              height={46}
+              style={styles.name}
+              gradientColors={['#51e68a', '#1ac179']}
+              fontFamily={font.bold}
+            />
           </TouchableOpacity>
         ) : (
           <View onPress={null} style={styles.buyBtnInActive}>
-            <Text style={styles.btnTxt}>Proceed to Buy ({0}) items</Text>
+            <Text style={{...styles.btnTxt, color: '#ccc'}}>
+              Proceed to Buy ({0}) items
+            </Text>
           </View>
         )}
-      </View>
+      </LinearGradient>
+      {/* </View> */}
+      <Alert
+        title={'Are you want to remove this product from your cart?'}
+        setAlertVisible={setAlertVisible}
+        alertVisible={alertVisible}
+        leftBtnText={'Cancel'}
+        rightBtnText={'Yes'}
+        leftBtnFnc={() => setAlertVisible(false)}
+        rightBtnFnc={() => deleteItem(alertParams)}
+      />
     </View>
   );
 };

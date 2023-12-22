@@ -13,7 +13,7 @@ import {
   Confirm,
   Order,
   VnPay,
-  Congratulations
+  Congratulations,
 } from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
 import GuidanceStack from './GuidanceStack';
@@ -24,7 +24,7 @@ const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="GuidanceStack">
+      <Stack.Navigator>
         <Stack.Screen
           name="Login"
           component={Login}

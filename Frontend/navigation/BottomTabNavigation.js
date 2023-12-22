@@ -4,6 +4,7 @@ import {Home, Profile, Search, Cart} from '../screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {COLORS} from '../constants';
 import {cartContext} from '../Context/CartContext';
+import font from '../assets/fonts/font';
 const Tab = createBottomTabNavigator();
 const screenOptions = {
   tabBarShowLabel: true,
@@ -17,11 +18,11 @@ const screenOptions = {
     elevation: 0,
     height: 50,
   },
-  tabBarActiveTintColor:COLORS.primary,
-  tabBarLabelStyle:{
-    fontWeight:'bold',
-    fontSize:14
-  }
+  tabBarActiveTintColor: COLORS.primary,
+  tabBarLabelStyle: {
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
 };
 function BottomTabNavigatior() {
   const {cartData} = useContext(cartContext);
@@ -40,7 +41,11 @@ function BottomTabNavigatior() {
               />
             );
           },
-        
+          tabBarLabelStyle: {
+            fontFamily: font.semiBold,
+            top: -2,
+            fontSize: 12,
+          },
         }}
       />
 
@@ -57,13 +62,20 @@ function BottomTabNavigatior() {
               />
             );
           },
+          tabBarLabelStyle: {
+            fontFamily: font.semiBold,
+            top: -2,
+            fontSize: 12,
+          },
         }}
       />
       <Tab.Screen
         name="Cart"
         component={Cart}
         options={{
-          tabBarBadge: cartData.totalProduct ? cartData.totalProduct : 0,
+          tabBarBadge: cartData.cart.products?.length
+            ? cartData.cart.products?.length
+            : 0,
           tabBarBadgeStyle: {
             alignItems: 'center',
             justifyContent: 'center',
@@ -77,6 +89,11 @@ function BottomTabNavigatior() {
                 color={focused ? COLORS.primary : COLORS.gray2}
               />
             );
+          },
+          tabBarLabelStyle: {
+            fontFamily: font.semiBold,
+            top: -2,
+            fontSize: 12,
           },
         }}
       />
@@ -93,7 +110,11 @@ function BottomTabNavigatior() {
               />
             );
           },
-         
+          tabBarLabelStyle: {
+            fontFamily: font.semiBold,
+            top: -2,
+            fontSize: 12,
+          },
         }}
       />
     </Tab.Navigator>

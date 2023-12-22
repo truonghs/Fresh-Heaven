@@ -128,6 +128,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
+    elevation: 2,
+    backgroundColor: COLORS.primary,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 export default styles;
