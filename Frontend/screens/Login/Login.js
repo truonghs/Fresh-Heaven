@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Alert,
   ImageBackground,
+  Pressable,
 } from 'react-native';
 import GradientText from 'react-native-gradient-texts';
 import React, {useState, useEffect, useContext} from 'react';
@@ -154,10 +155,11 @@ function Login() {
                     />
                   </View>
                   <TouchableOpacity
+                    style={styles.eye}
                     onPress={() => setIsEyePressed(!isEyePressed)}>
                     <Entypo
+                      color="#dbdbdb"
                       name={!isEyePressed ? 'eye-with-line' : 'eye'}
-                      style={styles.eye}
                       size={24}
                     />
                   </TouchableOpacity>
@@ -180,7 +182,9 @@ function Login() {
                 />
                 <Text style={styles.checkText}>Keep me logged in</Text>
               </View>
-              <Text style={styles.link}>Forgot Password</Text>
+              <Pressable onPress={() => navigation.navigate('ForgotPassword')}>
+                <Text style={styles.link}>Forgot Password</Text>
+              </Pressable>
             </View>
 
             <CustomButton onPress={() => handleLogin()} text={'Login'} />

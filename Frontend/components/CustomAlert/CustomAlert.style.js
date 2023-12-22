@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   flexBtn: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     width: 240,
   },
   leftBtn: {
@@ -46,12 +46,18 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 4,
     minWidth: 70,
+    left: 0,
+    bottom: 0,
+    position: 'absolute',
   },
   rightBtn: {
     backgroundColor: COLORS.red,
     padding: 6,
     borderRadius: 4,
     minWidth: 70,
+    right: 0,
+    bottom: 0,
+    position: 'absolute',
   },
   textStyle: {
     textAlign: 'center',

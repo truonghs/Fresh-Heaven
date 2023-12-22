@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     fontFamily: font.regular,
     fontSize: SIZES.small + 2,
     color: '#000',
+    maxWidth: 160,
   },
   modal: {
     width: '100%',
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     width: 200,
   },
   addressTitle: {
-    color: COLORS.primary,
+    color: COLORS.secondary,
     fontSize: SIZES.large,
     fontFamily: font.bold,
   },
@@ -61,11 +62,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3,
   },
-  addressTxt: {
-    color: COLORS.blue,
+  addressTxt: param => ({
+    color: param,
     fontSize: 14,
     fontFamily: font.bold,
-  },
+  }),
   addressDetail: {
     color: COLORS.gray,
 

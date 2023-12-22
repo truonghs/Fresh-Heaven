@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
   },
   tag: {
     width: 60,
-    backgroundColor: COLORS.primary,
+    backgroundColor: '#96ffc0',
     borderRadius: 20,
-    // borderWidth: 1,
+    // borderWidth: 0.2,
     // borderBlockColor: '#000',
     overflow: 'hidden',
   },

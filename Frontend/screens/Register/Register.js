@@ -165,10 +165,11 @@ function Register() {
                         />
                       </View>
                       <TouchableOpacity
+                        style={styles.eye}
                         onPress={() => setIsEyePressed(!isEyePressed)}>
                         <Entypo
+                          color="#dbdbdb"
                           name={!isEyePressed ? 'eye-with-line' : 'eye'}
-                          style={styles.eye}
                           size={24}
                         />
                       </TouchableOpacity>

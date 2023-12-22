@@ -223,11 +223,11 @@ const Cart = () => {
                     />
                   </View>
                   <TouchableOpacity
-                    // onPress={() =>
-                    //   navigation.navigate('ProductDetail', {
-                    //     item: item.product,
-                    //   })
-                    // }
+                    onPress={() =>
+                      navigation.navigate('ProductDetail', {
+                        product: item.product,
+                      })
+                    }
                     style={styles.imageContainer}>
                     <Image
                       style={styles.productImg}
@@ -238,12 +238,11 @@ const Cart = () => {
                   <View style={styles.detailArea}>
                     <View style={styles.nameRow}>
                       <TouchableOpacity
-                      // onPress={() =>
-                      //   navigation.navigate('ProductDetail', {
-                      //     item: item.product,
-                      //   })
-                      // }
-                      >
+                        onPress={() =>
+                          navigation.navigate('ProductDetail', {
+                            product: item.product,
+                          })
+                        }>
                         <Text numberOfLines={1} style={styles.productName}>
                           {item.product?.title}
                         </Text>
@@ -324,7 +323,9 @@ const Cart = () => {
         style={styles.checkOutContainer}>
         <View style={styles.totalContainer}>
           <Text style={styles.totalTitle}>Subtotal in cart: </Text>
-          <Text style={styles.totalValue}>{cartInfo?.totalPrice}</Text>
+          <Text style={{...styles.totalValue, fontFamily: font.semiBold}}>
+            ${cartInfo?.totalPrice}
+          </Text>
         </View>
         <View style={styles.totalContainer}>
           <Text
@@ -336,8 +337,8 @@ const Cart = () => {
             }}>
             Subtotal selected:{' '}
           </Text>
-          <Text style={{...styles.totalValue, color: COLORS.red, fontSize: 20}}>
-            {orderInfo?.totalPrice}
+          <Text style={{...styles.totalValue, color: COLORS.red, fontSize: 21}}>
+            ${orderInfo.totalPrice > 0 ? orderInfo.totalPrice : 0}
           </Text>
         </View>
         {orderInfo.products?.length > 0 ? (

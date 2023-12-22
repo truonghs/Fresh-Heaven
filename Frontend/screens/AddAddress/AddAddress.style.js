@@ -12,13 +12,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 100,
-    height: 55,
+    width: 80,
+    height: 80,
+    resizeMode: 'contain',
   },
   title: {
     fontSize: 15,
     fontFamily: font.bold,
-    color: COLORS.primary,
+    color: COLORS.secondary,
   },
   input: {
     padding: 10,
@@ -31,8 +32,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 10,
   },
-  btn: {
-    backgroundColor: COLORS.thirth,
+  btnContainer: {
     padding: 19,
     borderRadius: 6,
     justifyContent: 'center',

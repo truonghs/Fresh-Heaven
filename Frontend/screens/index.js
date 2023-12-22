@@ -26,5 +26,5 @@ export {
   Confirm,
   Order,
   VnPay,
-  Congratulations
+  Congratulations,
 };

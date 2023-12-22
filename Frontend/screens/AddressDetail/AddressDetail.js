@@ -15,14 +15,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Ip from '../../constants/ipAddress';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import {UserType} from '../../Context/UserContext';
 import styles from './AddressDetail.style';
 import {COLORS} from '../../constants';
-
+import {userContext} from '../../Context/UserContext';
 const AddressDetail = () => {
   const navigation = useNavigation();
   const [addresses, setAddresses] = useState([]);
-  const {userId, setUserId} = useContext(UserType);
+  const {userId, setUserId} = useContext(userContext);
   useEffect(() => {
     fetchAddresses();
   }, []);
@@ -44,25 +43,25 @@ const AddressDetail = () => {
   );
   return (
     <View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{padding: 10}}>
-          <Text style={styles.title}>Your Addresses</Text>
+      <View style={{}}>
+        {/* <Text style={styles.title}>Your Addresses</Text> */}
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AddAddress')}
-            style={styles.link}>
-            <Text style={styles.linkTxt}>Add a new Address</Text>
-            <MaterialIcons
-              name="keyboard-arrow-right"
-              size={24}
-              color={COLORS.primary}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AddAddress')}
+          style={styles.link}>
+          <Text style={styles.linkTxt}>Add a new Address</Text>
+          <MaterialIcons
+            name="keyboard-arrow-right"
+            size={24}
+            color={COLORS.blue}
+          />
+        </TouchableOpacity>
 
-          <TouchableOpacity>
-            {/* all the added adresses */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* all the added adresses */}
+          <View style={styles.scroll}>
             {addresses?.map((item, index) => (
-              <TouchableOpacity key={index} style={styles.itemContainer}>
+              <View key={index} style={styles.itemContainer}>
                 <View style={styles.itemTitle}>
                   <Text style={styles.itemName}>Name: {item?.name}</Text>
                   <Entypo name="location-pin" size={24} color="red" />
@@ -87,47 +86,23 @@ const AddressDetail = () => {
                     gap: 10,
                     marginTop: 7,
                   }}>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#F5F5F5',
-                      paddingHorizontal: 10,
-                      paddingVertical: 6,
-                      borderRadius: 5,
-                      borderWidth: 0.9,
-                      borderColor: '#D0D0D0',
-                    }}>
+                  <TouchableOpacity style={styles.btnContainer}>
                     <Text style={styles.btn}>Edit</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#F5F5F5',
-                      paddingHorizontal: 10,
-                      paddingVertical: 6,
-                      borderRadius: 5,
-                      borderWidth: 0.9,
-                      borderColor: '#D0D0D0',
-                    }}>
+                  <TouchableOpacity style={styles.btnContainer}>
                     <Text style={styles.btn}>Remove</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#F5F5F5',
-                      paddingHorizontal: 10,
-                      paddingVertical: 6,
-                      borderRadius: 5,
-                      borderWidth: 0.9,
-                      borderColor: '#D0D0D0',
-                    }}>
+                  <TouchableOpacity style={styles.btnContainer}>
                     <Text style={styles.btn}>Set as Default</Text>
                   </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              </View>
             ))}
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
     </View>
   );
 };

@@ -84,7 +84,7 @@ const ProducDetail = ({navigation, route}) => {
           <Ionicon name="cart-outline" size={24} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.galeryContainer}>
             <Carousel

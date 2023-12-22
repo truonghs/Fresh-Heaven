@@ -10,12 +10,13 @@ import {
 import React, {useEffect, useState, useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from 'jwt-decode';
-import {UserType} from '../../Context/UserContext';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import styles from './AddAddress.style';
 import Ip from '../../constants/ipAddress';
 import {COLORS} from '../../constants';
+import {userContext} from '../../Context/UserContext';
+import CustomButton from '../../components/CustomButton/CustomButton';
 const AddressScreen = () => {
   const navigation = useNavigation();
   const [name, setName] = useState('');
@@ -24,18 +25,18 @@ const AddressScreen = () => {
   const [detail, setDetail] = useState('');
   const [city, setCity] = useState('');
 
-  const {userId, setUserId} = useContext(UserType);
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = await AsyncStorage.getItem('authToken');
+  const {userId, setUserId} = useContext(userContext);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const token = await AsyncStorage.getItem('authToken');
 
-      const decodedToken = jwt_decode(token);
-      const userId = decodedToken.userId;
-      setUserId(userId);
-    };
+  //     const decodedToken = jwt_decode(token);
+  //     const userId = decodedToken.userId;
+  //     setUserId(userId);
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
   const handleAddAddress = () => {
     const address = {
       name,
@@ -130,9 +131,9 @@ const AddressScreen = () => {
             placeholder="House Numbe"
           />
         </View>
-        <TouchableOpacity onPress={handleAddAddress} style={styles.btn}>
-          <Text style={styles.btnTxt}>Add Address</Text>
-        </TouchableOpacity>
+        <View style={styles.btnContainer}>
+          <CustomButton onPress={handleAddAddress} text={'Add Address'} />
+        </View>
       </View>
     </ScrollView>
   );

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, SIZES} from '../../constants';
-import font from '../../assets/fonts/font';
+import {COLORS, SIZES} from '../../../constants';
+import font from '../../../assets/fonts/font';
 const styles = StyleSheet.create({
   imageBackground: {
     position: 'absolute',
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     paddingTop: 50,
+    paddingHorzontal: 20,
   },
   headingContainer: {
     alignItems: 'center',
@@ -22,12 +23,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginBottom: 4,
   },
-  // name: {
-  //   fontFamily: font.bold,
-  //   fontSize: SIZES.medium - 2,
-  //   color: COLORS.primary,
-  //   margin: 0,
-  // },
   slogan: {
     fontFamily: font.semiBold,
     fontSize: SIZES.medium - 4,
@@ -59,7 +54,7 @@ const styles = StyleSheet.create({
   input: {
     color: '#000',
     marginVertical: 10,
-    width: 250,
+    width: 200,
     fontSize: 16,
     paddingVertical: 2,
     lineHeight: 20,
@@ -72,15 +67,6 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     marginLeft: 8,
   },
-  forgotContainer: {
-    marginTop: 10,
-    width: '100%',
-    paddingHorizontal: 40,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
   linkContainer: {
     alignItems: 'center',
     marginTop: 20,
@@ -92,26 +78,7 @@ const styles = StyleSheet.create({
   },
   link: {
     color: '#007FFF',
-    fontFamily: font.bold,
-    height: SIZES.medium,
-  },
-  eye: {
-    position: 'absolute',
-    right: 20,
-  },
-  flex: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  flexCheck: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: SIZES.medium,
-  },
-  checkText: {
-    color: '#000',
-    fontFamily: font.regular,
+    fontFamily: font.semiBold,
   },
 });
 export default styles;

@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     paddingTop: 50,
+    paddingHorzontal: 20,
   },
   headingContainer: {
     alignItems: 'center',
@@ -43,17 +44,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 10,
-    // shadowColor: '#000',
-    // shadowOffset: {width: 10, height: 0},
-    // shadowRadius: 5,
-    // shadowOpacity: 0.5,
+    width: SIZES.width - 50,
   },
-  // shadow: {
-  //   shadowColor: '#000',
-  //   shadowOffset: {width: 10, height: 0},
-  //   shadowRadius: 5,
-  //   shadowOpacity: 0.5,
-  // },
   inputField: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -67,9 +59,10 @@ const styles = StyleSheet.create({
   input: {
     color: '#000',
     marginVertical: 10,
-    width: 240,
+    width: 200,
     fontSize: 16,
     paddingVertical: 2,
+    lineHeight: 20,
   },
   iconContainer: {
     alignItems: 'center',
@@ -80,13 +73,21 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   forgotContainer: {
-    marginTop: 10,
-    width: '100%',
-    paddingHorizontal: 30,
+    width: SIZES.width - 56,
+    marginTop: 16,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  flexCheck: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkText: {
+    color: '#000',
+    fontFamily: font.regular,
+    marginLeft: 6,
   },
   linkContainer: {
     alignItems: 'center',
@@ -102,22 +103,13 @@ const styles = StyleSheet.create({
     fontFamily: font.semiBold,
   },
   eye: {
-    marginRight: 10,
-    color: '#dbdbdb',
+    position: 'absolute',
+    right: 20,
   },
   flex: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-  },
-  flexCheck: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkText: {
-    color: '#000',
-    fontFamily: font.regular,
-    marginLeft: 6,
   },
 });
 export default styles;

@@ -38,7 +38,10 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  checkBox: {},
+  checkBox: {
+    paddingHorizontal: 10,
+    paddingVertical: 30,
+  },
 
   imageContainer: {
     justifyContent: 'center',
@@ -67,6 +70,7 @@ const styles = StyleSheet.create({
     width: 100,
     color: '#000',
     fontFamily: font.semiBold,
+    paddingBottom: 4,
   },
   deleteItem: {
     backgroundColor: 'white',
@@ -86,7 +90,6 @@ const styles = StyleSheet.create({
   },
   priceRow: {
     flexDirection: 'row',
-    marginTop: 4,
   },
   productPrice: {
     marginRight: 10,
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   decreaseBtn: {
-    backgroundColor: '#e8faee',
+    backgroundColor: COLORS.greenBtn,
     padding: 2,
     borderRadius: 7,
   },

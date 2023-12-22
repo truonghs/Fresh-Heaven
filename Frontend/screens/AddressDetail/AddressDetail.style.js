@@ -6,22 +6,25 @@ const styles = StyleSheet.create({
     fontSize: SIZES.xLarge,
     fontFamily: font.bold,
     color: '#000',
+    marginHorizontal: 10,
   },
   link: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 10,
-    borderColor: COLORS.primary,
+    borderColor: COLORS.blue,
     borderWidth: 1,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     paddingVertical: 7,
     paddingHorizontal: 5,
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
   linkTxt: {
     fontFamily: font.regular,
-    color: COLORS.primary,
+    color: COLORS.blue,
     fontSize: SIZES.medium,
   },
   itemContainer: {
@@ -30,7 +33,11 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: 'column',
     gap: 5,
-    marginVertical: 10,
+    marginHorizontal: 10,
+    borderRadius: 20,
+    elevation: 4,
+    backgroundColor: '#fff',
+    marginBottom: 20,
   },
   itemTitle: {
     flexDirection: 'row',
@@ -40,15 +47,28 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: SIZES.large,
     fontFamily: font.bold,
-    color: COLORS.primary,
+    color: COLORS.secondary,
   },
   itemTxt: {
-    fontSize: SIZES.medium,
+    fontSize: SIZES.medium - 3,
     fontFamily: font.regular,
     color: '#181818',
+    lineHeight: SIZES.medium,
   },
   btn: {
-    color: '#000',
+    color: COLORS.thirth,
+  },
+  btnContainer: {
+    backgroundColor: COLORS.greenBtn,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: 0.4,
+    borderColor: COLORS.gray,
+    elevation: 2,
+  },
+  scroll: {
+    paddingBottom: 180,
   },
 });
 export default styles;

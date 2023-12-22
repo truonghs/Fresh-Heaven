@@ -193,7 +193,7 @@ function Profile() {
   const navigation = useNavigation();
   const logout = async () => {
     await AsyncStorage.removeItem('authToken');
-    navigation.replace('Login');
+    navigation.replace('AuthStack');
   };
   return (
     <View style={styles.container}>
@@ -236,7 +236,7 @@ function Profile() {
         </View>
         <View style={styles.buttons}>
           <CustomButton text={'Change password'} widh={160} />
-          <CustomButton text={'Logout'} widh={160} onPress={logout}/>
+          <CustomButton text={'Logout'} widh={160} onPress={logout} />
         </View>
       </View>
     </View>
