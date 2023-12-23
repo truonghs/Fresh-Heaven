@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const Ip = "192.168.1.4";
 const jwt = require("jsonwebtoken");
 const { log } = require("console");
+const { use } = require("../routes/user");
 const sendVerificationEmail = async (email, verificationToken) => {
     // Create a Nodemailer transporter
     const transporter = nodemailer.createTransport({
@@ -30,7 +31,31 @@ const sendVerificationEmail = async (email, verificationToken) => {
         console.error("Error sending verification email:", error);
     }
 };
+const sendOTPEmail = async (email, otp) => {
+    const transporter = nodemailer.createTransport({
+        // Configure the email service or SMTP details here
+        service: "gmail",
+        auth: {
+            user: "sendfromtruonghs@gmail.com",
+            pass: "cmgmhgmfkqxglddr",
+        },
+    });
+    // Compose the email message
+    const mailOptions = {
+        from: "amazon.com",
+        to: email,
+        subject: "Email Verification",
+        html: `<p>Please enter the following <strong style="font-weight: bold; color: red;">otp</strong> to reset your password: <strong>${otp}</strong></p>`,
+    };
 
+    // Send the email
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log("OTP email sent successfully");
+    } catch (error) {
+        console.error("Error sending OTP email:", error);
+    }
+};
 module.exports = {
     // Register a new user
     // ... existing imports and setup ...
@@ -183,6 +208,86 @@ module.exports = {
             res.status(200).json({ addresses });
         } catch (error) {
             res.status(500).json({ message: "Error retrieveing the addresses" });
+        }
+    },
+    forgotPassword: async (req, res) => {
+        try {
+            const { email } = req.body;
+
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(404).json({ message: "This email doesn't exist" });
+            }
+            const otp = String(Math.floor(Math.random() * 10000)).padStart(4, "0");
+            const expireAt = new Date(Date.now() + 5 * 60 * 1000);
+            const otpObj = {
+                otp,
+                expireAt,
+            };
+            console.log("otp: ", otp);
+            user.otp = otpObj;
+            console.log(user);
+            await user.save();
+            sendOTPEmail(email, otp);
+            res.status(200).json({ message: "An email has been sent!" });
+        } catch (error) {
+            res.status(500).json({ message: "An error occurs while sending the email. Please try again later!" });
+        }
+    },
+    giveOTP: async (req, res) => {
+        try {
+            const { email, otp } = req.body;
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(404).json({ message: "This email doesn't exist" });
+            }
+            if (user.otp.otp != otp) {
+                return res.status(405).json({ message: "OTP incorrect!" });
+            } else if (user.otp.expireAt < new Date()) {
+                user.otp = undefined;
+                await user.save();
+                return res.status(406).json({ message: "OTP is expired!" });
+            }
+
+            passwordToken = crypto.randomBytes(20).toString("hex");
+            expireAt = new Date(Date.now() + 5 * 60 * 1000);
+            passwordTokenObj = {
+                passwordToken,
+                expireAt,
+            };
+            user.passwordToken = passwordTokenObj;
+            await user.save();
+            // user.otp=undefined,
+            res.status(200).json({ token: user.passwordToken.passwordToken });
+        } catch (error) {
+            res.status(500).json({ message: "An error occurs while verifying OTP. Please try again later!" });
+        }
+    },
+    resetPassword: async (req, res) => {
+        try {
+            const { email, newPassword, token } = req.body;
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                res.status(404).json({ message: "This email does not exist" });
+            }
+            if (user.passwordToken.passwordToken == token || user.passwordToken.expireAt >= new Date()) {
+                console.log(token);
+                user.password = newPassword;
+                user.passwordToken = undefined;
+                user.otp = undefined;
+                await user.save();
+                return res.status(200).json({ message: "Password change successfully!" });
+            } else {
+                user.otp = undefined;
+                user.passwordToken = undefined;
+                user.save();
+                res.status(405).json({ message: "Reset password token incorrect or expired!" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: "An error occurs while changing password. Please try again later!" });
         }
     },
 };

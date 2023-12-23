@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   Keyboard,
@@ -7,33 +6,58 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
-  TouchableOpacity,
   Alert,
   ImageBackground,
-  Pressable,
 } from 'react-native';
 import GradientText from 'react-native-gradient-texts';
 import React, {useState, useEffect, useContext} from 'react';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 //---------------//---------------//
 import Ip from '../../../constants/ipAddress';
 import {useNavigation} from '@react-navigation/native';
 //---------------/Context/---------------//
-import {cartContext} from '../../../Context/CartContext';
 import {userContext} from '../../../Context/UserContext';
 import font from '../../../assets/fonts/font';
 import {COLORS, SIZES} from '../../../constants';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import styles from './EnterEmail.style';
+
 const EnterEmail = () => {
   const [email, setEmail] = useState('');
   const navigation = useNavigation();
+
+  const handleSubmit = async () => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      const userEmail = {
+        email: email,
+      };
+      axios
+        .put(`http://${Ip}:3000/forgot`, userEmail)
+        .then(response => {
+          Keyboard.dismiss();
+          navigation.navigate('EnterOTP', {email});
+        })
+        .catch(error => {
+          switch (error.response.status) {
+            case 404: {
+              Alert.alert(error.response.data.message);
+              break;
+            }
+            case 405: {
+              Alert.alert(error.response.data.message);
+              break;
+            }
+            case 500: {
+              Alert.alert(error.response.data.message);
+              break;
+            }
+          }
+        });
+    } else {
+      Alert.alert('You have entered an invalid email address!');
+    }
+  };
 
   return (
     <KeyboardAvoidingView style={{flex: 1}}>
@@ -75,7 +99,9 @@ const EnterEmail = () => {
                   </View>
                   <TextInput
                     value={email}
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={text => {
+                      setEmail(text);
+                    }}
                     style={styles.input}
                     placeholder="Enter your Email"
                     placeholderTextColor={'#cecece'}
@@ -85,7 +111,7 @@ const EnterEmail = () => {
             </View>
 
             <CustomButton
-              onPress={() => navigation.navigate('EnterOTP')}
+              onPress={() => handleSubmit()}
               text={'Verify Email'}
             />
 

@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {COLORS, SIZES} from '../../../constants';
 import font from '../../../assets/fonts/font';
+import {colors} from 'react-native-swiper-flatlist/src/themes';
 const styles = StyleSheet.create({
   imageBackground: {
     position: 'absolute',
@@ -40,25 +41,27 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: SIZES.width - 50,
     marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
-  inputField: {
+  inputField: color => ({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
     backgroundColor: '#fff',
     borderRadius: 20,
     marginTop: 10,
-    borderWidth: 1,
-    borderColor: '#cecece',
-  },
-  input: {
-    color: '#000',
-    marginVertical: 10,
-    width: 200,
-    fontSize: 16,
-    paddingVertical: 2,
-    lineHeight: 20,
-  },
+    borderWidth: color != '#cecece' ? 2 : 1,
+    borderColor: color,
+    width: 50,
+    height: 56,
+  }),
+  input: color => ({
+    color: color != '#cecece' ? color : '#000',
+    textAlign: 'center',
+    flex: 1,
+    fontFamily: font.semiBold,
+  }),
   iconContainer: {
     alignItems: 'center',
     width: 36,
@@ -79,6 +82,19 @@ const styles = StyleSheet.create({
   link: {
     color: '#007FFF',
     fontFamily: font.semiBold,
+  },
+  text: {
+    color: '#000',
+  },
+  againText: {
+    color: '#007FFF',
+    fontFamily: font.semiBold,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    marginLeft: 10,
+  },
+  flexRow: {
+    flexDirection: 'row',
   },
 });
 export default styles;
