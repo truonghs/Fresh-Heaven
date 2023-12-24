@@ -3,10 +3,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
-  Cart,
   ProductDetail,
-  Login,
-  Register,
   AddAddress,
   AddressDetail,
   NewRivals,
@@ -19,14 +16,21 @@ import BottomTabNavigatior from './BottomTabNavigation';
 import GuidanceStack from './GuidanceStack';
 import AuthStack from './AuthStack';
 import ForgotPassword from './ForgotPasswordStack';
+import IntroStack from './IntroStack';
 import {COLORS} from '../constants';
 import font from '../assets/fonts/font';
-
 const Stack = createNativeStackNavigator();
-const StackNavigation = () => {
+const StackNavigation = ({isFirstLaunch}) => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        initialRouteName={isFirstLaunch ? 'IntroStack' : 'AuthStack'}>
+        <Stack.Screen
+          name="IntroStack"
+          component={IntroStack}
+          options={{headerShown: false}}
+        />
+
         <Stack.Screen
           name="AuthStack"
           component={AuthStack}
@@ -47,21 +51,7 @@ const StackNavigation = () => {
           component={BottomTabNavigatior}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
-          name="Cart"
-          component={Cart}
-          options={{
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: COLORS.thirth,
-            },
-            headerTitleStyle: {
-              fontFamily: font.bold,
-            },
-            headerTintColor: '#fff',
-            title: 'Cart',
-          }}
-        /> */}
+
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetail}

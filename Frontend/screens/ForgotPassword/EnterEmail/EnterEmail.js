@@ -10,14 +10,11 @@ import {
   ImageBackground,
 } from 'react-native';
 import GradientText from 'react-native-gradient-texts';
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
-//---------------//---------------//
 import Ip from '../../../constants/ipAddress';
 import {useNavigation} from '@react-navigation/native';
-//---------------/Context/---------------//
-import {userContext} from '../../../Context/UserContext';
 import font from '../../../assets/fonts/font';
 import {COLORS, SIZES} from '../../../constants';
 import CustomButton from '../../../components/CustomButton/CustomButton';

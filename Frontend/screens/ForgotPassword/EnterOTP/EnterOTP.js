@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   Keyboard,
@@ -7,26 +6,17 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
-  TouchableOpacity,
   Alert,
   ImageBackground,
   Pressable,
 } from 'react-native';
 import GradientText from 'react-native-gradient-texts';
-import React, {useState, useEffect, useContext} from 'react';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import jwt_decode from 'jwt-decode';
+import React, {useState} from 'react';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 //---------------//---------------//
 import Ip from '../../../constants/ipAddress';
 import {useNavigation} from '@react-navigation/native';
 //---------------/Context/---------------//
-import {cartContext} from '../../../Context/CartContext';
-import {userContext} from '../../../Context/UserContext';
 import font from '../../../assets/fonts/font';
 import {COLORS, SIZES} from '../../../constants';
 import CustomButton from '../../../components/CustomButton/CustomButton';
