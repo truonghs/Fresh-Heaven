@@ -72,5 +72,8 @@ const styles = StyleSheet.create({
     bottom: 60,
     left: 140,
   },
+  active: {
+    backgroundColor: COLORS.primary,
+  },
 });
 export default styles;

@@ -8,14 +8,27 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './UserPaymentMethod.style';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import {COLORS} from '../../../constants';
+import axios from 'axios';
+import Ip from '../../../constants/ipAddress';
+import {userContext} from '../../../Context/UserContext';
 export default function UserPaymentMethod() {
   const {navigate} = useNavigation();
+  const {currentUser, setCurrentUser} = useContext(userContext);
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const handleNext = () => {
+    if (paymentMethod === '') {
+      Alert.alert('Please choose one payment method');
+    } else {
+      setCurrentUser({...currentUser, paymentMethod: paymentMethod});
+      navigate('UserUploadPhoto');
+    }
+  };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <ImageBackground
@@ -32,31 +45,42 @@ export default function UserPaymentMethod() {
         <Text style={styles.text}>
           This data will be displayed in your account profile for security
         </Text>
-        <TouchableOpacity style={styles.paymentMethod}>
+        <TouchableOpacity
+          style={[
+            styles.paymentMethod,
+            paymentMethod === 'visa' ? styles.active : null,
+          ]}
+          onPress={() => setPaymentMethod('visa')}>
           <Image
             source={require('../../../assets/images/visa.png')}
             style={styles.paymentMethodImg}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.paymentMethod}>
+        <TouchableOpacity
+          style={[
+            styles.paymentMethod,
+            paymentMethod === 'paypal' ? styles.active : null,
+          ]}
+          onPress={() => setPaymentMethod('paypal')}>
           <Image
             source={require('../../../assets/images/Paypal.png')}
-            style={[styles.paymentMethodImg, {width:110}]}
+            style={[styles.paymentMethodImg, {width: 130}]}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.paymentMethod}>
+        <TouchableOpacity
+          style={[
+            styles.paymentMethod,
+            paymentMethod === 'razorpay' ? styles.active : null,
+          ]}
+          onPress={() => setPaymentMethod('razorpay')}>
           <Image
             source={require('../../../assets/images/Razorpay.png')}
-            style={[styles.paymentMethodImg, {width: 150, objectFit: 'cover'}]}
+            style={[styles.paymentMethodImg, {width: 180, objectFit: 'cover'}]}
           />
         </TouchableOpacity>
       </View>
       <View style={styles.btnNext}>
-        <CustomButton
-          text={'Next'}
-          widh={150}
-          onPress={() => navigate('UserUploadPhoto')}
-        />
+        <CustomButton text={'Next'} widh={150} onPress={handleNext} />
       </View>
     </KeyboardAvoidingView>
   );

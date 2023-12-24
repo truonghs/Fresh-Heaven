@@ -4,7 +4,7 @@ import font from '../../../assets/fonts/font';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative',
+    // position: 'relative',
     backgroundColor: '#fff',
   },
   imageBackground: {
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   content: {
     marginHorizontal: 25,
     marginVertical: 45,
+   
   },
   btnBack: {
     width: 50,
@@ -51,11 +52,12 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   formIcon: {
-    fontSize: 24,
+    fontSize: 30,
     color: COLORS.primary,
     width: 36,
     alignItems: 'center',
     marginLeft: 8,
+    marginRight:8,
   },
   formControl: {
     color: '#000',
@@ -65,11 +67,11 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   btnNext: {
-    position: 'absolute',
+    // position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    bottom: 60,
-    left: 140,
+    marginTop:120,
+    left: 16,
   },
 });
 

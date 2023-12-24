@@ -4,7 +4,8 @@ import UserInfo from '../screens/Guidance/UserInfo/UserInfo';
 import UserPaymentMethod from '../screens/Guidance/UserPaymentMethod/UserPaymentMethod';
 import UserUploadPhoto from '../screens/Guidance/UserUploadPhoto/UserUploadPhoto';
 import UserLocation from '../screens/Guidance/UserLocation/UserLocation';
-import Congratulations from '../screens/Congratulations/Congratulations';
+import Congratulations from '../screens/Guidance/Congratulations/Congratulations';
+import Map from '../screens/Map/Map';
 const Stack = createNativeStackNavigator();
 
 function GuidanceStack() {
@@ -28,6 +29,11 @@ function GuidanceStack() {
       <Stack.Screen
         name="UserLocation"
         component={UserLocation}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Map"
+        component={Map}
         options={{headerShown: false}}
       />
       <Stack.Screen

@@ -10,5 +10,5 @@ router.get("/profile/:userId", userController.getUserProfile);
 router.put("/forgot", userController.forgotPassword);
 router.put("/getOtp", userController.giveOTP);
 router.put("/reset-password", userController.resetPassword);
-
+router.put("/updateuserinfo/:userId", userController.updateUserInfo);
 module.exports = router;

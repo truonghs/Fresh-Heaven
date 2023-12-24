@@ -45,6 +45,7 @@ function Register() {
         name: name,
         email: email,
         password: password,
+        firstTime:false,
       };
       //send a POST  request to the backend API to register the user
       axios
@@ -58,6 +59,7 @@ function Register() {
           // setEmail('');
           // setPassword('');
           // setCPassword('');
+          navigation.navigate('Login')
         })
         .catch(error => {
           Alert.alert(

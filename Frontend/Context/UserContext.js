@@ -4,6 +4,7 @@ import jwt_decode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const UserProvider = ({children}) => {
   const [userId, setUserId] = useState('');
+  const [currentUser, setCurrentUser] = useState({});
   // const FetchUser = async () => {
   //   try {
   //     const token = await AsyncStorage.getItem('authToken');
@@ -29,6 +30,8 @@ const UserProvider = ({children}) => {
     clearUser,
     userId,
     setUserId,
+    currentUser,
+    setCurrentUser,
   };
 
   return <userContext.Provider value={data}>{children}</userContext.Provider>;
