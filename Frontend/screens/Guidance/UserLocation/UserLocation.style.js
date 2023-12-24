@@ -3,9 +3,9 @@ import {COLORS, SIZES} from '../../../constants';
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    position: 'relative',
+    flex: 1,
     backgroundColor: '#fefeff',
+    alignItems: 'center',
   },
   imageBackground: {
     position: 'absolute',
@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   content: {
-    marginHorizontal: 25,
-    marginVertical: 45,
+    marginHorizontal: 10,
+    marginVertical: 30,
   },
   btnBack: {
     width: 50,
@@ -61,19 +61,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 25,
   },
-
   mess: {
     fontWeight: 'bold',
     fontSize: 16,
     color: '#000',
     marginLeft: 15,
   },
+  location: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#000',
+    marginLeft: 6,
+    marginTop: 10,
+  },
   btnNext: {
-    position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    bottom: 60,
-    left: 140,
+    marginBottom: 52,
+    left: 16,
   },
 });
 export default styles;
