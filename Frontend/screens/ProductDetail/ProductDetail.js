@@ -10,9 +10,9 @@ import {
 import React, {useState, useContext} from 'react';
 import styles from './productDetail.style';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Fontisto from 'react-native-vector-icons/Fontisto';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Carousel from 'react-native-reanimated-carousel';
 import {COLORS, SIZES} from '../../constants';
@@ -84,7 +84,7 @@ const ProducDetail = ({navigation, route}) => {
           <Ionicon name="cart-outline" size={24} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <View style={styles.galeryContainer}>
             <Carousel
@@ -184,12 +184,22 @@ const ProducDetail = ({navigation, route}) => {
               )}
               <View style={styles.counter}>
                 <Text style={styles.counterTitle}>Quantity: </Text>
-                <TouchableOpacity onPress={() => decrease()}>
-                  <SimpleLineIcon name="minus" size={20} color="#000" />
+                <TouchableOpacity
+                  style={styles.decreaseBtn}
+                  onPress={() => decrease()}>
+                  <AntDesign name="minus" size={20} color={COLORS.primary} />
                 </TouchableOpacity>
                 <Text style={styles.counterText}>{count}</Text>
-                <TouchableOpacity onPress={() => increase()}>
-                  <SimpleLineIcon name="plus" size={20} color="#000" />
+                <TouchableOpacity
+                  style={styles.increaseBtn}
+                  onPress={() => increase()}>
+                  <LinearGradient
+                    start={{x: 0, y: 0}}
+                    end={{x: 1, y: 0}}
+                    colors={[COLORS.primary, COLORS.secondary]}
+                    style={styles.increaseBtn}>
+                    <Feather name="plus" size={18} color={COLORS.white} />
+                  </LinearGradient>
                 </TouchableOpacity>
               </View>
             </View>

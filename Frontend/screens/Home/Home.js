@@ -5,7 +5,7 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
-import styles from './home.style';
+import styles from './Home.style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -107,7 +107,9 @@ function Home() {
       </View>
 
       <Welcome />
-      <ScrollView scrollEnabled={isScrollEnable}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={isScrollEnable}>
         <View style={styles.scrollView}>
           <Slider setIsScrollEnable={setIsScrollEnable} />
           <Heading />
@@ -163,14 +165,27 @@ function Home() {
                   key={index}
                   onPress={() => handlePickAddress(item)}
                   style={styles.addressLect(
-                    selectedAddress._id == item._id ? '#FBCEB1' : 'white',
+                    selectedAddress._id == item._id
+                      ? COLORS.brownlight
+                      : 'white',
                   )}>
                   <View style={styles.addressName}>
-                    <Text style={styles.addressTxt}>{item?.name}</Text>
+                    <Text
+                      style={styles.addressTxt(
+                        selectedAddress._id == item._id
+                          ? COLORS.red
+                          : COLORS.blue,
+                      )}>
+                      {item?.name}
+                    </Text>
                     <Ionicons
                       name="location-outline"
                       size={24}
-                      color={COLORS.blue}
+                      color={
+                        selectedAddress._id == item._id
+                          ? COLORS.red
+                          : COLORS.blue
+                      }
                     />
                   </View>
                   <Text numberOfLines={1} style={styles.addressDetail}>

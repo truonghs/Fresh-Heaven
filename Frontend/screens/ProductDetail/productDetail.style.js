@@ -157,6 +157,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 6,
     color: '#000',
   },
+  decreaseBtn: {
+    backgroundColor: '#e8faee',
+    padding: 2,
+    borderRadius: 7,
+  },
+  increaseBtn: {
+    padding: 2,
+    borderRadius: 7,
+  },
   descWraper: {},
   desc: {
     fontFamily: font.bold,

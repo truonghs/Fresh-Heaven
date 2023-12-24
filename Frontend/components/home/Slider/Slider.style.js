@@ -12,7 +12,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: SIZES.small,
     overflow: 'hidden',
-    margin: 10,
+    elevation: 8,
+    margin: 12,
+    borderWidth: 0.5,
+    borderColor: '#ccc',
+    borderStyle: 'solid',
   },
 });
 export default styles;

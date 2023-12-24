@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
   },
   tag: {
     width: 60,
-    backgroundColor: COLORS.primary,
+    backgroundColor: '#96ffc0',
     borderRadius: 20,
-    // borderWidth: 1,
+    // borderWidth: 0.2,
     // borderBlockColor: '#000',
     overflow: 'hidden',
   },
@@ -128,6 +128,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
+    elevation: 2,
+    backgroundColor: COLORS.primary,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 export default styles;

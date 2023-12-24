@@ -3,13 +3,12 @@ const {height, width} = Dimensions.get('window');
 
 const COLORS = {
   primary: '#76eba4',
-  // secondary: '#19c178',
   secondary: '#17ad6c',
   thirth: '#0f7046',
-  fourth:'#24c67b',
+  fourth: '#24c67b',
   tertiary: '#fff8e8',
   brown: '#d65300',
-  brownlight:'#fdebdd',
+  brownlight: '#fdebdd',
   gray: '#83829A',
   gray2: '#C1C0C8',
   orange: '#fead1d',
@@ -19,6 +18,8 @@ const COLORS = {
   red: '#ff4445',
   green: '#23c77d',
   lightWhite: '#FAFAFC',
+  blue: '#0766AD',
+  greenBtn: '#e8faee',
 };
 
 const SIZES = {

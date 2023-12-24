@@ -44,7 +44,15 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  otp: {
+    otp: String,
+    expireAt: Date,
+  },
   verificationToken: String,
+  passwordToken: {
+    passwordToken: String,
+    expireAt: Date,
+  },
 
   orders: [
     {

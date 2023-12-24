@@ -6,9 +6,9 @@ import {useNavigation} from '@react-navigation/native';
 const Order = () => {
   const navigation = useNavigation();
   useEffect(() => {
-    setTimeout(() => {
-      navigation.replace('BottomTabNavigation');
-    }, 2000);
+    // setTimeout(() => {
+    //   navigation.replace('BottomTabNavigation');
+    // }, 2000);
   }, []);
   return (
     <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>

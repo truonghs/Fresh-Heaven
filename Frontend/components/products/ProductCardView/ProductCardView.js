@@ -1,15 +1,52 @@
-import {Text, View, TouchableOpacity, Image, Pressable} from 'react-native';
-import React from 'react';
-import styles from './productCadtView.style';
-import Ionicon from 'react-native-vector-icons/Ionicons';
-// import Ionicon from 'react-native-vector-icons/Ionicons';
-
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Pressable,
+  Alert,
+} from 'react-native';
+import React, {useContext} from 'react';
+import styles from './ProductCardView.style';
+import Entypo from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
 import {COLORS} from '../../../constants';
 import {useNavigation} from '@react-navigation/native';
 import Rating from '../../Rating/Rating';
-
+import Ip from '../../../constants/ipAddress';
+import {cartContext} from '../../../Context/CartContext';
+import {userContext} from '../../../Context/UserContext';
 const ProductCartView = ({product, scale}) => {
   const navigation = useNavigation();
+  const {cartData, setCartData} = useContext(cartContext);
+  const {userId} = useContext(userContext);
+  const addToCart = async (id, packingIndex) => {
+    await axios
+      .post(`http://${Ip}:3000/api/cart/addcart/${userId}`, {
+        productId: id,
+        packingIndex: packingIndex,
+        quantity: 1,
+      })
+      .then(response => {
+        Alert.alert(`${1} product added to cart!`);
+        setCartData({
+          cart: response.data.cart,
+          totalProduct: cartData.totalProduct + 1,
+          isLoadingCart: 'false',
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  const addItemToCart = () => {
+    console.log(product._id);
+    addToCart(product._id, 0);
+    // setTimeout(() => {
+    //   // setAddedToCart(false);
+    // }, 5000);
+  };
+
   return (
     <Pressable
       style={styles.container(scale)}
@@ -42,7 +79,9 @@ const ProductCartView = ({product, scale}) => {
           )}
           <View style={styles.tagContainer}>
             <View style={styles.tag}>
-              <Text style={styles.tagText}>Imported</Text>
+              {product.packing[0].discount ? (
+                <Text style={styles.tagText}>On Sale</Text>
+              ) : null}
             </View>
           </View>
           <View style={styles.suplierAndRatingContainer}>
@@ -55,8 +94,8 @@ const ProductCartView = ({product, scale}) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.addBtn}>
-          <Ionicon name={'add-circle'} size={35} color={COLORS.primary} />
+        <TouchableOpacity onPress={() => addItemToCart()} style={styles.addBtn}>
+          <Entypo name={'plus'} size={28} color="#fff" />
         </TouchableOpacity>
       </View>
     </Pressable>

@@ -72,6 +72,10 @@ const Confirm = ({route}) => {
 
           isLoading: false,
         });
+        setCurrentStep(0);
+        setAdress('');
+        setDelivery('');
+        setPayment('');
         navigation.navigate('Order');
         console.log('order created successfully');
       } else {
@@ -277,7 +281,7 @@ const Confirm = ({route}) => {
             ]}
             onPress={() => {
               setDelivery('fast');
-              setTotalFee(cart.totalPrice + 4);
+              setTotalFee(parseFloat(orderData.totalPrice) + 4);
             }}>
             <View>
               <Text style={styles.deliveryTitle}>Fast: </Text>

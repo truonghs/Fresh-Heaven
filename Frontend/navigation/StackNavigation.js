@@ -13,10 +13,12 @@ import {
   Confirm,
   Order,
   VnPay,
-  Congratulations
+  Congratulations,
 } from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
 import GuidanceStack from './GuidanceStack';
+import AuthStack from './AuthStack';
+import ForgotPassword from './ForgotPasswordStack';
 import {COLORS} from '../constants';
 import font from '../assets/fonts/font';
 
@@ -26,14 +28,14 @@ const StackNavigation = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{headerShown: false, presentation: 'transparentModal'}}
+          name="AuthStack"
+          component={AuthStack}
+          options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{headerShown: false, presentation: 'transparentModal'}}
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="GuidanceStack"
@@ -96,6 +98,7 @@ const StackNavigation = () => {
               fontFamily: font.bold,
             },
             headerTintColor: '#fff',
+            title: 'All Addresses',
           }}
         />
         <Stack.Screen
