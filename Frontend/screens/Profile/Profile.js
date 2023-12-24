@@ -193,6 +193,7 @@ function Profile() {
   const navigation = useNavigation();
   const logout = async () => {
     await AsyncStorage.removeItem('authToken');
+    await AsyncStorage.removeItem ('isFirstTime');
     navigation.replace('Login');
   };
   return (

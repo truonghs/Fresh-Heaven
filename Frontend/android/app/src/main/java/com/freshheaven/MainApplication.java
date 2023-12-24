@@ -1,7 +1,7 @@
 package com.freshheaven;
 //splash screen
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-
+import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import android.app.Application;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;

@@ -41,20 +41,22 @@ function Login() {
   const {FetchCart} = useContext(cartContext);
   const [isEyePressed, setIsEyePressed] = useState(false);
   // const [onSelected, setOnSelected] = useState('');
-  var userId;
   useEffect(() => {
     const checkLoginStatus = async () => {
-      console.log('login');
       try {
         const token = await AsyncStorage.getItem('authToken');
-
+        const isFirstTime = await AsyncStorage.getItem('isFirstTime');
         if (token) {
           const decodedToken = jwt_decode(token);
-          userId = decodedToken.userId;
+          const userId = decodedToken.userId;
+          if (isFirstTime === 'true') {
+            navigation.replace('GuidanceStack');
+          } else {
+            FetchCart(userId);
+            navigation.replace('BottomTabNavigation');
+          }
           console.log('login id: ', userId);
           setUserId(userId);
-          FetchCart(userId);
-          navigation.replace('BottomTabNavigation');
         }
       } catch (err) {
         console.log('error login', err);
@@ -69,19 +71,27 @@ function Login() {
     };
     axios
       .post(`http://${Ip}:3000/login`, user)
-      .then(response => {
-        const token = response.data.token;
+      .then(({data}) => {
+        const token = data.token;
         if (token) {
-          setUserId(userId);
           if (isStay) {
             AsyncStorage.setItem('authToken', token);
+            AsyncStorage.setItem(
+              'isFirstTime',
+              String(jwt_decode(token).firstTime),
+            );
           }
           const decodedToken = jwt_decode(token);
-          userId = decodedToken.userId;
+          const userId = decodedToken.userId;
+          const firstTime = decodedToken.firstTime;
+          if (firstTime) {
+            navigation.replace('GuidanceStack');
+          } else {
+            FetchCart(userId);
+            navigation.replace('BottomTabNavigation');
+          }
           console.log('login id: ', userId);
           setUserId(userId);
-          FetchCart(userId);
-          navigation.replace('BottomTabNavigation');
         } else {
           Alert.alert('Please verify your email!');
         }

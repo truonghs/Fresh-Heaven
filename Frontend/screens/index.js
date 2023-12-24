@@ -11,7 +11,7 @@ import NewRivals from './Rivals/NewRivals';
 import Confirm from './Confirm/Confirm';
 import Order from './Order/Order';
 import VnPay from './VnPay/VnPay';
-import Congratulations from './Congratulations/Congratulations';
+import Congratulations from './Guidance/Congratulations/Congratulations';
 export {
   Home,
   Search,
