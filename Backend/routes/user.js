@@ -7,5 +7,5 @@ router.post("/login", userController.login);
 router.get("/addresses/:userId", userController.getAddress);
 router.post("/addresses", userController.setAddress);
 router.get("/profile/:userId", userController.getUserProfile);
-
+router.put("/updateuserinfo/:userId", userController.updateUserInfo);
 module.exports = router;
