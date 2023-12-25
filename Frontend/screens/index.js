@@ -11,8 +11,9 @@ import NewRivals from './Rivals/NewRivals';
 import Confirm from './Confirm/Confirm';
 import Order from './Order/Order';
 import VnPay from './VnPay/VnPay';
-import Congratulations from './Guidance/Congratulations/Congratulations';
+import Intro from './Intro/Intro1';
 import Menu from './Menu/Menu';
+
 export {
   Home,
   Search,
@@ -28,5 +29,4 @@ export {
   Order,
   VnPay,
   Congratulations,
-  Menu
 };

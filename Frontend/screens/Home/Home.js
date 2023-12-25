@@ -116,7 +116,10 @@ function Home() {
           {/* <TouchableOpacity onPress={handleAddProduct}>
             <Text style={styles.addProduct}>Add Product</Text>
           </TouchableOpacity> */}
-          <ProductRow products={arr} isLoadingProducts={isLoadingProducts} />
+          <ProductRow
+            products={products}
+            isLoadingProducts={isLoadingProducts}
+          />
         </View>
       </ScrollView>
       <BottomModal

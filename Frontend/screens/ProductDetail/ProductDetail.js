@@ -28,7 +28,6 @@ import Rating from '../../components/Rating/Rating';
 const ProducDetail = ({navigation, route}) => {
   const [count, setCount] = useState(1);
   const [packingIndex, setPackingIndex] = useState(0);
-
   //----------------------------------------------------------//
 
   const {products, isLoadingProducts} = useContext(productsContext);
@@ -44,7 +43,7 @@ const ProducDetail = ({navigation, route}) => {
   };
   const {product} = route.params;
   const {userId} = useContext(userContext);
-  const {FetchCart, cartData, setCartData} = useContext(cartContext);
+  const {cartData, setCartData} = useContext(cartContext);
   const addToCart = async (id, packingIndex) => {
     await axios
       .post(`http://${Ip}:3000/api/cart/addcart/${userId}`, {
@@ -66,9 +65,28 @@ const ProducDetail = ({navigation, route}) => {
   };
   const addItemToCart = () => {
     addToCart(product._id, packingIndex);
-    setTimeout(() => {
-      // setAddedToCart(false);
-    }, 5000);
+    setTimeout(() => {}, 5000);
+  };
+  const handleBuy = () => {
+    var isExist = false;
+    cartData.cart.products.forEach((item, index) => {
+      if (
+        item.productId == product._id &&
+        product.packing[packingIndex].unit == item.packing
+      ) {
+        isExist = true;
+        console.log('params: ', index);
+        navigation.navigate('Cart', {firstCheckedIndex: index});
+      }
+    });
+    if (!isExist) {
+      addItemToCart();
+      console.log('params: ', cartData.cart.products.length);
+
+      navigation.navigate('Cart', {
+        firstCheckedIndex: cartData.cart.products.length,
+      });
+    }
   };
   return (
     <View style={styles.main}>
@@ -80,7 +98,8 @@ const ProducDetail = ({navigation, route}) => {
           style={styles.goToCartBtn}
           onPress={() => {
             navigation.navigate('Cart');
-          }}>
+          }}
+        >
           <Ionicon name="cart-outline" size={24} color={COLORS.primary} />
         </TouchableOpacity>
       </View>
@@ -146,9 +165,11 @@ const ProducDetail = ({navigation, route}) => {
                   <Pressable
                     key={index}
                     onPress={() => setPackingIndex(index)}
-                    style={styles.packingOptionBtn(index == packingIndex)}>
+                    style={styles.packingOptionBtn(index == packingIndex)}
+                  >
                     <Text
-                      style={styles.packingOptionText(index == packingIndex)}>
+                      style={styles.packingOptionText(index == packingIndex)}
+                    >
                       {item.unit}
                     </Text>
                   </Pressable>
@@ -186,18 +207,21 @@ const ProducDetail = ({navigation, route}) => {
                 <Text style={styles.counterTitle}>Quantity: </Text>
                 <TouchableOpacity
                   style={styles.decreaseBtn}
-                  onPress={() => decrease()}>
+                  onPress={() => decrease()}
+                >
                   <AntDesign name="minus" size={20} color={COLORS.primary} />
                 </TouchableOpacity>
                 <Text style={styles.counterText}>{count}</Text>
                 <TouchableOpacity
                   style={styles.increaseBtn}
-                  onPress={() => increase()}>
+                  onPress={() => increase()}
+                >
                   <LinearGradient
                     start={{x: 0, y: 0}}
                     end={{x: 1, y: 0}}
                     colors={[COLORS.primary, COLORS.secondary]}
-                    style={styles.increaseBtn}>
+                    style={styles.increaseBtn}
+                  >
                     <Feather name="plus" size={18} color={COLORS.white} />
                   </LinearGradient>
                 </TouchableOpacity>
@@ -208,15 +232,22 @@ const ProducDetail = ({navigation, route}) => {
               {/* <TouchableOpacity style={styles.cartBtn} onPress={() => {}}>
                 <Text style={styles.cartTitle}>BUY NOW</Text>
               </TouchableOpacity> */}
-              <CustomButton text={'BUY NOW'} widh={160} height={40} />
+              <CustomButton
+                text={'BUY NOW'}
+                onPress={() => handleBuy()}
+                widh={160}
+                height={40}
+              />
               <TouchableOpacity
                 style={styles.addCart}
-                onPress={() => addItemToCart(product)}>
+                onPress={() => addItemToCart()}
+              >
                 <LinearGradient
                   start={{x: 0, y: 0}}
                   end={{x: 1, y: 0}}
                   colors={[COLORS.primary, COLORS.secondary]}
-                  style={styles.addCart}>
+                  style={styles.addCart}
+                >
                   <FontAwesome5
                     name="cart-arrow-down"
                     size={20}
@@ -236,7 +267,7 @@ const ProducDetail = ({navigation, route}) => {
               <Text style={styles.relatedTitle}>Related Offer</Text>
               <ProductRow
                 scale={0.8}
-                products={arr}
+                products={products}
                 isLoadingProducts={isLoadingProducts}
               />
             </View>
