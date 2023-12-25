@@ -4,7 +4,12 @@ import font from '../../assets/fonts/font';
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: COLORS.offwhite,
+    backgroundColor: 'transparent',
+  },
+
+  scrollContainer: {
+    height: SIZES.height - 200,
+    width: SIZES.width,
   },
   scroll: {
     flex: 1,
@@ -197,11 +202,26 @@ const styles = StyleSheet.create({
   txt: {
     color: '#000',
   },
-  checkOutContainer: {
+
+  checkOutBase: {
     backgroundColor: '#fff',
+    borderRadius: 20,
+    borderColor: '#ccc',
+    borderWidth: 0.5,
+    borderStyle: 'solid',
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    width: SIZES.width,
+  },
+  checkOutContainer: {
+    backgroundColor: 'transparent',
     elevation: 4,
     width: SIZES.width - 32,
-    marginLeft: 16,
+    // marginLeft: 16,
     marginBottom: 70,
     height: 150,
     borderRadius: 20,

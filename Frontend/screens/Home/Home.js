@@ -38,7 +38,6 @@ function Home() {
   const [selectedAddress, setSelectedAdress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [isScrollEnable, setIsScrollEnable] = useState(true);
-  const arr = [products[0], products[0], products[0], products[0], products[0]];
   // useEffect(() => {}, [isLoadingProducts]);
   useEffect(() => {
     if (userId) {
@@ -116,7 +115,10 @@ function Home() {
           {/* <TouchableOpacity onPress={handleAddProduct}>
             <Text style={styles.addProduct}>Add Product</Text>
           </TouchableOpacity> */}
-          <ProductRow products={arr} isLoadingProducts={isLoadingProducts} />
+          <ProductRow
+            products={products}
+            isLoadingProducts={isLoadingProducts}
+          />
         </View>
       </ScrollView>
       <BottomModal

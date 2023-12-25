@@ -53,7 +53,7 @@ const ProductCartView = ({product, scale}) => {
       onPress={() => navigation.navigate('ProductDetail', {product})}>
       <View>
         <View style={styles.imgContainer}>
-          <Image style={styles.img} source={{uri: product.imageUrl[1]}} />
+          <Image style={styles.img} source={{uri: product.imageUrl[0]}} />
         </View>
         <View style={styles.details}>
           <Text style={styles.title} numberOfLines={2}>
