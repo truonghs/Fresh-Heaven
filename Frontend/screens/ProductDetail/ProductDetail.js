@@ -32,7 +32,7 @@ const ProducDetail = ({navigation, route}) => {
   //----------------------------------------------------------//
 
   const {products, isLoadingProducts} = useContext(productsContext);
-  const arr = [products[0], products[0], products[0], products[0], products[0]];
+  const arr = products;
 
   //----------------------------------------------------------//
 
@@ -228,7 +228,9 @@ const ProducDetail = ({navigation, route}) => {
 
             <View style={styles.descWraper}>
               <Text style={styles.desc}>Description</Text>
-              <Text style={styles.descText}>{product.description}</Text>
+              <Text style={styles.descText}>Origin: {product.origin}</Text>
+              <Text style={styles.descText}>Quality Standards: {product.quality_standards}</Text>
+              <Text style={styles.descText}>Trait: {product.description}</Text>
             </View>
             <View style={styles.relatedWraper}>
               <Text style={styles.relatedTitle}>Related Offer</Text>

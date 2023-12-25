@@ -12,6 +12,7 @@ import Confirm from './Confirm/Confirm';
 import Order from './Order/Order';
 import VnPay from './VnPay/VnPay';
 import Congratulations from './Guidance/Congratulations/Congratulations';
+import Menu from './Menu/Menu';
 export {
   Home,
   Search,
@@ -27,4 +28,5 @@ export {
   Order,
   VnPay,
   Congratulations,
+  Menu
 };

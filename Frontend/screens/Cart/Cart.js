@@ -35,7 +35,7 @@ const Cart = () => {
   const navigation = useNavigation();
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertParams, setAlertParams] = useState(false);
-
+  console.log(cartData);
   const [cartInfo, setCartInfo] = useState({
     cartProducts: [],
     totalPrice: 0,
@@ -75,13 +75,19 @@ const Cart = () => {
         price: productPackingInfo.price,
       });
     });
+    // const start = performance.now();
 
     setCartInfo({
       cartProducts: cartProducts,
       totalPrice: totalPrice,
       totalProduct: totalProduct,
     });
+
+    // const end = performance.now();
+
+    // console.log(`Execution time: ${end - start} ms`);
   };
+
   useEffect(() => {
     setRenderData();
   }, [cartData]);

@@ -14,8 +14,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './UserPaymentMethod.style';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import {COLORS} from '../../../constants';
-import axios from 'axios';
-import Ip from '../../../constants/ipAddress';
 import {userContext} from '../../../Context/UserContext';
 export default function UserPaymentMethod() {
   const {navigate} = useNavigation();

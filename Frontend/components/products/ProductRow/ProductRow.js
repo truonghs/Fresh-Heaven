@@ -4,7 +4,11 @@ import styles from './productRow.style';
 import {COLORS, SIZES} from '../../../constants';
 import ProductCartView from '../ProductCardView/ProductCardView';
 
-const ProductRow = ({products, isLoadingProducts, scale}) => {
+const ProductRow = ({
+  products,
+  isLoadingProducts,
+  scale,
+}) => {
   return (
     <View style={styles.container}>
       {isLoadingProducts ? (
@@ -13,7 +17,8 @@ const ProductRow = ({products, isLoadingProducts, scale}) => {
         <FlatList
           data={products}
           keyExtractor={index => Math.random()}
-          horizontal
+          scrollEnabled={false}
+          numColumns={2}
           contentContainerStyle={styles.flatListContainer}
           renderItem={({item}) => (
             <View style={styles.itemContainer(scale)}>
