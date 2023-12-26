@@ -45,9 +45,7 @@ const Slider = ({setIsScrollEnable}) => {
         data={sliders}
         scrollAnimationDuration={1500}
         autoPlayInterval={5000}
-        onConfigurePanGesture={gestureChain =>
-          gestureChain.activeOffsetY([-1, 1])
-        }
+        onConfigurePanGesture={(gestureChain) => gestureChain.activeOffsetY([-1, 1])}
         renderItem={({item}) => (
           <View style={styles.bannerContainer}>
             <Banner
@@ -65,4 +63,4 @@ const Slider = ({setIsScrollEnable}) => {
   );
 };
 
-export default Slider;
+export default React.memo(Slider);

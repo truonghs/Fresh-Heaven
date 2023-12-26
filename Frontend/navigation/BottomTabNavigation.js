@@ -33,19 +33,14 @@ function BottomTabNavigatior() {
         component={Home}
         options={{
           tabBarIcon: ({focused}) => {
-            return (
-              <Icon
-                name={focused ? 'home' : 'home-outline'}
-                size={24}
-                color={focused ? COLORS.primary : COLORS.gray2}
-              />
-            );
+            return <Icon name={focused ? 'home' : 'home-outline'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
           },
           tabBarLabelStyle: {
             fontFamily: font.semiBold,
             top: -2,
             fontSize: 12,
           },
+          freezeOnBlur: true,
         }}
       />
 
@@ -54,41 +49,28 @@ function BottomTabNavigatior() {
         component={Search}
         options={{
           tabBarIcon: ({focused}) => {
-            return (
-              <Icon
-                name={'search-sharp'}
-                size={24}
-                color={focused ? COLORS.primary : COLORS.gray2}
-              />
-            );
+            return <Icon name={'search-sharp'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
           },
           tabBarLabelStyle: {
             fontFamily: font.semiBold,
             top: -2,
             fontSize: 12,
           },
+          freezeOnBlur: true,
         }}
       />
       <Tab.Screen
         name="Cart"
         component={Cart}
         options={{
-          tabBarBadge: cartData.cart.products?.length
-            ? cartData.cart.products?.length
-            : 0,
+          tabBarBadge: cartData.cart.products?.length ? cartData.cart.products?.length : 0,
           tabBarBadgeStyle: {
             alignItems: 'center',
             justifyContent: 'center',
             paddingTop: 1,
           },
           tabBarIcon: ({focused}) => {
-            return (
-              <Icon
-                name={focused ? 'cart' : 'cart-outline'}
-                size={24}
-                color={focused ? COLORS.primary : COLORS.gray2}
-              />
-            );
+            return <Icon name={focused ? 'cart' : 'cart-outline'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
           },
           tabBarLabelStyle: {
             fontFamily: font.semiBold,
@@ -102,23 +84,18 @@ function BottomTabNavigatior() {
         component={Profile}
         options={{
           tabBarIcon: ({focused}) => {
-            return (
-              <Icon
-                name={focused ? 'person' : 'person-outline'}
-                size={24}
-                color={focused ? COLORS.primary : COLORS.gray2}
-              />
-            );
+            return <Icon name={focused ? 'person' : 'person-outline'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
           },
           tabBarLabelStyle: {
             fontFamily: font.semiBold,
             top: -2,
             fontSize: 12,
           },
+          freezeOnBlur: true,
         }}
       />
     </Tab.Navigator>
   );
 }
 
-export default BottomTabNavigatior;
+export default React.memo(BottomTabNavigatior);

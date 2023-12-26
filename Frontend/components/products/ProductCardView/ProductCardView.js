@@ -1,12 +1,5 @@
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Pressable,
-  Alert,
-} from 'react-native';
-import React, {useContext} from 'react';
+import {Text, View, TouchableOpacity, Image, Pressable, Alert} from 'react-native';
+import React, {useContext, useEffect} from 'react';
 import styles from './ProductCardView.style';
 import Entypo from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
@@ -27,7 +20,7 @@ const ProductCartView = ({product, scale}) => {
         packingIndex: packingIndex,
         quantity: 1,
       })
-      .then(response => {
+      .then((response) => {
         Alert.alert(`${1} product added to cart!`);
         setCartData({
           cart: response.data.cart,
@@ -35,22 +28,16 @@ const ProductCartView = ({product, scale}) => {
           isLoadingCart: 'false',
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
   const addItemToCart = () => {
-    console.log(product._id);
     addToCart(product._id, 0);
-    // setTimeout(() => {
-    //   // setAddedToCart(false);
-    // }, 5000);
   };
 
   return (
-    <Pressable
-      style={styles.container(scale)}
-      onPress={() => navigation.navigate('ProductDetail', {product})}>
+    <Pressable style={styles.container(scale)} onPress={() => navigation.navigate('ProductDetail', {product})}>
       <View>
         <View style={styles.imgContainer}>
           <Image style={styles.img} source={{uri: product.imageUrl[0]}} />
@@ -66,23 +53,12 @@ const ProductCartView = ({product, scale}) => {
             </View>
           ) : (
             <View style={styles.priceContainer}>
-              <Text style={styles.priceBefore}>
-                ${product.packing[0].price}
-              </Text>
-              <Text style={styles.priceAfter}>
-                $
-                {product.packing[0].price -
-                  (product.packing[0].price * product.packing[0].discount) /
-                    100}
-              </Text>
+              <Text style={styles.priceBefore}>${product.packing[0].price}</Text>
+              <Text style={styles.priceAfter}>${product.packing[0].price - (product.packing[0].price * product.packing[0].discount) / 100}</Text>
             </View>
           )}
           <View style={styles.tagContainer}>
-            <View style={styles.tag}>
-              {product.packing[0].discount ? (
-                <Text style={styles.tagText}>On Sale</Text>
-              ) : null}
-            </View>
+            <View style={styles.tag}>{product.packing[0].discount ? <Text style={styles.tagText}>On Sale</Text> : null}</View>
           </View>
           <View style={styles.suplierAndRatingContainer}>
             <View style={styles.suplierContainer}>
@@ -102,4 +78,4 @@ const ProductCartView = ({product, scale}) => {
   );
 };
 
-export default ProductCartView;
+export default React.memo(ProductCartView);

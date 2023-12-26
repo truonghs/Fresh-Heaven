@@ -19,8 +19,9 @@ import Alert from '../../components/CustomAlert/CustomAlert';
 import {useIsFocused} from '@react-navigation/native';
 
 const Cart = ({route}) => {
-  const {userId} = useContext(userContext);
   const {cartData, setCartData} = useContext(cartContext);
+
+  const {userId} = useContext(userContext);
   const {products} = useContext(productsContext);
   const navigation = useNavigation();
   const [alertVisible, setAlertVisible] = useState(false);
@@ -30,16 +31,31 @@ const Cart = ({route}) => {
     cartTotalPrice: 0,
     cartTotalProduct: 0,
   });
-  // const [isAddedByDefault, setIsAddedByDefault] = useState(false);
+  const [isAddedByDefault, setIsAddedByDefault] = useState(false);
   const [orderInfo, setOrderInfo] = useState([]);
   const isFocused = useIsFocused();
   const [firstCheckedIndex, setFirstCheckedIndex] = useState(null);
   // const [checkBoxValues, setCheckBoxValues] = useState([])
-
   // Create Data for render
   useEffect(() => {
-    createCartRenderData();
-  }, [cartData]);
+    if (isFocused) {
+      createCartRenderData();
+    }
+  }, [cartData.cart, isFocused]);
+
+  useEffect(() => {
+    if (isFocused) {
+    } else {
+      route.params = undefined;
+      setOrderInfo([]);
+      setCartRenderData({
+        cartRenderProducts: [],
+        cartTotalPrice: 0,
+        cartTotalProduct: 0,
+      });
+      setIsAddedByDefault(false);
+    }
+  }, [isFocused]);
 
   const createCartRenderData = () => {
     let newCartTotalPrice = 0;
@@ -49,7 +65,6 @@ const Cart = ({route}) => {
     cartData.cart.products?.forEach((item, index) => {
       const cartProduct = products.find((product) => product._id == item.productId);
       const cartProductPacking = cartProduct.packing.find((element) => element.unit == item.packing);
-
       const cartProductFinalPrice =
         Math.round(
           parseFloat(cartProductPacking.discount) != 0
@@ -90,12 +105,10 @@ const Cart = ({route}) => {
       cartTotalProduct: newCartTotalProduct,
     });
   };
-
   const handleDelete = (item, index) => {
     setAlertParams({item, index});
     setAlertVisible(true);
   };
-
   const setAddToOrder = (item, itemIndex) => {
     let newOrderProducts = orderInfo.products ? [...orderInfo.products] : [];
     let newOrderTotalPrice = orderInfo.totalPrice ? orderInfo.totalPrice : 0;
@@ -156,7 +169,6 @@ const Cart = ({route}) => {
     //   ...cartRenderData,
     //   cartRenderProducts: newCartProducts,
     // });
-    // console.log('totalIncart: ', totalIncart);
 
     setCartRenderData({
       ...cartRenderData,
@@ -167,10 +179,8 @@ const Cart = ({route}) => {
       totalProducts: newOrderTotalProduct,
       totalPrice: Math.round(newOrderTotalPrice * 10) / 10,
     };
-    // console.log('order line 210: ', newOrder);
     setOrderInfo(newOrder);
   };
-
   const decreaseQuantity = (item, itemIndex) => {
     let tmp = {...cartData.cart};
     tmp.products[itemIndex].quantity--;
@@ -256,16 +266,13 @@ const Cart = ({route}) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.scrollContainer}>
-        <ScrollView style={styles.scroll}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
           <View style={{margin: 10, flex: 1, paddingBottom: 40}}>
             {cartRenderData.cartRenderProducts == [] ? <Text style={styles.empty}>You don't have any thing in your cart.</Text> : null}
             {cartRenderData.cartRenderProducts?.map((item, index) => {
-              if (firstCheckedIndex == index) {
-                console.log('firstCheckedIndex: ', firstCheckedIndex);
-                if (!isAddedByDefault) {
-                  setAddToOrder(item);
-                  setIsAddedByDefault(true);
-                }
+              if (route.params?.firstCheckedIndex == index && !isAddedByDefault) {
+                setAddToOrder(item, index);
+                setIsAddedByDefault(true);
               }
 
               return (
@@ -274,7 +281,7 @@ const Cart = ({route}) => {
                     <View style={styles.checkArea}>
                       <BouncyCheckbox
                         style={styles.checkBox}
-                        isChecked={cartRenderData.cartRenderProducts[index].inOrderIndex}
+                        isChecked={item.inOrderIndex != null && item.inOrderIndex != undefined ? true : false}
                         size={20}
                         fillColor={COLORS.primary}
                         unfillColor="#FFFFFF"
@@ -410,4 +417,4 @@ const Cart = ({route}) => {
   );
 };
 
-export default Cart;
+export default React.memo(Cart);

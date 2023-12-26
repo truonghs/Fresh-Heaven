@@ -1,12 +1,4 @@
-import {
-  Text,
-  View,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  Image,
-} from 'react-native';
+import {Text, View, ScrollView, TextInput, TouchableOpacity, Alert, Image} from 'react-native';
 import React, {useEffect, useState, useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from 'jwt-decode';
@@ -45,11 +37,10 @@ const AddressScreen = () => {
       detail,
       houseNumber,
     };
-    console.log(address);
 
     axios
       .post(`http://${Ip}:3000/addresses`, {userId, address})
-      .then(response => {
+      .then((response) => {
         Alert.alert('Success', 'Addresses added successfully');
         setName('');
         setPhoneNumber('');
@@ -61,7 +52,7 @@ const AddressScreen = () => {
           navigation.goBack();
         }, 500);
       })
-      .catch(error => {
+      .catch((error) => {
         Alert.alert('Error', 'Failed to add address');
         console.log('error', error);
       });
@@ -69,67 +60,34 @@ const AddressScreen = () => {
   return (
     <ScrollView>
       <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require('../../assets/images/logo-trans.png')}
-        />
+        <Image style={styles.logo} source={require('../../assets/images/logo-trans.png')} />
       </View>
       <View style={{padding: 10}}>
         <View style={styles.inputContainer}>
           <Text style={styles.title}>Address name</Text>
 
-          <TextInput
-            placeholderTextColor={COLORS.gray}
-            value={name}
-            onChangeText={text => setName(text)}
-            style={styles.input}
-            placeholder="Name"
-          />
+          <TextInput placeholderTextColor={COLORS.gray} value={name} onChangeText={(text) => setName(text)} style={styles.input} placeholder="Name" />
         </View>
 
         <View>
           <Text style={styles.title}>Phone number</Text>
 
-          <TextInput
-            placeholderTextColor={COLORS.gray}
-            value={phoneNumber}
-            onChangeText={text => setPhoneNumber(text)}
-            style={styles.input}
-            placeholder="Phone Number"
-          />
+          <TextInput placeholderTextColor={COLORS.gray} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text)} style={styles.input} placeholder="Phone Number" />
         </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.title}>Province, City</Text>
 
-          <TextInput
-            placeholderTextColor={COLORS.gray}
-            value={city}
-            onChangeText={text => setCity(text)}
-            style={styles.input}
-            placeholder="Province, City"
-          />
+          <TextInput placeholderTextColor={COLORS.gray} value={city} onChangeText={(text) => setCity(text)} style={styles.input} placeholder="Province, City" />
         </View>
 
         <View>
           <Text style={styles.title}>Detail address</Text>
-          <TextInput
-            placeholderTextColor={COLORS.gray}
-            value={detail}
-            onChangeText={text => setDetail(text)}
-            style={styles.input}
-            placeholder="Detail address"
-          />
+          <TextInput placeholderTextColor={COLORS.gray} value={detail} onChangeText={(text) => setDetail(text)} style={styles.input} placeholder="Detail address" />
         </View>
         <View>
           <Text style={styles.title}>House Number</Text>
-          <TextInput
-            placeholderTextColor={COLORS.gray}
-            value={houseNumber}
-            onChangeText={text => setHouseNumber(text)}
-            style={styles.input}
-            placeholder="House Numbe"
-          />
+          <TextInput placeholderTextColor={COLORS.gray} value={houseNumber} onChangeText={(text) => setHouseNumber(text)} style={styles.input} placeholder="House Numbe" />
         </View>
         <View style={styles.btnContainer}>
           <CustomButton onPress={handleAddAddress} text={'Add Address'} />

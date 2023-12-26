@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
     color: '#000',
     maxWidth: 160,
   },
+  // modalContainer: {
+  //   backgroundColor: 'blue',
+  //   alignItems: 'flex-end',
+  // },
   modal: {
     width: '100%',
     height: 450,
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
     fontFamily: font.regular,
   },
-  addressLect: color => ({
+  addressLect: (color) => ({
     width: 140,
     height: 140,
     borderColor: '#D0D0D0',
@@ -62,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3,
   },
-  addressTxt: param => ({
+  addressTxt: (param) => ({
     color: param,
     fontSize: 14,
     fontFamily: font.bold,

@@ -2,7 +2,6 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Ip from '../constants/ipAddress';
 export default function useFectch() {
-  console.log('useFetch-1');
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
@@ -10,15 +9,14 @@ export default function useFectch() {
     setIsLoading(true);
     await axios
       .get(`http://${Ip}:3000/api/products/`)
-      .then(response => {
+      .then((response) => {
         setProducts(response.data);
         setIsLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setFetchError(error);
       })
       .finally(() => {
-        console.log(products);
         setIsLoading(false);
       });
   };

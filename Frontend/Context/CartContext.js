@@ -9,16 +9,15 @@ const CartProvider = ({children}) => {
     isLoading: true,
   });
   const [fetchCartError, setFetchCartError] = useState(null);
-
-  const FetchCart = async userId => {
+  const FetchCart = async (userId) => {
     console.log('Fetching cart with userId: ', userId);
     await axios
       .get(`http://${Ip}:3000/api/cart/getcart/${userId}`)
-      .then(response => {
+      .then((response) => {
         console.log('Cart fetched successfully!');
         var total = 0;
 
-        response.data.products.forEach(item => {
+        response.data.products.forEach((item) => {
           total = total + parseInt(item.quantity);
         });
         setCartData({
@@ -27,20 +26,18 @@ const CartProvider = ({children}) => {
           isLoading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         setFetchCartError(error);
         console.log('Cart fetched with error!!!!! ');
       })
       .finally(() => {});
   };
-
   const data = {
     FetchCart,
     cartData: cartData,
     fetchCartError,
     setCartData,
   };
-
   return <cartContext.Provider value={data}>{children}</cartContext.Provider>;
 };
 

@@ -1,17 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Image,
-  KeyboardAvoidingView,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  ImageBackground,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, ImageBackground, ScrollView} from 'react-native';
 import GradientText from 'react-native-gradient-texts';
 import React, {useState, useEffect, useContext} from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -45,27 +32,21 @@ function Register() {
         name: name,
         email: email,
         password: password,
-        firstTime:false,
+        firstTime: false,
       };
       //send a POST  request to the backend API to register the user
       axios
         .post(`http://${Ip}:3000/register`, user)
-        .then(response => {
-          Alert.alert(
-            'Registration successful',
-            'You have been registered Successfully',
-          );
+        .then((response) => {
+          Alert.alert('Registration successful', 'You have been registered Successfully');
           // setName('');
           // setEmail('');
           // setPassword('');
           // setCPassword('');
-          navigation.navigate('Login')
+          navigation.navigate('Login');
         })
-        .catch(error => {
-          Alert.alert(
-            'Registration Error',
-            'An error occurred while registering',
-          );
+        .catch((error) => {
+          Alert.alert('Registration Error', 'An error occurred while registering');
           console.log('registration failed', error);
         });
     } else {
@@ -74,20 +55,13 @@ function Register() {
   };
   return (
     <KeyboardAvoidingView style={{flex: 1}}>
-      <ImageBackground
-        style={styles.imageBackground}
-        source={require('../../assets/images/bgImage.png')}>
+      <ImageBackground style={styles.imageBackground} source={require('../../assets/images/bgImage.png')}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{flex: 1}}>
+          <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{flex: 1}}>
             <ScrollView>
               <View style={styles.container}>
                 <View style={styles.headingContainer}>
-                  <Image
-                    style={styles.logo}
-                    source={require('../../assets/images/logo-trans.png')}
-                  />
+                  <Image style={styles.logo} source={require('../../assets/images/logo-trans.png')} />
                   <GradientText
                     text={'Fresh Heaven'}
                     fontSize={34}
@@ -112,38 +86,18 @@ function Register() {
                   <View>
                     <View style={styles.inputField}>
                       <View style={styles.iconContainer}>
-                        <FontAwesome
-                          style={styles.icon}
-                          name="user"
-                          size={24}
-                        />
+                        <FontAwesome style={styles.icon} name="user" size={24} />
                       </View>
-                      <TextInput
-                        value={name}
-                        onChangeText={text => setName(text)}
-                        style={styles.input}
-                        placeholder="Enter your name"
-                        placeholderTextColor={'#cecece'}
-                      />
+                      <TextInput value={name} onChangeText={(text) => setName(text)} style={styles.input} placeholder="Enter your name" placeholderTextColor={'#cecece'} />
                     </View>
                   </View>
 
                   <View style={styles.shadow}>
                     <View style={styles.inputField}>
                       <View style={styles.iconContainer}>
-                        <MaterialIcons
-                          style={styles.icon}
-                          name="email"
-                          size={24}
-                        />
+                        <MaterialIcons style={styles.icon} name="email" size={24} />
                       </View>
-                      <TextInput
-                        value={email}
-                        onChangeText={text => setEmail(text)}
-                        style={styles.input}
-                        placeholder="Enter your Email"
-                        placeholderTextColor={'#cecece'}
-                      />
+                      <TextInput value={email} onChangeText={(text) => setEmail(text)} style={styles.input} placeholder="Enter your Email" placeholderTextColor={'#cecece'} />
                     </View>
                   </View>
 
@@ -151,29 +105,19 @@ function Register() {
                     <View style={styles.inputField}>
                       <View style={styles.flex}>
                         <View style={styles.iconContainer}>
-                          <Fontisto
-                            name="locked"
-                            size={24}
-                            style={styles.icon}
-                          />
+                          <Fontisto name="locked" size={24} style={styles.icon} />
                         </View>
                         <TextInput
                           value={password}
-                          onChangeText={text => setPassword(text)}
+                          onChangeText={(text) => setPassword(text)}
                           secureTextEntry={!isEyePressed}
                           style={styles.input}
                           placeholder="Enter your Password"
                           placeholderTextColor={'#cecece'}
                         />
                       </View>
-                      <TouchableOpacity
-                        style={styles.eye}
-                        onPress={() => setIsEyePressed(!isEyePressed)}>
-                        <Entypo
-                          color="#dbdbdb"
-                          name={!isEyePressed ? 'eye-with-line' : 'eye'}
-                          size={24}
-                        />
+                      <TouchableOpacity style={styles.eye} onPress={() => setIsEyePressed(!isEyePressed)}>
+                        <Entypo color="#dbdbdb" name={!isEyePressed ? 'eye-with-line' : 'eye'} size={24} />
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -184,7 +128,7 @@ function Register() {
                       </View>
                       <TextInput
                         value={cpassword}
-                        onChangeText={text => setCPassword(text)}
+                        onChangeText={(text) => setCPassword(text)}
                         secureTextEntry={!isEyePressed}
                         style={styles.input}
                         placeholder="Confim your Password"
@@ -194,17 +138,12 @@ function Register() {
                   </View>
                 </View>
 
-                <CustomButton
-                  onPress={() => handleRegister()}
-                  text={'Create Account'}
-                />
+                <CustomButton onPress={() => handleRegister()} text={'Create Account'} />
 
                 <View style={styles.linkContainer}>
                   <Text style={styles.linkText}>
                     Don't have an account?{' '}
-                    <Text
-                      onPress={() => navigation.navigate('Login')}
-                      style={styles.link}>
+                    <Text onPress={() => navigation.navigate('Login')} style={styles.link}>
                       Log in here!
                     </Text>
                   </Text>
@@ -218,4 +157,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default React.memo(Register);

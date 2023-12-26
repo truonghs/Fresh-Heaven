@@ -4,19 +4,20 @@ import styles from './productRow.style';
 import {COLORS, SIZES} from '../../../constants';
 import ProductCartView from '../ProductCardView/ProductCardView';
 
-const ProductRow = ({products, isLoadingProducts, scale}) => {
+const ProductRow = ({products, isLoadingProducts, scale, amount}) => {
   return (
     <View style={styles.container}>
       {isLoadingProducts ? (
         <ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary} />
       ) : (
         <FlatList
-          data={products}
-          keyExtractor={index => Math.random()}
+          showsHorizontalScrollIndicator={false}
+          data={products.slice(0, amount)}
+          // keyExtractor={({item}) => console.log('item: ', item)}
           horizontal
           contentContainerStyle={styles.flatListContainer}
-          renderItem={({item}) => (
-            <View style={styles.itemContainer(scale)}>
+          renderItem={({item, index}) => (
+            <View key={index} style={styles.itemContainer(scale)}>
               <ProductCartView scale={scale} product={item} />
             </View>
           )}
@@ -26,4 +27,4 @@ const ProductRow = ({products, isLoadingProducts, scale}) => {
   );
 };
 
-export default ProductRow;
+export default React.memo(ProductRow);

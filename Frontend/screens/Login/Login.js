@@ -1,17 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Image,
-  KeyboardAvoidingView,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  ImageBackground,
-  Pressable,
-} from 'react-native';
+import {StyleSheet, Text, View, Keyboard, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, ImageBackground, Pressable} from 'react-native';
 import GradientText from 'react-native-gradient-texts';
 import React, {useState, useEffect, useContext} from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -77,10 +64,7 @@ function Login() {
         if (token) {
           if (isStay) {
             AsyncStorage.setItem('authToken', token);
-            AsyncStorage.setItem(
-              'isFirstTime',
-              String(jwt_decode(token).firstTime),
-            );
+            AsyncStorage.setItem('isFirstTime', String(jwt_decode(token).firstTime));
           }
           const decodedToken = jwt_decode(token);
           const userId = decodedToken.userId;
@@ -97,22 +81,17 @@ function Login() {
           Alert.alert('Please verify your email!');
         }
       })
-      .catch(error => {
+      .catch((error) => {
         Alert.alert('Login Error', error.response.data.message);
       });
   };
   return (
     <KeyboardAvoidingView style={{flex: 1}}>
-      <ImageBackground
-        style={styles.imageBackground}
-        source={require('../../assets/images/bgImage.png')}>
+      <ImageBackground style={styles.imageBackground} source={require('../../assets/images/bgImage.png')}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <View style={styles.headingContainer}>
-              <Image
-                style={styles.logo}
-                source={require('../../assets/images/logo-trans.png')}
-              />
+              <Image style={styles.logo} source={require('../../assets/images/logo-trans.png')} />
               <GradientText
                 text={'Fresh Heaven'}
                 fontSize={34}
@@ -139,13 +118,7 @@ function Login() {
                   <View style={styles.iconContainer}>
                     <MaterialIcons style={styles.icon} name="email" size={24} />
                   </View>
-                  <TextInput
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                    style={styles.input}
-                    placeholder="Enter your Email"
-                    placeholderTextColor={'#cecece'}
-                  />
+                  <TextInput value={email} onChangeText={(text) => setEmail(text)} style={styles.input} placeholder="Enter your Email" placeholderTextColor={'#cecece'} />
                 </View>
               </View>
 
@@ -157,21 +130,15 @@ function Login() {
                     </View>
                     <TextInput
                       value={password}
-                      onChangeText={text => setPassword(text)}
+                      onChangeText={(text) => setPassword(text)}
                       secureTextEntry={!isEyePressed}
                       style={styles.input}
                       placeholder="Enter your Password"
                       placeholderTextColor={'#cecece'}
                     />
                   </View>
-                  <TouchableOpacity
-                    style={styles.eye}
-                    onPress={() => setIsEyePressed(!isEyePressed)}>
-                    <Entypo
-                      color="#dbdbdb"
-                      name={!isEyePressed ? 'eye-with-line' : 'eye'}
-                      size={24}
-                    />
+                  <TouchableOpacity style={styles.eye} onPress={() => setIsEyePressed(!isEyePressed)}>
+                    <Entypo color="#dbdbdb" name={!isEyePressed ? 'eye-with-line' : 'eye'} size={24} />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -202,9 +169,7 @@ function Login() {
             <View style={styles.linkContainer}>
               <Text style={styles.linkText}>
                 Don't have an account?{' '}
-                <Text
-                  onPress={() => navigation.navigate('Register')}
-                  style={styles.link}>
+                <Text onPress={() => navigation.navigate('Register')} style={styles.link}>
                   Sign up here!
                 </Text>
               </Text>
@@ -216,4 +181,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default React.memo(Login);

@@ -6,7 +6,6 @@ import ProductCartView from '../ProductCardView/ProductCardView';
 import {Context} from '../../../Context/UserContext';
 
 export default function ProductList() {
-  console.log('list');
   const {products, isLoading} = useContext(Context);
   if (isLoading) {
     return (
@@ -19,7 +18,7 @@ export default function ProductList() {
     <View style={styles.container}>
       <FlatList
         data={products}
-        keyExtractor={item => item._id}
+        keyExtractor={(item) => item._id}
         numColumns={2}
         renderItem={({item}) => <ProductCartView item={item} />}
         contentContainerStyle={styles.container}

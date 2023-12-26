@@ -2,16 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {
-  ProductDetail,
-  AddAddress,
-  AddressDetail,
-  NewRivals,
-  Confirm,
-  Order,
-  VnPay,
-  Congratulations,
-} from '../screens';
+import {ProductDetail, AddAddress, AddressDetail, NewRivals, Confirm, Order} from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
 import GuidanceStack from './GuidanceStack';
 import AuthStack from './AuthStack';
@@ -23,45 +14,14 @@ const Stack = createNativeStackNavigator();
 const StackNavigation = ({isFirstLaunch}) => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={isFirstLaunch ? 'IntroStack' : 'AuthStack'}>
-        <Stack.Screen
-          name="IntroStack"
-          component={IntroStack}
-          options={{headerShown: false}}
-        />
-
-        <Stack.Screen
-          name="AuthStack"
-          component={AuthStack}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="GuidanceStack"
-          component={GuidanceStack}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="BottomTabNavigation"
-          component={BottomTabNavigatior}
-          options={{headerShown: false}}
-        />
-
-        <Stack.Screen
-          name="ProductDetail"
-          component={ProductDetail}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="ProductList"
-          component={NewRivals}
-          options={{headerShown: false}}
-        />
+      <Stack.Navigator initialRouteName={isFirstLaunch ? 'IntroStack' : 'AuthStack'}>
+        <Stack.Screen name="IntroStack" component={IntroStack} options={{headerShown: false}} />
+        <Stack.Screen name="AuthStack" component={AuthStack} options={{headerShown: false}} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false}} />
+        <Stack.Screen name="GuidanceStack" component={GuidanceStack} options={{headerShown: false}} />
+        <Stack.Screen name="BottomTabNavigation" component={BottomTabNavigatior} options={{headerShown: false}} />
+        <Stack.Screen name="ProductDetail" component={ProductDetail} options={{headerShown: false}} />
+        <Stack.Screen name="ProductList" component={NewRivals} options={{headerShown: false}} />
         <Stack.Screen
           name="AddAddress"
           component={AddAddress}
@@ -105,16 +65,7 @@ const StackNavigation = ({isFirstLaunch}) => {
             headerTintColor: '#fff',
           }}
         />
-        <Stack.Screen
-          name="Order"
-          component={Order}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="VnPay"
-          component={VnPay}
-          options={{headerShown: false}}
-        />
+        <Stack.Screen name="Order" component={Order} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,11 +1,4 @@
-import {
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  Alert,
-  Pressable,
-} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity, Alert, Pressable} from 'react-native';
 import styles from './Confirm.style';
 
 import React, {useState, useEffect, useContext} from 'react';
@@ -59,15 +52,10 @@ const Confirm = ({route}) => {
         paymentMethod: payment,
         shippingMethod: delivery,
       };
-      console.log(orderParam);
-      const response = await axios.post(
-        `http://${Ip}:3000/api/order/orders`,
-        orderParam,
-      );
+      const response = await axios.post(`http://${Ip}:3000/api/order/orders`, orderParam);
       if (response.status === 200) {
         setCartData({
-          totalProduct:
-            cartData.totalProduct - parseInt(response.data.deleteAmount),
+          totalProduct: cartData.totalProduct - parseInt(response.data.deleteAmount),
           cart: response.data.cart,
 
           isLoading: false,
@@ -92,7 +80,6 @@ const Confirm = ({route}) => {
         Alert.alert('UPI/Debit card', 'Pay Online', [
           {
             text: 'Cancel',
-            onPress: () => console.log('Cancel is pressed'),
           },
           {
             text: 'OK',
@@ -126,14 +113,10 @@ const Confirm = ({route}) => {
         paymentMethod: payment,
         shippingMethod: delivery,
       };
-      const response = await axios.post(
-        `http://${Ip}:3000/api/order/orders`,
-        orderParam,
-      );
+      const response = await axios.post(`http://${Ip}:3000/api/order/orders`, orderParam);
       if (response.status === 200) {
         setCartData({
-          totalProduct:
-            cartData.totalProduct - parseInt(response.data.deleteAmount),
+          totalProduct: cartData.totalProduct - parseInt(response.data.deleteAmount),
           cart: response.data.cart,
 
           isLoading: false,
@@ -155,27 +138,10 @@ const Confirm = ({route}) => {
       <View style={styles.mainContainer}>
         <View style={styles.heading}>
           {steps?.map((step, index) => (
-            <View
-              style={{justifyContent: 'center', alignItems: 'center'}}
-              key={index}>
-              {index > 0 && (
-                <View
-                  style={[
-                    {flex: 1, height: 2, backgroundColor: 'green'},
-                    index <= currentStep && {backgroundColor: 'green'},
-                  ]}
-                />
-              )}
-              <View
-                style={[
-                  styles.step,
-                  index < currentStep && {backgroundColor: 'green'},
-                ]}>
-                {index < currentStep ? (
-                  <Text style={styles.stepircleTxt}>&#10003;</Text>
-                ) : (
-                  <Text style={styles.stepTxt}>{index + 1}</Text>
-                )}
+            <View style={{justifyContent: 'center', alignItems: 'center'}} key={index}>
+              {index > 0 && <View style={[{flex: 1, height: 2, backgroundColor: 'green'}, index <= currentStep && {backgroundColor: 'green'}]} />}
+              <View style={[styles.step, index < currentStep && {backgroundColor: 'green'}]}>
+                {index < currentStep ? <Text style={styles.stepircleTxt}>&#10003;</Text> : <Text style={styles.stepTxt}>{index + 1}</Text>}
               </View>
               <Text style={styles.stepTitle}>{step.title}</Text>
             </View>
@@ -195,12 +161,10 @@ const Confirm = ({route}) => {
                 style={[
                   styles.address,
                   {
-                    borderColor:
-                      address && address._id === item?._id
-                        ? COLORS.thirth
-                        : '#D0D0D0',
+                    borderColor: address && address._id === item?._id ? COLORS.thirth : '#D0D0D0',
                   },
-                ]}>
+                ]}
+              >
                 <View style={{marginLeft: 6}}>
                   <View style={styles.addressTitle}>
                     <Text style={styles.addressTitleTxt}>{item?.name}</Text>
@@ -215,9 +179,7 @@ const Confirm = ({route}) => {
 
                   <Text style={styles.addressTxt}>Viet Nam</Text>
 
-                  <Text style={styles.addressTxt}>
-                    phone Number : {item?.phoneNumber}
-                  </Text>
+                  <Text style={styles.addressTxt}>phone Number : {item?.phoneNumber}</Text>
 
                   {/* <View style={styles.addressBtnContainer}>
                     <TouchableOpacity style={styles.addressBtn}>
@@ -231,12 +193,8 @@ const Confirm = ({route}) => {
 
                   <View style={styles.addressSubmitContainer}>
                     {address && address._id === item?._id && (
-                      <TouchableOpacity
-                        onPress={() => setCurrentStep(1)}
-                        style={styles.submitActive}>
-                        <Text style={styles.submitTxt}>
-                          Deliver to this Address
-                        </Text>
+                      <TouchableOpacity onPress={() => setCurrentStep(1)} style={styles.submitActive}>
+                        <Text style={styles.submitTxt}>Deliver to this Address</Text>
                       </TouchableOpacity>
                     )}
                   </View>
@@ -262,7 +220,8 @@ const Confirm = ({route}) => {
             onPress={() => {
               setDelivery('standard');
               setTotalFee(parseFloat(orderData.totalPrice) + 2);
-            }}>
+            }}
+          >
             <View>
               <Text style={styles.deliveryTitle}>Standard: </Text>
               <Text style={styles.deliveryTxt}>- 5-7 days delivery</Text>
@@ -282,7 +241,8 @@ const Confirm = ({route}) => {
             onPress={() => {
               setDelivery('fast');
               setTotalFee(parseFloat(orderData.totalPrice) + 4);
-            }}>
+            }}
+          >
             <View>
               <Text style={styles.deliveryTitle}>Fast: </Text>
               <Text style={styles.deliveryTxt}>- 3-5 days delivery</Text>
@@ -296,7 +256,8 @@ const Confirm = ({route}) => {
             onPress={() => {
               delivery ? setCurrentStep(2) : null;
             }}
-            style={delivery ? styles.submitActive : styles.submitInActive}>
+            style={delivery ? styles.submitActive : styles.submitInActive}
+          >
             <Text style={styles.submitTxt}>Continue</Text>
           </TouchableOpacity>
         </View>
@@ -313,10 +274,9 @@ const Confirm = ({route}) => {
               {
                 borderColor: payment == 'cash' ? COLORS.thirth : 'white',
               },
-            ]}>
-            <Text style={{color: payment == 'cash' ? '#000' : COLORS.gray}}>
-              Cash on Delivery
-            </Text>
+            ]}
+          >
+            <Text style={{color: payment == 'cash' ? '#000' : COLORS.gray}}>Cash on Delivery</Text>
           </Pressable>
 
           <Pressable
@@ -328,14 +288,11 @@ const Confirm = ({route}) => {
               {
                 borderColor: payment == 'card' ? COLORS.thirth : 'white',
               },
-            ]}>
-            <Text style={{color: payment == 'card' ? '#000' : COLORS.gray}}>
-              Credit or debit card
-            </Text>
+            ]}
+          >
+            <Text style={{color: payment == 'card' ? '#000' : COLORS.gray}}>Credit or debit card</Text>
           </Pressable>
-          <TouchableOpacity
-            onPress={() => handlePayment()}
-            style={payment ? styles.submitActive : styles.submitInActive}>
+          <TouchableOpacity onPress={() => handlePayment()} style={payment ? styles.submitActive : styles.submitInActive}>
             <Text style={styles.submitTxt}>Continue</Text>
           </TouchableOpacity>
         </View>
@@ -374,9 +331,7 @@ const Confirm = ({route}) => {
           </View> */}
 
           <View style={styles.orderDetail}>
-            <Text style={styles.orderAddress}>
-              Shipping to: {address?.name}
-            </Text>
+            <Text style={styles.orderAddress}>Shipping to: {address?.name}</Text>
 
             <View style={styles.orderFee}>
               <Text style={styles.orderFeeTitle}>Items</Text>
@@ -387,9 +342,7 @@ const Confirm = ({route}) => {
             <View style={styles.orderFee}>
               <Text style={styles.orderFeeTitle}>Delivery</Text>
 
-              <Text style={styles.orderFeeTxt}>
-                {totalFee - orderData.totalPrice}
-              </Text>
+              <Text style={styles.orderFeeTxt}>{totalFee - orderData.totalPrice}</Text>
             </View>
 
             <View style={styles.orderFee}>
@@ -405,9 +358,7 @@ const Confirm = ({route}) => {
             <Text style={styles.orderPaymentTxt}>Pay on delivery (Cash)</Text>
           </View>
 
-          <TouchableOpacity
-            onPress={handlePlaceOrder}
-            style={styles.submitActive}>
+          <TouchableOpacity onPress={handlePlaceOrder} style={styles.submitActive}>
             <Text style={styles.submitTxt}>Place your order</Text>
           </TouchableOpacity>
         </View>
@@ -416,4 +367,4 @@ const Confirm = ({route}) => {
   );
 };
 
-export default Confirm;
+export default React.memo(Confirm);

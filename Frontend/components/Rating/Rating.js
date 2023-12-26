@@ -5,29 +5,17 @@ const Rating = ({rating}) => {
   var arr = [1, 2, 3, 4, 5];
   return (
     <View style={styles.container}>
-      {arr.map(item =>
+      {arr.map((item) =>
         rating >= item ? (
-          <Image
-            key={item}
-            style={styles.ratingIcon}
-            source={require('../../assets/icons/star.png')}
-          />
+          <Image key={item} style={styles.ratingIcon} source={require('../../assets/icons/star.png')} />
         ) : rating >= item - 1 && rating < item ? (
-          <Image
-            key={item}
-            style={styles.ratingIcon}
-            source={require('../../assets/icons/rating.png')}
-          />
+          <Image key={item} style={styles.ratingIcon} source={require('../../assets/icons/rating.png')} />
         ) : (
-          <Image
-            key={item}
-            style={styles.ratingIcon}
-            source={require('../../assets/icons/star-gray.png')}
-          />
+          <Image key={item} style={styles.ratingIcon} source={require('../../assets/icons/star-gray.png')} />
         ),
       )}
     </View>
   );
 };
 
-export default Rating;
+export default React.memo(Rating);
