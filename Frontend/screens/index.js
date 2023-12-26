@@ -13,7 +13,7 @@ import Order from './Order/Order';
 import VnPay from './VnPay/VnPay';
 import Intro from './Intro/Intro1';
 import Menu from './Menu/Menu';
-
+import Congratulations from './Guidance/Congratulations/Congratulations';
 export {
   Home,
   Search,
@@ -29,4 +29,6 @@ export {
   Order,
   VnPay,
   Congratulations,
+  Menu,
+  Intro,
 };

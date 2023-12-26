@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#fff',
     elevation: 4,
-    marginBottom:8
+    marginBottom: 8,
   },
   sortItem: {
     flex: 0.4,
@@ -82,9 +82,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#000',
     textAlign: 'center',
+    fontWeight: '500',
   },
   sortActive: {
     backgroundColor: COLORS.primary,
+  },
+  modal: {
+    width: '100%',
+    height: '100%',
   },
 });
 export default styles;

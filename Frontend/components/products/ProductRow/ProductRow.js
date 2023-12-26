@@ -31,4 +31,4 @@ const ProductRow = ({
   );
 };
 
-export default ProductRow;
+export default React.memo(ProductRow) ;

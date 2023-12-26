@@ -3,6 +3,7 @@ import axios from 'axios';
 import Ip from '../constants/ipAddress';
 const cartContext = createContext();
 const CartProvider = ({children}) => {
+  console.log(2)
   const [cartData, setCartData] = useState({
     cart: {},
     totalProduct: 0,

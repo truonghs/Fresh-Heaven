@@ -19,8 +19,10 @@ import Alert from '../../components/CustomAlert/CustomAlert';
 import {useIsFocused} from '@react-navigation/native';
 
 const Cart = ({route}) => {
+  console.log(1);
   const {userId} = useContext(userContext);
   const {cartData, setCartData} = useContext(cartContext);
+
   const {products} = useContext(productsContext);
   const navigation = useNavigation();
   const [alertVisible, setAlertVisible] = useState(false);
@@ -37,9 +39,6 @@ const Cart = ({route}) => {
   // const [checkBoxValues, setCheckBoxValues] = useState([])
 
   // Create Data for render
-  useEffect(() => {
-    createCartRenderData();
-  }, [cartData]);
 
   const createCartRenderData = () => {
     let newCartTotalPrice = 0;
@@ -90,7 +89,12 @@ const Cart = ({route}) => {
       cartTotalProduct: newCartTotalProduct,
     });
   };
-
+  useEffect(() => {
+    const start = performance.now();
+    createCartRenderData();
+    const end = performance.now();
+    console.log(`Execution time: ${end - start} ms`);
+  }, [cartData]);
   const handleDelete = (item, index) => {
     setAlertParams({item, index});
     setAlertVisible(true);
@@ -149,7 +153,7 @@ const Cart = ({route}) => {
         discount: productPackingInfo.discount,
         price: productPackingInfo.price,
       });
-    };
+    }
 
     setCartInfo({
       cartProducts: cartProducts,
@@ -157,10 +161,6 @@ const Cart = ({route}) => {
       totalProduct: totalProduct,
     });
   };
-  useEffect(() => {
-    setRenderData();
-  }, [cartData]);
-
   const decreaseQuantity = (item, itemIndex) => {
     let tmp = {...cartData.cart};
     tmp.products[itemIndex].quantity--;
@@ -328,7 +328,11 @@ const Cart = ({route}) => {
                               <Text style={styles.txt}>{item?.quantity}</Text>
                             </View>
 
-                            <TouchableOpacity onPress={() => increaseQuantity(item, index)}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                increaseQuantity(item, index);
+                              }}
+                            >
                               <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={[COLORS.primary, COLORS.secondary]} style={styles.increaseBtn}>
                                 <Feather name="plus" size={18} color={COLORS.white} />
                               </LinearGradient>
