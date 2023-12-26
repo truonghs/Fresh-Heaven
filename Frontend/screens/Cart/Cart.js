@@ -161,16 +161,19 @@ const Cart = ({route}) => {
         title: item.product.title,
         finalPrice: item.finalPrice,
         quantity: item.quantity,
-        discount: productPackingInfo.discount,
-        price: productPackingInfo.price,
+        packing: item.packing,
+        inCartIndex: totalInOrder,
       });
+      newOrderTotalPrice = Math.round((newOrderTotalPrice + parseFloat(item.finalPrice) * parseFloat(item.quantity)) * 10) / 10;
+      newOrderTotalProduct = newOrderTotalProduct + item.quantity;
+      console.log(newOrderTotalPrice);
     }
 
-    setCartInfo({
-      cartProducts: cartProducts,
-      totalPrice: totalPrice,
-      totalProduct: totalProduct,
-    });
+    // setCartInfo({
+    //   cartProducts: cartProducts,
+    //   totalPrice: totalPrice,
+    //   totalProduct: totalProduct,
+    // });
     const newOrder = {
       products: newOrderProducts,
       totalProducts: newOrderTotalProduct,

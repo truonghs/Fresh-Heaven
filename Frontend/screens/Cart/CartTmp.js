@@ -1,346 +1,470 @@
-useEffect(() => {
-  if (isFocused) {
-    route.params ? setFirstCheckedIndex(route.params.firstCheckedIndex) : null;
-    console.log('Màn hình MyTabScreen đã được focus.', firstCheckedIndex);
-  } else {
-    setFirstCheckedIndex(null);
-    console.log('Màn hình MyTabScreen đã mất focus.', firstCheckedIndex);
-  }
-}, [isFocused]);
+import {Text, View, ScrollView, Image, TouchableOpacity, Button, FlatList} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useNavigation} from '@react-navigation/native';
+import styles from './Cart.style';
+import {userContext} from '../../Context/UserContext';
+import {cartContext} from '../../Context/CartContext';
+import {productsContext} from '../../Context/ProductContext';
+import Ip from '../../constants/ipAddress';
+import axios from 'axios';
+import {COLORS, SIZES} from '../../constants';
+import font from '../../assets/fonts/font';
+import LinearGradient from 'react-native-linear-gradient';
+import GradientText from 'react-native-gradient-texts';
 
-const setRenderData = () => {
-  var totalPrice = 0;
-  var cartProducts = [];
-  var totalProduct = 0;
-  cartData.cart.products?.forEach((item, index) => {
-    const product = products.find((product) => product._id == item.productId);
-    const productPackingInfo = product.packing.find((element) => element.unit == item.packing);
+import Alert from '../../components/CustomAlert/CustomAlert';
+import {useIsFocused} from '@react-navigation/native';
+import ProductViewInCart from '../../components/products/ProductViewInCart/ProductViewInCart';
 
-    const productPrice =
-      parseFloat(productPackingInfo.discount) != 0 ? (parseFloat(productPackingInfo.price) * (100 - parseFloat(productPackingInfo.discount))) / 100 : parseFloat(productPackingInfo.price);
-
-    totalPrice = totalPrice + productPrice * parseFloat(item.quantity);
-    totalProduct += parseInt(item.quantity);
-
-    cartProducts.push({
-      product: product,
-      finalPrice: productPrice,
-      packing: item.packing,
-      quantity: item.quantity,
-      discount: productPackingInfo.discount,
-      price: productPackingInfo.price,
-      isInOrder: false,
-    });
+const Cart = ({route}) => {
+  const {cartData, setCartData} = useContext(cartContext);
+  // const [selectedId, setSelectedId] = useState(null);
+  const {userId} = useContext(userContext);
+  const {products} = useContext(productsContext);
+  const navigation = useNavigation();
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertParams, setAlertParams] = useState(false);
+  const [cartRenderData, setCartRenderData] = useState({
+    cartRenderProducts: [],
+    cartTotalPrice: 0,
+    cartTotalProduct: 0,
   });
-
-  setCartInfo({
-    cartProducts: cartProducts,
-    totalPrice: totalPrice,
-    totalProduct: totalProduct,
+  const [isAddedByDefault, setIsAddedByDefault] = useState(false);
+  const [orderInfo, setOrderInfo] = useState({
+    products: [],
+    totalProducts: 0,
+    totalPrice: 0,
   });
-};
-useEffect(() => {
-  setRenderData();
-}, [cartData]);
-
-const decreaseQuantity = (item) => {
-  cartData.cart.products.forEach((element, index) => {
-    if (element.productId == item.product._id && element.packing == item.packing) {
-      tmp = cartData.cart;
-      tmp.products[index].quantity--;
-
-      setCartData({
-        cart: tmp,
-        totalProduct: cartData.totalProduct - 1,
-        isLoadingCart: 'false',
-      });
-      setRenderData();
+  const isFocused = useIsFocused();
+  // const [firstCheckedIndex, setFirstCheckedIndex] = useState(null);
+  // const [checkBoxValues, setCheckBoxValues] = useState([])
+  // Create Data for render
+  useEffect(() => {
+    if (isFocused) {
+      createCartRenderData();
     }
-  });
-  updateCart(tmp);
-};
-const increaseQuantity = (item) => {
-  cartData.cart.products.forEach((element, index) => {
-    if (element.productId == item.product._id && element.packing == item.packing) {
-      tmp = cartData.cart;
-      tmp.products[index].quantity++;
+  }, [isFocused]);
 
-      setCartData({
-        cart: tmp,
-        totalProduct: cartData.totalProduct + 1,
-        isLoadingCart: 'false',
-      });
-
-      setRenderData();
-    }
-  });
-  updateCart(tmp);
-};
-const deleteItem = (item) => {
-  cartData.cart.products.forEach((element, index) => {
-    if (element.productId == item.product._id && element.packing == item.packing) {
-      tmp = cartData.cart;
-      const quantity = tmp.products[index].quantity;
-      tmp.products.splice(index, 1);
-      setCartData({
-        cart: tmp,
-        totalProduct: cartData.totalProduct - quantity,
-        isLoadingCart: 'false',
-      });
-      setRenderData();
-    }
-  });
-  updateCart(tmp);
-  setAlertVisible(false);
-};
-const handleDelete = (item) => {
-  setAlertParams(item);
-  setAlertVisible(true);
-};
-const updateCart = async (item) => {
-  axios
-    .put(`http://${Ip}:3000/api/cart/update-cart/${userId}`, {
-      newCart: item,
-    })
-    .then((response) => {})
-    .catch((error) => {
-      console.log('Cart error: ', error);
-    });
-};
-const setAddToOrder = (item, index) => {
-  console.log('adding to order');
-  var newProductsList = orderInfo.products ? [...orderInfo.products] : [];
-  var totalPrice = orderInfo.totalPrice ? orderInfo.totalPrice : 0;
-  var totalProducts = orderInfo.totalProducts ? orderInfo.totalProducts : 0;
-  var isExisted = false;
-  newProductsList.forEach((element, index) => {
-    if (element.productId == item.product._id && element.packing == item.packing) {
-      newProductsList.splice(index, 1);
-      totalProducts = totalProducts - item.quantity;
-      totalPrice = totalPrice - parseFloat(item.finalPrice) * parseFloat(item.quantity);
-      isExisted = true;
-      var newCartProducts = [...cartInfo.cartProducts];
-      newCartProducts[index].isInOrder = false;
-      setCartInfo({
-        ...cartInfo,
-        cartProducts: newCartProducts,
-      });
-    }
-  });
-  if (!isExisted) {
-    var newCartProducts = [...cartInfo.cartProducts];
-    newCartProducts[index].isInOrder = true;
-    setCartInfo({
-      ...cartInfo,
-      cartProducts: newCartProducts,
-    });
-    newProductsList.push({
-      productId: item.product._id,
-      title: item.product.title,
-      price: item.finalPrice,
-      quantity: item.quantity,
-      packing: item.packing,
-    });
-
-    totalPrice = totalPrice + parseFloat(item.finalPrice) * parseFloat(item.quantity);
-    totalProducts = totalProducts + item.quantity;
-  }
-
-  const newOrder = {
-    products: newProductsList,
-    totalProducts: totalProducts,
-    totalPrice: totalPrice,
-  };
-  console.log('order line 210: ', newOrder);
-  setOrderInfo(newOrder);
-};
-const updateOrder = (itemIndex) => {
-  let newOrderInfo = [...orderInfo];
-  let newProductsList = [...orderInfo.products];
-  newProductsList[cartInfo.cartProducts[itemIndex].inOrderIndex].quantity -= 1;
-  newOrderInfo.totalPrice -= parseFloat(newProductsList[cartInfo.cartProducts[itemIndex].inOrderIndex].price);
-  newOrderInfo.totalProducts -= 1;
-};
-/////////////////////////////////////
-const setRenderData = () => {
-  var totalPrice = 0;
-  var newCartProducts = [];
-  var totalProduct = 0;
-  let totalIncart = 0;
-
-  cartData.cart.products?.forEach((item, index) => {
-    const product = products.find((product) => product._id == item.productId);
-    const productPackingInfo = product.packing.find((element) => element.unit == item.packing);
-
-    const productFinalPrice =
-      Math.round(
-        parseFloat(productPackingInfo.discount) != 0
-          ? ((parseFloat(productPackingInfo.price) * (100 - parseFloat(productPackingInfo.discount))) / 100) * 100
-          : parseFloat(productPackingInfo.price) * 100,
-      ) / 100;
-
-    totalPrice = totalPrice + productFinalPrice * parseInt(item.quantity);
-    totalProduct += parseInt(item.quantity);
-    console.log('before: ', product.title, cartInfo.cartProducts[index]?.inOrderIndex);
-    if (cartInfo.cartProducts[index]?.inOrderIndex == undefined || cartInfo.cartProducts[index]?.inOrderIndex == null) {
-      newCartProducts.push({
-        product: product,
-        finalPrice: productFinalPrice,
-        packing: item.packing,
-        quantity: item.quantity,
-        discount: productPackingInfo.discount,
-        price: productPackingInfo.price,
-        inOrderIndex: null,
-      });
+  useEffect(() => {
+    if (isFocused) {
     } else {
+      route.params = undefined;
+      setOrderInfo([]);
+      setCartRenderData({
+        cartRenderProducts: [],
+        cartTotalPrice: 0,
+        cartTotalProduct: 0,
+      });
+      setIsAddedByDefault(false);
+    }
+  }, [isFocused]);
+
+  const createCartRenderData = () => {
+    let newCartTotalPrice = 0;
+    let newCartTotalProduct = 0;
+    const newCartProducts = [];
+    let totalInOrder = 0;
+    cartData.cart.products?.forEach((item, index) => {
+      const cartProduct = products.find((product) => product._id == item.productId);
+      const cartProductPacking = cartProduct.packing.find((element) => element.unit == item.packing);
+      const cartProductFinalPrice =
+        Math.round(
+          parseFloat(cartProductPacking.discount) != 0
+            ? ((parseFloat(cartProductPacking.price) * (100 - parseFloat(cartProductPacking.discount))) / 100) * 10
+            : parseFloat(cartProductPacking.price) * 10,
+        ) / 10;
+      newCartTotalPrice = Math.round((newCartTotalPrice + cartProductFinalPrice * parseInt(item.quantity)) * 10) / 10;
+      newCartTotalProduct += parseInt(item.quantity);
+
       newCartProducts.push({
-        product: product,
-        finalPrice: productFinalPrice,
+        product: cartProduct,
+        finalPrice: cartProductFinalPrice,
         packing: item.packing,
         quantity: item.quantity,
-        discount: productPackingInfo.discount,
-        price: productPackingInfo.price,
-        inOrderIndex: totalIncart,
+        discount: cartProductPacking.discount,
+        price: cartProductPacking.price,
+        inOrderIndex: null,
+        inCartIndex: index,
       });
-      totalIncart += 1;
-    }
-    console.log('after: ', product.title, newCartProducts[index]?.inOrderIndex);
-    console.log('----');
-  });
-  console.log('-------------------------------------------//-------------------------------------------------------');
-  setCartInfo({
-    cartProducts: newCartProducts,
-    totalPrice: Math.round(totalPrice * 100) / 100,
-    totalProduct: totalProduct,
-  });
-};
-
-//------------------------------------------------//
-
-const setAddToOrder = (item, itemIndex) => {
-  var newProductsList = orderInfo.products ? [...orderInfo.products] : [];
-  var totalPrice = orderInfo.totalPrice ? orderInfo.totalPrice : 0;
-  var totalProducts = orderInfo.totalProducts ? orderInfo.totalProducts : 0;
-  var isExisted = false;
-  var totalIncart = 0;
-  newProductsList?.forEach((element, index) => {
-    if (element.productId == item.product._id && element.packing == item.packing) {
-      newProductsList.splice(index, 1);
-      totalProducts = totalProducts - item.quantity;
-      totalPrice = totalPrice - parseFloat(item.finalPrice) * parseFloat(item.quantity);
-      isExisted = true;
-      let newCartProducts = [...cartInfo.cartProducts];
-      newCartProducts[itemIndex].inOrderIndex = null;
-      setCartInfo({
-        ...cartInfo,
-        cartProducts: newCartProducts,
-      });
-    }
-    totalIncart += 1;
-  });
-  console.log('totalIncart: ', totalIncart);
-  if (!isExisted) {
-    let newCartProducts = [...cartInfo.cartProducts];
-    newCartProducts[itemIndex].inOrderIndex = totalIncart;
-    // totalIncart += 1;
-    setCartInfo({
-      ...cartInfo,
-      cartProducts: newCartProducts,
-    });
-    newProductsList.push({
-      productId: item.product._id,
-      title: item.product.title,
-      price: item.finalPrice,
-      quantity: item.quantity,
-      packing: item.packing,
+      // if (cartRenderData ? cartRenderData.cartRenderProducts[index]?.inOrderIndex == undefined || cartRenderData.cartRenderProducts[index]?.inOrderIndex == null : false) {
+      //   newCartProducts.push({
+      //     product: cartProduct,
+      //     finalPrice: cartProductFinalPrice,
+      //     packing: item.packing,
+      //     quantity: item.quantity,
+      //     discount: cartProductPacking.discount,
+      //     price: cartProductPacking.price,
+      //     inOrderIndex: null,
+      //     inCartIndex: index,
+      //   });
+      // } else {
+      //   newCartProducts.push({
+      //     product: cartProduct,
+      //     finalPrice: cartProductFinalPrice,
+      //     packing: item.packing,
+      //     quantity: item.quantity,
+      //     discount: cartProductPacking.discount,
+      //     price: cartProductPacking.price,
+      //     inOrderIndex: totalInOrder,
+      //     inCartIndex: index,
+      //   });
+      //   totalInOrder++;
+      // }
     });
 
-    totalPrice = totalPrice + parseFloat(item.finalPrice) * parseFloat(item.quantity);
-    totalProducts = totalProducts + item.quantity;
-  }
-
-  const newOrder = {
-    products: newProductsList,
-    totalProducts: totalProducts,
-    totalPrice: Math.round(totalPrice * 100) / 100,
+    setCartRenderData({
+      cartRenderProducts: newCartProducts,
+      cartTotalPrice: Math.round(newCartTotalPrice * 10) / 10,
+      cartTotalProduct: newCartTotalProduct,
+    });
   };
-  // console.log('order line 210: ', newOrder);
-  setOrderInfo(newOrder);
+
+  const setAddToOrder = (item, itemIndex) => {
+    // let newOrderProducts = orderInfo.products ;
+    // let newOrderTotalPrice = orderInfo.totalPrice ;
+    // let newOrderTotalProducts = orderInfo.totalProducts;
+    let newOrderInfo = orderInfo;
+    let isExisted = false;
+    let isAdded = false;
+    let isSpliced = false;
+    let totalInOrder = 0;
+    let newCartRenderData = cartRenderData;
+    newOrderInfo.products?.forEach((element, index) => {
+      console.log('Title: ', newCartRenderData.cartRenderProducts[element.inCartIndex].product.title);
+      console.log('inOrderIndex: ', newCartRenderData.cartRenderProducts[element.inCartIndex].inOrderIndex);
+      if (element.productId == item.product._id && element.packing == item.packing) {
+        console.log(1);
+
+        newOrderInfo.totalProducts = newOrderInfo.totalProducts - element.quantity;
+        newOrderInfo.totalPrice = Math.round((newOrderInfo.totalPrice - parseFloat(element.finalPrice) * parseFloat(element.quantity)) * 10) / 10;
+        newOrderInfo.products.splice(index, 1);
+        isExisted = true;
+        isAdded = true;
+
+        newCartRenderData.cartRenderProducts[itemIndex].inOrderIndex = null;
+      }
+      if (isExisted == true && newCartRenderData.cartRenderProducts[element.inCartIndex].inOrderIndex != null && newCartRenderData.cartRenderProducts[element.inCartIndex].inOrderIndex != undefined) {
+        if (!isSpliced) {
+          newCartRenderData.cartRenderProducts[element.inCartIndex].inOrderIndex -= 1;
+        } else {
+          newCartRenderData.cartRenderProducts[element.inCartIndex].inOrderIndex += 1;
+        }
+      }
+
+      if (!isExisted && itemIndex < element.inCartIndex) {
+        console.log(2);
+
+        newCartRenderData.cartRenderProducts[itemIndex].inOrderIndex = index;
+        const newOrderItem = {
+          productId: item.product._id,
+          title: item.product.title,
+          finalPrice: item.finalPrice,
+          quantity: item.quantity,
+          packing: item.packing,
+          inCartIndex: itemIndex,
+        };
+        isExisted = true;
+        isAdded = true;
+        isSpliced = true;
+        newOrderInfo.products.splice(index, 0, newOrderItem);
+
+        newOrderInfo.totalPrice = Math.round((newOrderInfo.totalPrice + parseFloat(item.finalPrice) * parseFloat(item.quantity)) * 10) / 10;
+        newOrderInfo.totalProducts = newOrderInfo.totalProducts + item.quantity;
+      }
+      totalInOrder += 1;
+    });
+    if (!isExisted && !isAdded) {
+      console.log(3);
+
+      newCartRenderData.cartRenderProducts[itemIndex].inOrderIndex = 0;
+
+      newOrderInfo.products.push({
+        productId: item.product._id,
+        title: item.product.title,
+        finalPrice: item.finalPrice,
+        quantity: item.quantity,
+        packing: item.packing,
+        inCartIndex: itemIndex,
+      });
+      newOrderInfo.totalPrice = Math.round((newOrderInfo.totalPrice + parseFloat(item.finalPrice) * parseFloat(item.quantity)) * 10) / 10;
+      newOrderInfo.totalProducts = newOrderInfo.totalProducts + item.quantity;
+    }
+
+    // setCartInfo({
+    //   cartProducts: cartProducts,
+    //   totalPrice: totalPrice,
+    //   totalProduct: totalProduct,
+    // });
+    // const newOrder = {
+    //   products: newOrderProducts,
+    //   totalProducts: newOrderTotalProduct,
+    //   totalPrice: Math.round(newOrderTotalPrice * 10) / 10,
+    // };
+    console.log('----------------------------------------------------------');
+    setCartRenderData(newCartRenderData);
+    setOrderInfo({...newOrderInfo});
+  };
+  useEffect(() => {}, [orderInfo]);
+
+  const decreaseQuantity = (item, itemIndex) => {
+    let tmp = {...cartData.cart};
+    tmp.products[itemIndex].quantity--;
+
+    if (cartRenderData.cartRenderProducts[itemIndex].inOrderIndex != null && cartRenderData.cartRenderProducts[itemIndex].inOrderIndex != undefined) {
+      let newOrderInfo = {...orderInfo};
+      let newOrderProducts = [...orderInfo.products];
+      console.log('order product: ', cartRenderData.cartRenderProducts[itemIndex].inOrderIndex);
+      newOrderProducts[cartRenderData.cartRenderProducts[itemIndex].inOrderIndex].quantity -= 1;
+      newOrderInfo.totalPrice = Math.round((newOrderInfo.totalPrice - parseFloat(item.finalPrice)) * 10) / 10;
+      newOrderInfo.totalProducts -= 1;
+      newOrderInfo.products = newOrderProducts;
+      setOrderInfo(newOrderInfo);
+    }
+    setCartData({
+      cart: tmp,
+      totalProduct: cartData.totalProduct - 1,
+      isLoadingCart: 'false',
+    });
+    const newCartRenderData = cartRenderData;
+    newCartRenderData.cartRenderProducts[itemIndex].quantity--;
+    newCartRenderData.cartTotalPrice = Math.round((newCartRenderData.cartTotalPrice - parseFloat(item.finalPrice)) * 10) / 10;
+    newCartRenderData.cartTotalProduct--;
+    setCartRenderData(newCartRenderData);
+    updateCart(tmp);
+  };
+
+  const increaseQuantity = (item, itemIndex) => {
+    let tmp = {...cartData.cart};
+    tmp.products[itemIndex].quantity++;
+
+    if (cartRenderData.cartRenderProducts[itemIndex].inOrderIndex != null && cartRenderData.cartRenderProducts[itemIndex].inOrderIndex != undefined) {
+      let newOrderInfo = {...orderInfo};
+      let newOrderProducts = [...orderInfo.products];
+      newOrderProducts[cartRenderData.cartRenderProducts[itemIndex].inOrderIndex].quantity += 1;
+      newOrderInfo.totalPrice = Math.round((parseFloat(item.finalPrice) + newOrderInfo.totalPrice) * 10) / 10;
+      newOrderInfo.totalProducts += 1;
+      newOrderInfo.products = newOrderProducts;
+      setOrderInfo(newOrderInfo);
+    }
+    setCartData({
+      cart: tmp,
+      totalProduct: cartData.totalProduct + 1,
+      isLoadingCart: 'false',
+    });
+    const newCartRenderData = cartRenderData;
+    newCartRenderData.cartRenderProducts[itemIndex].quantity++;
+    newCartRenderData.cartTotalPrice = Math.round((newCartRenderData.cartTotalPrice + parseFloat(item.finalPrice)) * 10) / 10;
+    newCartRenderData.cartTotalProduct++;
+    setCartRenderData(newCartRenderData);
+    updateCart(tmp);
+  };
+
+  const handleDelete = (item, index) => {
+    setAlertParams({item, index});
+    setAlertVisible(true);
+  };
+
+  const deleteItem = (item, itemIndex) => {
+    let tmp = {...cartData.cart};
+    const quantity = tmp.products[itemIndex].quantity;
+
+    if (cartRenderData.cartRenderProducts[itemIndex].inOrderIndex != null && cartRenderData.cartRenderProducts[itemIndex].inOrderIndex != undefined) {
+      let newOrderInfo = {...orderInfo};
+      let newOrderProducts = [...orderInfo.products];
+
+      newOrderInfo.totalProducts -= item.quantity;
+
+      newOrderInfo.totalPrice = Math.round((newOrderInfo.totalPrice - parseFloat(item.finalPrice) * item.quantity) * 10) / 10;
+
+      newOrderProducts.splice(cartRenderData.cartRenderProducts[itemIndex].inOrderIndex, 1);
+
+      newOrderInfo.products = newOrderProducts;
+      for (let i = cartRenderData.cartRenderProducts[itemIndex].inOrderIndex; i < newOrderProducts.length; i++) {
+        newOrderProducts[i].inCartIndex -= 1;
+      }
+      setOrderInfo(newOrderInfo);
+    }
+    tmp.products.splice(itemIndex, 1);
+    setCartData({
+      cart: tmp,
+      totalProduct: cartData.totalProduct - quantity,
+      isLoadingCart: 'false',
+    });
+    updateCart(tmp);
+
+    setAlertVisible(false);
+  };
+
+  const updateCart = async (item) => {
+    axios
+      .put(`http://${Ip}:3000/api/cart/update-cart/${userId}`, {
+        newCart: item,
+      })
+      .then((response) => {})
+      .catch((error) => {
+        console.log('Cart error: ', error);
+      });
+  };
+  //------------------------------------------------//
+
+  return (
+    <View style={styles.mainContainer}>
+      <View style={styles.scrollContainer}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+          <View style={{margin: 10, flex: 1, paddingBottom: 40}}>
+            {cartRenderData.cartRenderProducts == [] ? <Text style={styles.empty}>You don't have any thing in your cart.</Text> : null}
+            {cartRenderData.cartRenderProducts?.map((item, index) => {
+              if (route.params?.firstCheckedIndex == index && !isAddedByDefault) {
+                setAddToOrder(item, index);
+                setIsAddedByDefault(true);
+              }
+              return (
+                <View style={styles.main} key={index}>
+                  <View style={styles.productInfo}>
+                    <View style={styles.checkArea}>
+                      <BouncyCheckbox
+                        style={styles.checkBox}
+                        isChecked={item.inOrderIndex != null && item.inOrderIndex != undefined ? true : false}
+                        size={20}
+                        fillColor={COLORS.primary}
+                        unfillColor="#FFFFFF"
+                        disableText={true}
+                        iconStyle={{borderColor: COLORS.primary}}
+                        innerIconStyle={{borderWidth: 2}}
+                        textStyle={{fontFamily: font.regular}}
+                        onPress={() => setAddToOrder(item, index)}
+                      />
+                    </View>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('ProductDetail', {
+                          product: item.product,
+                        })
+                      }
+                      style={styles.imageContainer}
+                    >
+                      <Image style={styles.productImg} source={{uri: item.product?.imageUrl[0]}} />
+                    </TouchableOpacity>
+
+                    <View style={styles.detailArea}>
+                      <View style={styles.nameRow}>
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate('ProductDetail', {
+                              product: item.product,
+                            })
+                          }
+                        >
+                          <Text numberOfLines={1} style={styles.productName}>
+                            {item.product?.title}
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleDelete(item, index)} style={styles.deleteItem}>
+                          <AntDesign name="close" size={16} color={COLORS.red} />
+                        </TouchableOpacity>
+                      </View>
+                      <View style={styles.detailFlex}>
+                        <View>
+                          {item.discount == 0 ? (
+                            <Text style={styles.productPriceFinal}>${item?.price}</Text>
+                          ) : (
+                            <View style={styles.priceRow}>
+                              <Text style={styles.productPrice}>${item?.price}</Text>
+                              <Text style={styles.productPriceFinal}>${item?.finalPrice}</Text>
+                            </View>
+                          )}
+                          <View style={styles.classifyRow}>
+                            <Text style={styles.unitTitle}>Type: </Text>
+                            <Text style={styles.unitText}>{item?.packing}</Text>
+                          </View>
+                        </View>
+                        <View style={styles.quantity}>
+                          <View style={styles.quantityLeft}>
+                            <TouchableOpacity onPress={() => (item.quantity > 1 ? decreaseQuantity(item, index) : handleDelete(item, index))} style={styles.decreaseBtn}>
+                              <AntDesign name="minus" size={18} color={COLORS.secondary} />
+                            </TouchableOpacity>
+
+                            <View style={styles.quantityTxt}>
+                              <Text style={styles.txt}>{item?.quantity}</Text>
+                            </View>
+
+                            <TouchableOpacity
+                              onPress={() => {
+                                increaseQuantity(item, index);
+                              }}
+                            >
+                              <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={[COLORS.primary, COLORS.secondary]} style={styles.increaseBtn}>
+                                <Feather name="plus" size={18} color={COLORS.white} />
+                              </LinearGradient>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        </ScrollView>
+      </View>
+
+      {/* <View style={styles.checkOutContainer}> */}
+      <View style={styles.checkOutBase}>
+        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={[COLORS.primary, COLORS.secondary]} style={styles.checkOutContainer}>
+          <View style={styles.totalContainer}>
+            <Text style={styles.totalTitle}>Subtotal in cart: </Text>
+            <Text style={{...styles.totalValue, fontFamily: font.semiBold}}>${cartRenderData?.cartTotalPrice ? cartRenderData?.cartTotalPrice : 0}</Text>
+          </View>
+          <View style={styles.totalContainer}>
+            <Text
+              style={{
+                ...styles.totalTitle,
+                fontFamily: font.semiBold,
+                color: COLORS.red,
+                fontSize: 18,
+              }}
+            >
+              Subtotal selected:{' '}
+            </Text>
+            <Text style={{...styles.totalValue, color: COLORS.red, fontSize: 21}}>${orderInfo.totalPrice > 0 ? orderInfo.totalPrice : 0}</Text>
+          </View>
+          {orderInfo.products?.length > 0 ? (
+            <TouchableOpacity onPress={() => navigation.navigate('Confirm', {orderData: orderInfo})} style={styles.buyBtn}>
+              <GradientText
+                text={`Proceed to Buy (${orderInfo.products?.length}) items`}
+                fontSize={13}
+                width={240}
+                locations={{x: 120, y: 26}}
+                isGradientFill
+                height={46}
+                style={styles.name}
+                gradientColors={['#51e68a', '#1ac179']}
+                fontFamily={font.bold}
+              />
+            </TouchableOpacity>
+          ) : (
+            <View onPress={null} style={styles.buyBtnInActive}>
+              <Text style={{...styles.btnTxt, color: '#ccc'}}>Proceed to Buy ({0}) items</Text>
+            </View>
+          )}
+        </LinearGradient>
+      </View>
+      {/* </View> */}
+      <Alert
+        title={'Are you want to remove this product from your cart?'}
+        setAlertVisible={setAlertVisible}
+        alertVisible={alertVisible}
+        leftBtnText={'Cancel'}
+        rightBtnText={'Yes'}
+        leftBtnFnc={() => setAlertVisible(false)}
+        rightBtnFnc={() => deleteItem(alertParams.item, alertParams.index)}
+      />
+    </View>
+  );
 };
 
-//------------------------------------------------//
-
-const decreaseQuantity = (item, itemIndex) => {
-  let tmp = {...cartData.cart};
-  tmp.products[itemIndex].quantity--;
-
-  if (cartInfo.cartProducts[itemIndex].inOrderIndex != null) {
-    let newOrderInfo = {...orderInfo};
-    let newProductsList = [...orderInfo.products];
-    newProductsList[cartInfo.cartProducts[itemIndex].inOrderIndex].quantity -= 1;
-    newOrderInfo.totalPrice -= parseFloat(item.price);
-    newOrderInfo.totalProducts -= 1;
-    newOrderInfo.products = newProductsList;
-    setOrderInfo(newOrderInfo);
-  }
-  setCartData({
-    cart: tmp,
-    totalProduct: cartData.totalProduct - 1,
-    isLoadingCart: 'false',
-  });
-  updateCart(tmp);
-};
-const increaseQuantity = (item, itemIndex) => {
-  let tmp = {...cartData.cart};
-  tmp.products[itemIndex].quantity++;
-
-  if (cartInfo.cartProducts[itemIndex].inOrderIndex != null) {
-    let newOrderInfo = {...orderInfo};
-
-    let newProductsList = [...orderInfo.products];
-
-    newProductsList[cartInfo.cartProducts[itemIndex].inOrderIndex].quantity += 1;
-    newOrderInfo.totalPrice += parseFloat(item.price);
-    newOrderInfo.totalProducts += 1;
-    newOrderInfo.products = newProductsList;
-    setOrderInfo(newOrderInfo);
-  }
-  setCartData({
-    cart: tmp,
-    totalProduct: cartData.totalProduct + 1,
-    isLoadingCart: 'false',
-  });
-  updateCart(tmp);
-};
-const deleteItem = (item, itemIndex) => {
-  let tmp = {...cartData.cart};
-
-  const quantity = tmp.products[itemIndex].quantity;
-
-  tmp.products.splice(itemIndex, 1);
-
-  if (cartInfo.cartProducts[itemIndex].inOrderIndex != null) {
-    console.log('delete true');
-    let newOrderInfo = {...orderInfo};
-    let newProductsList = [...orderInfo.products];
-
-    newOrderInfo.totalProducts -= newProductsList[cartInfo.cartProducts[itemIndex].inOrderIndex].quantity;
-    console.log(newOrderInfo.totalPrice);
-
-    newOrderInfo.totalPrice = newOrderInfo.totalPrice - newProductsList[cartInfo.cartProducts[itemIndex].inOrderIndex].price * cartInfo.cartProducts[itemIndex].quantity;
-
-    newProductsList.splice(cartInfo.cartProducts[itemIndex].inOrderIndex, 1);
-
-    newOrderInfo.products = newProductsList;
-    console.log(newOrderInfo);
-    setOrderInfo(newOrderInfo);
-  }
-  setCartData({
-    cart: tmp,
-    totalProduct: cartData.totalProduct - quantity,
-    isLoadingCart: 'false',
-  });
-  updateCart(tmp);
-
-  setAlertVisible(false);
-};
+export default React.memo(Cart);
