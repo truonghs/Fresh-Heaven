@@ -22,6 +22,7 @@ const Cart = ({route}) => {
   const {cartData, setCartData} = useContext(cartContext);
 
   const {userId} = useContext(userContext);
+
   const {products} = useContext(productsContext);
   const navigation = useNavigation();
   const [alertVisible, setAlertVisible] = useState(false);
@@ -105,6 +106,7 @@ const Cart = ({route}) => {
       cartTotalProduct: newCartTotalProduct,
     });
   };
+
   const handleDelete = (item, index) => {
     setAlertParams({item, index});
     setAlertVisible(true);
@@ -159,20 +161,15 @@ const Cart = ({route}) => {
         title: item.product.title,
         finalPrice: item.finalPrice,
         quantity: item.quantity,
-        packing: item.packing,
-        inCartIndex: totalInOrder,
+        discount: productPackingInfo.discount,
+        price: productPackingInfo.price,
       });
-      newOrderTotalPrice = Math.round((newOrderTotalPrice + parseFloat(item.finalPrice) * parseFloat(item.quantity)) * 10) / 10;
-      newOrderTotalProduct = newOrderTotalProduct + item.quantity;
     }
-    // setCartRenderData({
-    //   ...cartRenderData,
-    //   cartRenderProducts: newCartProducts,
-    // });
 
-    setCartRenderData({
-      ...cartRenderData,
-      cartRenderProducts: newCartProducts,
+    setCartInfo({
+      cartProducts: cartProducts,
+      totalPrice: totalPrice,
+      totalProduct: totalProduct,
     });
     const newOrder = {
       products: newOrderProducts,
@@ -345,7 +342,11 @@ const Cart = ({route}) => {
                               <Text style={styles.txt}>{item?.quantity}</Text>
                             </View>
 
-                            <TouchableOpacity onPress={() => increaseQuantity(item, index)}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                increaseQuantity(item, index);
+                              }}
+                            >
                               <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={[COLORS.primary, COLORS.secondary]} style={styles.increaseBtn}>
                                 <Feather name="plus" size={18} color={COLORS.white} />
                               </LinearGradient>

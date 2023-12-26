@@ -25,6 +25,7 @@ function Home() {
   const [selectedAddress, setSelectedAdress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [isScrollEnable, setIsScrollEnable] = useState(true);
+  const arr = products;
   // useEffect(() => {}, [isLoadingProducts]);
   useEffect(() => {
     if (userId) {

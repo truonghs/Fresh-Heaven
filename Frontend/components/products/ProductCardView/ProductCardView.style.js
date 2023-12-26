@@ -4,15 +4,15 @@ import font from '../../../assets/fonts/font';
 const styles = StyleSheet.create({
   container: scale => ({
     transform: [{scale: scale ? scale : 1}],
-    width: 180,
+    width: 190,
     height: 260,
     borderRadius: SIZES.medium,
     backgroundColor: '#fff',
     elevation: 4,
-    marginVertical: 10,
+    marginVertical: 5,
     overflow: 'hidden',
     paddingHorizontal: 10,
-    marginHorizontal: scale ? 0 : 10,
+    marginHorizontal: scale ? 0 : 5,
 
     // marginRight: scale ? (1 - parseInt(scale)) * -24 : 0,
     // marginTop: scale ? (1 - parseInt(scale)) * -22 : 0,

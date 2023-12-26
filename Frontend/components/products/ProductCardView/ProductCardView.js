@@ -1,5 +1,6 @@
 import {Text, View, TouchableOpacity, Image, Pressable, Alert} from 'react-native';
-import React, {useContext, useEffect} from 'react';
+
+import React, {useContext} from 'react';
 import styles from './ProductCardView.style';
 import Entypo from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
