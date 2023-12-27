@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff8e8',
     elevation: 4,
-
     flexDirection: 'row',
     alignItems: 'center',
     height: 50,
@@ -84,12 +83,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
   },
-  sortActive: {
+  sortBasicActive: {
     backgroundColor: COLORS.primary,
   },
-  modal: {
-    width: '100%',
-    height: '100%',
+  noResult: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noResultText: {
+    color: '#000',
+    fontSize: 24,
   },
 });
 export default styles;

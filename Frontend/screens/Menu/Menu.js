@@ -1,20 +1,19 @@
 import {Text, TextInput, TouchableOpacity, View, ScrollView, Pressable} from 'react-native';
-import {useContext, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Modal, SlideAnimation, ModalContent, ModalPortal} from 'react-native-modals';
 import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './Menu.style';
 import {COLORS, SIZES} from '../../constants';
 import {productsContext} from '../../Context/ProductContext';
 import ProductRow from '../../components/products/ProductRow/ProductRow';
-export default function Menu() {
+import SortView from '../SortView/SortView';
+function Menu() {
+  console.log('menu');
   const {navigate} = useNavigation();
   const {products, isLoadingProducts} = useContext(productsContext);
-  const arr = [...products];
   const [visible, setVisible] = useState(false);
-  const [arrProduct, setArrProduct] = useState([...arr]);
+  const [arrProduct, setArrProduct] = useState([...products]);
   const [sortList, setSortList] = useState([
     {
       sortItemName: 'Menu',
@@ -29,7 +28,16 @@ export default function Menu() {
       isChecked: false,
     },
   ]);
+  const [priceRange, setPriceRange] = useState({
+    minPrice: '',
+    maxPrice: '',
+  });
+  const [sortChoices, setSortChoices] = useState({
+    quality_standards: [],
+    origin: [],
+  });
   const handleSortBasic = (sortName) => {
+    let tempArrProduct = [...arrProduct];
     setSortList((prevSortList) =>
       prevSortList.map((sortItem) => ({
         ...sortItem,
@@ -37,16 +45,73 @@ export default function Menu() {
       })),
     );
     if (sortName === 'Menu') {
-      setArrProduct([...products]);
+      tempArrProduct.sort((thisProduct, thatProduct) => thisProduct.title.length - thatProduct.title.length);
+      setArrProduct([...tempArrProduct]);
     }
     if (sortName === 'Newest') {
-      arr.sort((thisProduct, thatProduct) => new Date(thisProduct.updatedAt) - new Date(thatProduct.updatedAt));
-      setArrProduct([...arr]);
+      tempArrProduct.sort((thisProduct, thatProduct) => new Date(thisProduct.updatedAt) - new Date(thatProduct.updatedAt));
+      setArrProduct([...tempArrProduct]);
     } else if (sortName === 'Hot Sale') {
-      arrProduct.sort((thisProduct, thatProduct) => thisProduct.packing[0].price - thatProduct.packing[0].price);
-      setArrProduct([...arrProduct.slice(0, 10)]);
+      tempArrProduct.sort((thisProduct, thatProduct) => thatProduct.packing[0].price - thisProduct.packing[0].price);
+      setArrProduct([...tempArrProduct.slice(0, 20)]);
     } else {
     }
+  };
+  const handleSortAdvanced = (sortType, sortOption) => {
+    Object.keys(sortChoices).forEach((key) => {
+      if (key === sortType) {
+        if (sortChoices[key].length === 0) {
+          setSortChoices({...sortChoices, [key]: [...sortChoices[key], sortOption]});
+        } else {
+          const updatedChoices = [...sortChoices[key]];
+          const indexToRemove = updatedChoices.indexOf(sortOption);
+
+          if (indexToRemove !== -1) {
+            updatedChoices.splice(indexToRemove, 1);
+          } else {
+            updatedChoices.push(sortOption);
+          }
+
+          setSortChoices({...sortChoices, [key]: updatedChoices});
+        }
+      }
+    });
+    handleSortBasic('Menu');
+  };
+
+  const handleApplySort = () => {
+    const arr = [...products];
+    const filteredProducts = arr.filter((product) => {
+       const meetsQualityCriteria =
+          sortChoices['quality_standards'].length === 0 ||
+          sortChoices['quality_standards'].includes(product.quality_standards);
+ 
+       const meetsOriginCriteria =
+          sortChoices['origin'].length === 0 || sortChoices['origin'].includes(product.origin);
+ 
+       const meetsPriceCriteria =
+          product.packing[0].price >= Number(priceRange.minPrice) &&
+          (Number(priceRange.maxPrice) === 0 || product.packing[0].price <= Number(priceRange.maxPrice));
+ 
+       return meetsQualityCriteria && meetsOriginCriteria && meetsPriceCriteria;
+    });
+ 
+    setArrProduct(filteredProducts);
+    setVisible(false);
+ };
+ 
+
+  const handleResetSort = () => {
+    setSortChoices({
+      quality_standards: [],
+      origin: [],
+    });
+    setPriceRange({
+      minPrice: '',
+      maxPrice: '',
+    });
+    setArrProduct([...products]);
+    // setVisible(false);
   };
   return (
     <View style={{flex: 1}}>
@@ -72,62 +137,32 @@ export default function Menu() {
         </View>
         <View style={styles.sortList}>
           {sortList.map((sortItem, index) => (
-            <Pressable key={index} style={[styles.sortItem, sortItem.isChecked ? styles.sortActive : null]} onPress={() => handleSortBasic(sortItem.sortItemName)}>
+            <Pressable key={index} style={[styles.sortItem, sortItem.isChecked ? styles.sortBasicActive : null]} onPress={() => handleSortBasic(sortItem.sortItemName)}>
               <Text style={[styles.sortItemText, sortItem.isChecked ? {color: '#fff'} : null]}>{sortItem.sortItemName}</Text>
             </Pressable>
           ))}
         </View>
-
-        <ScrollView>
-          <ProductRow products={arrProduct} isLoadingProducts={isLoadingProducts} />
-        </ScrollView>
+        {arrProduct?.length === 0 &&
+         <View style={styles.noResult}>
+          <Text style={styles.noResultText}>No product founded</Text>
+          </View>}
+        {!visible && arrProduct?.length > 0 && (
+          <ScrollView>
+            <ProductRow products={arrProduct} isLoadingProducts={isLoadingProducts} />
+          </ScrollView>
+        )}
       </View>
-      <Modal
-        visible={false}
-        // onTouchOutside={() => setVisible(false)}
-        modalAnimation={
-          new SlideAnimation({
-            slideFrom: 'right',
-          })
-        }
-      >
-        <ModalContent style={styles.modal}>
-          <Text>Search filter</Text>
-          <View>
-            <Text>according to quality</Text>
-            <View>
-              <Pressable>
-                <Text>Import</Text>
-              </Pressable>
-              <Pressable>
-                <Text>Domestic</Text>
-              </Pressable>
-            </View>
-            <View>
-              <Pressable>
-                <Text>Clean fruit</Text>
-              </Pressable>
-            </View>
-          </View>
-          <View>
-            <Text>Production Site </Text>
-            <View>
-              <Pressable>
-                <Text>Import</Text>
-              </Pressable>
-              <Pressable>
-                <Text>Domestic</Text>
-              </Pressable>
-            </View>
-            <View>
-              <Pressable>
-                <Text>Clean fruit</Text>
-              </Pressable>
-            </View>
-          </View>
-        </ModalContent>
-      </Modal>
-      <ModalPortal />
+      <SortView
+        visible={visible}
+        setVisible={setVisible}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
+        sortChoices={sortChoices}
+        handleSortAdvanced={handleSortAdvanced}
+        handleApplySort={handleApplySort}
+        handleResetSort={handleResetSort}
+      />
     </View>
   );
 }
+export default React.memo(Menu);
