@@ -52,12 +52,7 @@ function BottomTabNavigatior() {
         component={Menu}
         options={{
           tabBarIcon: ({focused}) => {
-            return <Icon name={'search-sharp'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
-          },
-          tabBarLabelStyle: {
-            fontFamily: font.semiBold,
-            top: -2,
-            fontSize: 12,
+            return <Feather name={'shopping-bag'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
           },
           freezeOnBlur: true,
         }}
@@ -84,11 +79,6 @@ function BottomTabNavigatior() {
         options={{
           tabBarIcon: ({focused}) => {
             return <Icon name={focused ? 'person' : 'person-outline'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
-          },
-          tabBarLabelStyle: {
-            fontFamily: font.semiBold,
-            top: -2,
-            fontSize: 12,
           },
           freezeOnBlur: true,
         }}

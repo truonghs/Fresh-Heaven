@@ -148,7 +148,12 @@ function Menu() {
           </View>}
         {!visible && arrProduct?.length > 0 && (
           <ScrollView>
-            <ProductRow products={arrProduct} isLoadingProducts={isLoadingProducts} />
+            <ProductRow 
+            products={arrProduct} 
+            isLoadingProducts={isLoadingProducts} 
+            horizontal={false}
+            numColumns={2}
+            />
           </ScrollView>
         )}
       </View>
