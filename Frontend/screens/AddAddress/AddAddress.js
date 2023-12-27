@@ -1,4 +1,4 @@
-import {Text, View, ScrollView, TextInput, TouchableOpacity, Alert, Image} from 'react-native';
+import {Text, View, ScrollView, TextInput, TouchableOpacity, Alert, Image, Pressable, PermissionsAndroid, Platform} from 'react-native';
 import React, {useEffect, useState, useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from 'jwt-decode';
@@ -9,85 +9,105 @@ import Ip from '../../constants/ipAddress';
 import {COLORS} from '../../constants';
 import {userContext} from '../../Context/UserContext';
 import CustomButton from '../../components/CustomButton/CustomButton';
-const AddressScreen = () => {
+const AddressScreen = ({route}) => {
   const navigation = useNavigation();
-  const [name, setName] = useState('');
+  const {userId, currentUser, setCurrentUser} = useContext(userContext);
+  const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [houseNumber, setHouseNumber] = useState('');
-  const [detail, setDetail] = useState('');
-  const [city, setCity] = useState('');
+  const [address, setAddress] = useState({
+    latitude: '',
+    longitude: '',
+    addressDetail: '',
+  });
 
-  const {userId, setUserId} = useContext(userContext);
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const token = await AsyncStorage.getItem('authToken');
-
-  //     const decodedToken = jwt_decode(token);
-  //     const userId = decodedToken.userId;
-  //     setUserId(userId);
-  //   };
-
-  //   fetchUser();
-  // }, []);
   const handleAddAddress = () => {
-    const address = {
-      name,
-      phoneNumber,
-      city,
-      detail,
-      houseNumber,
-    };
-
-    axios
-      .post(`http://${Ip}:3000/addresses`, {userId, address})
-      .then((response) => {
-        Alert.alert('Success', 'Addresses added successfully');
-        setName('');
-        setPhoneNumber('');
-        setHouseNumber('');
-        setDetail('');
-        setCity('');
-
-        setTimeout(() => {
-          navigation.goBack();
-        }, 500);
-      })
-      .catch((error) => {
-        Alert.alert('Error', 'Failed to add address');
-        console.log('error', error);
+    if (fullName === '' || phoneNumber === '' || address.addressDetail === '') {
+      Alert.alert('Please fill full infomation');
+    } else if (phoneNumber.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)) {
+      const newAddress = {
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        ...address,
+      };
+      setCurrentUser({
+        ...currentUser,
+        addresses: [...currentUser.addresses, newAddress],
       });
+      axios
+        .put(`http://${Ip}:3000/setaddresses/${userId}`, newAddress)
+        .then((response) => {
+          navigation.navigate('AddressDetail');
+          console.log('add location success');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      Alert.alert('Please enter a valid phone number');
+    }
   };
+  const getPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          navigation.navigate('Map', {name: 'AddAddress'});
+        } else {
+          console.log('Location permission denied');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+  useEffect(() => {
+    const getCurrenrtLocation = async () => {
+      if (route.params) {
+        await axios
+          .get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${route.params.location.latitude}&lon=${route.params.location.longitude}`)
+          .then(({data}) => {
+            setAddress({
+              latitude: data.lat,
+              longitude: data.lon,
+              addressDetail: data.display_name,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    };
+    getCurrenrtLocation();
+  }, [route.params]);
   return (
     <ScrollView>
       <View style={styles.logoContainer}>
         <Image style={styles.logo} source={require('../../assets/images/logo-trans.png')} />
       </View>
+      <View style={styles.btnContainer}>
+        <CustomButton widh={240} onPress={getPermission} text={'Use my current location'} />
+      </View>
       <View style={{padding: 10}}>
         <View style={styles.inputContainer}>
-          <Text style={styles.title}>Address name</Text>
-
-          <TextInput placeholderTextColor={COLORS.gray} value={name} onChangeText={(text) => setName(text)} style={styles.input} placeholder="Name" />
-        </View>
-
-        <View>
-          <Text style={styles.title}>Phone number</Text>
-
-          <TextInput placeholderTextColor={COLORS.gray} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text)} style={styles.input} placeholder="Phone Number" />
+          <Text style={styles.title}>Your name</Text>
+          <TextInput style={styles.input} placeholder="Your Name" placeholderTextColor={COLORS.gray} value={fullName} onChangeText={(text) => setFullName(text)} />
         </View>
 
         <View style={styles.inputContainer}>
-          <Text style={styles.title}>Province, City</Text>
-
-          <TextInput placeholderTextColor={COLORS.gray} value={city} onChangeText={(text) => setCity(text)} style={styles.input} placeholder="Province, City" />
+          <Text style={styles.title}>Phone number</Text>
+          <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor={COLORS.gray} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text)} />
         </View>
-
-        <View>
+        <View style={styles.inputContainer}>
           <Text style={styles.title}>Detail address</Text>
-          <TextInput placeholderTextColor={COLORS.gray} value={detail} onChangeText={(text) => setDetail(text)} style={styles.input} placeholder="Detail address" />
-        </View>
-        <View>
-          <Text style={styles.title}>House Number</Text>
-          <TextInput placeholderTextColor={COLORS.gray} value={houseNumber} onChangeText={(text) => setHouseNumber(text)} style={styles.input} placeholder="House Numbe" />
+          <TextInput
+            style={styles.input}
+            placeholder="Detail address"
+            placeholderTextColor={COLORS.gray}
+            value={address.addressDetail}
+            onChangeText={(text) => {
+              setAddress({...address, addressDetail: text});
+            }}
+          />
         </View>
         <View style={styles.btnContainer}>
           <CustomButton onPress={handleAddAddress} text={'Add Address'} />

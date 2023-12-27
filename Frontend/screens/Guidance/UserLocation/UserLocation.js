@@ -1,15 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  ImageBackground,
-  Image,
-  PermissionsAndroid,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Alert, ImageBackground, Image, PermissionsAndroid, Platform, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -26,9 +16,7 @@ export default function UserLocation({route}) {
     const getCurrenrtLocation = async () => {
       if (route.params) {
         await axios
-          .get(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${route.params.location.latitude}&lon=${route.params.location.longitude}`,
-          )
+          .get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${route.params.location.latitude}&lon=${route.params.location.longitude}`)
           .then(({data}) => {
             setCurrentLocation({
               latitude: data.lat,
@@ -36,7 +24,7 @@ export default function UserLocation({route}) {
               addressDetail: data.display_name,
             });
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       }
@@ -46,11 +34,9 @@ export default function UserLocation({route}) {
   const getPermission = async () => {
     if (Platform.OS === 'android') {
       try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        );
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          navigate('Map');
+          navigate('Map',{name:"UserLocation"});
         } else {
           console.log('Camera permission denied');
         }
@@ -61,7 +47,14 @@ export default function UserLocation({route}) {
   };
   const handeNext = () => {
     if (Object.keys(currentLocation).length > 0) {
-      setCurrentUser({...currentUser, address: currentLocation});
+      setCurrentUser({
+        ...currentUser,
+        address: {
+          fullName: currentUser.firstName+" "+currentUser.lastName,
+          phoneNumber: currentUser.phoneNumber,
+          ...currentLocation,
+        },
+      });
       navigate('Congratulations');
     } else {
       Alert.alert('Please choose your location');
@@ -70,37 +63,21 @@ export default function UserLocation({route}) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <ImageBackground
-          style={styles.imageBackground}
-          source={require('../../../assets/images/bgImage.png')}
-        />
+        <ImageBackground style={styles.imageBackground} source={require('../../../assets/images/bgImage.png')} />
         <View style={styles.content}>
-          <TouchableOpacity
-            style={styles.btnBack}
-            onPress={() => navigate('UserUploadPhoto')}>
+          <TouchableOpacity style={styles.btnBack} onPress={() => navigate('UserUploadPhoto')}>
             <Ionicons name="chevron-back" size={24} color={COLORS.brown} />
           </TouchableOpacity>
           <Text style={styles.title}>Set Your Location</Text>
-          <Text style={styles.text}>
-            This data will be displayed in your account profile for security
-          </Text>
+          <Text style={styles.text}>This data will be displayed in your account profile for security</Text>
 
           <View style={styles.wrapper}>
             <View style={styles.subWrapper}>
-              <Image
-                style={styles.icon}
-                source={require('../../../assets/images/location.png')}
-              />
+              <Image style={styles.icon} source={require('../../../assets/images/location.png')} />
               <Text style={styles.mess}>Your location</Text>
             </View>
-            {route.params ? (
-              <Text style={styles.location}>
-                {currentLocation.addressDetail}
-              </Text>
-            ) : null}
-            <TouchableOpacity
-              style={styles.btnSetLocation}
-              onPress={getPermission}>
+            {route.params ? <Text style={styles.location}>{currentLocation.addressDetail}</Text> : null}
+            <TouchableOpacity style={styles.btnSetLocation} onPress={getPermission}>
               <Text style={styles.mess}>Set Location</Text>
             </TouchableOpacity>
           </View>

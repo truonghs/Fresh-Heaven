@@ -7,7 +7,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {COLORS} from '../../constants';
 import styles from './Map.style';
-export default function Map() {
+export default function Map({route}) {
   const {navigate} = useNavigation();
   const mapRef = useRef(null);
   const [location, setLocation] = useState({
@@ -40,7 +40,7 @@ export default function Map() {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.btnBack}
-          onPress={() => navigate('UserLocation', {location})}>
+          onPress={() => navigate(route?.params?.name, {location})}>
           <Ionicons name="checkmark" size={24} color={COLORS.brown} />
         </TouchableOpacity>
         <Text style={styles.title}>Set your location</Text>
@@ -51,6 +51,7 @@ export default function Map() {
           placeholder="Enter your address"
           onPress={(data, details = null) => {
             const currentLocation = details?.geometry?.location;
+            console.log(currentLocation)
             setLocation({
               latitude: currentLocation.lat,
               longitude: currentLocation.lng,
@@ -58,7 +59,7 @@ export default function Map() {
             moveToLocation(currentLocation.lat, currentLocation.lng);
           }}
           query={{
-            key: 'AIzaSyBp4P1vUuiTWRyfNokbd7986t-_KEf7Ntc',
+            key: 'AIzaSyDdc7aNFmYhxl-llWhRgHhqpKrDI6b2cug',
             language: 'vi',
           }}
           onFail={error => console.log(error)}

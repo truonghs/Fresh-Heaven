@@ -8,6 +8,7 @@ import GuidanceStack from './GuidanceStack';
 import AuthStack from './AuthStack';
 import ForgotPassword from './ForgotPasswordStack';
 import IntroStack from './IntroStack';
+import Map from '../screens/Map/Map';
 import {COLORS} from '../constants';
 import font from '../assets/fonts/font';
 const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ const StackNavigation = ({isFirstLaunch}) => {
         <Stack.Screen name="BottomTabNavigation" component={BottomTabNavigatior} options={{headerShown: false}} />
         <Stack.Screen name="ProductDetail" component={ProductDetail} options={{headerShown: false}} />
         <Stack.Screen name="ProductList" component={NewRivals} options={{headerShown: false}} />
+        <Stack.Screen name="Map" component={Map} options={{headerShown: false}} />
         <Stack.Screen
           name="AddAddress"
           component={AddAddress}

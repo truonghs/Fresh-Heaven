@@ -1,4 +1,4 @@
-import {Text, View, TouchableOpacity, ScrollView, Pressable} from 'react-native';
+import {Text, View, TouchableOpacity, ScrollView, Pressable, PermissionsAndroid, Platform} from 'react-native';
 import styles from './Home.style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -16,10 +16,9 @@ import Ip from '../../constants/ipAddress';
 import {BottomModal, SlideAnimation, ModalContent, ModalPortal} from 'react-native-modals';
 import {COLORS} from '../../constants';
 
-function Home() {
-  console.log('home');
+function Home({route}) {
   const navigation = useNavigation();
-  const {userId, setUserId} = useContext(userContext);
+  const {userId, currentUser, setCurrentUser} = useContext(userContext);
   const {products, isLoadingProducts} = useContext(productsContext);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAdress] = useState('');
@@ -29,38 +28,88 @@ function Home() {
   // useEffect(() => {}, [isLoadingProducts]);
   useEffect(() => {
     if (userId) {
-      fetchAddresses();
+      getUserInfo();
     }
-  }, [userId, modalVisible]);
-  const fetchAddresses = async () => {
-    try {
-      const response = await axios.get(`http://${Ip}:3000/addresses/${userId}`);
-      const {addresses} = response.data;
-      setAddresses(addresses);
-    } catch (error) {
-      console.log('error home', error);
-    }
+  }, [userId]);
+  const getUserInfo = async () => {
+    await axios
+      .get(`http://${Ip}:3000/profile/${userId}`)
+      .then(({data}) => {
+        setCurrentUser(data.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handlePickAddress = (item) => {
     setSelectedAdress(item);
-    setModalVisible(!modalVisible);
+    setModalVisible(false);
   };
-
+  const getPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          navigation.navigate('Map', {name: 'Home'});
+          setModalVisible(false);
+        } else {
+          console.log('Camera permission denied');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+  useEffect(() => {
+    const getCurrenrtLocation = async () => {
+      if (route.params) {
+        await axios
+          .get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${route.params.location.latitude}&lon=${route.params.location.longitude}`)
+          .then(({data}) => {
+            const newAddress = {
+              fullName: currentUser.firstName + ' ' + currentUser.lastName,
+              phoneNumber: currentUser.phoneNumber,
+              latitude: data.lat,
+              longitude: data.lon,
+              addressDetail: data.display_name,
+            };
+            setCurrentUser({
+              ...currentUser,
+              addresses: [...currentUser.addresses, newAddress],
+            });
+            axios
+              .put(`http://${Ip}:3000/setaddresses/${userId}`, newAddress)
+              .then((response) => {
+                console.log('add location success');
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    };
+    getCurrenrtLocation();
+  }, [route.params]);
   return (
     <View>
       <View style={styles.appBarWrapper}>
         <View style={styles.appBar}>
-          <TouchableOpacity hitSlop={{top: 40, bottom: 40, left: 40, right: 40}} onPress={() => setModalVisible(!modalVisible)}>
+          <TouchableOpacity hitSlop={{top: 40, bottom: 40, left: 40, right: 40}} onPress={() => setModalVisible(true)}>
             <View style={styles.addressContainer}>
               <Ionicons name="location-outline" size={26} color={COLORS.red} />
               <View>
                 {selectedAddress ? (
                   <Text numberOfLines={1} style={styles.location}>
-                    {selectedAddress?.name} - {selectedAddress?.houseNumber}, {selectedAddress?.detail}
+                    {selectedAddress}
                   </Text>
                 ) : (
-                  <Text style={styles.location}>Add an Address</Text>
+                  <Text numberOfLines={1} style={styles.location}>
+                    {Object.keys(currentUser).length > 0 ? currentUser.addresses[0]?.addressDetail : 'Add an address'}
+                  </Text>
                 )}
               </View>
             </View>
@@ -93,17 +142,16 @@ function Home() {
         </View>
       </ScrollView>
       <BottomModal
-        onBackdropPress={() => setModalVisible(!modalVisible)}
-        swipeDirection={['up', 'down']}
-        swipeThreshold={200}
+        visible={modalVisible}
+        onBackdropPress={() => setModalVisible(false)}
         modalAnimation={
           new SlideAnimation({
             slideFrom: 'bottom',
           })
         }
-        onHardwareBackPress={() => setModalVisible(!modalVisible)}
-        visible={modalVisible}
-        onTouchOutside={() => setModalVisible(!modalVisible)}
+        onHardwareBackPress={() => setModalVisible(false)}
+        onTouchOutside={() => setModalVisible(false)}
+        style={styles.modalContainer}
       >
         <ModalContent style={styles.modal}>
           <View style={{marginBottom: 8}}>
@@ -127,21 +175,14 @@ function Home() {
                 <Text style={styles.addressAddTxt}>Add a new Address</Text>
               </TouchableOpacity>
 
-              {addresses?.map((item, index) => (
-                <TouchableOpacity key={index} onPress={() => handlePickAddress(item)} style={styles.addressLect(selectedAddress._id == item._id ? COLORS.brownlight : 'white')}>
+              {currentUser.addresses?.map((item, index) => (
+                <TouchableOpacity key={index} onPress={() => handlePickAddress(item.addressDetail)} style={styles.addressLect(selectedAddress.addressDetail == item.addressDetail ? COLORS.brownlight : 'white')}>
                   <View style={styles.addressName}>
-                    <Text style={styles.addressTxt(selectedAddress._id == item._id ? COLORS.red : COLORS.blue)}>{item?.name}</Text>
-                    <Ionicons name="location-outline" size={24} color={selectedAddress._id == item._id ? COLORS.red : COLORS.blue} />
+                    <Text style={styles.addressTxt(selectedAddress.addressDetail == item.addressDetail ? COLORS.red : COLORS.blue)}>{item?.name}</Text>
+                    <Ionicons name="location-outline" size={24} color={selectedAddress.addressDetail == item.addressDetail ? COLORS.red : COLORS.blue} />
                   </View>
                   <Text numberOfLines={1} style={styles.addressDetail}>
-                    {item?.city}
-                  </Text>
-                  <Text numberOfLines={1} style={styles.addressDetail}>
-                    {item?.houseNumber},{item?.detail}
-                  </Text>
-
-                  <Text numberOfLines={1} style={styles.addressDetail}>
-                    Viet Nam
+                    {item.addressDetail}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -149,10 +190,10 @@ function Home() {
           </View>
 
           <View style={styles.addressOptContainer}>
-            <View style={styles.addressOpt}>
+            <TouchableOpacity style={styles.addressOpt} onPress={getPermission}>
               <Ionicons name="locate-sharp" size={22} color={COLORS.blue} />
               <Text style={styles.addressOptTxt}>Use My Currect location</Text>
-            </View>
+            </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => {
@@ -168,7 +209,6 @@ function Home() {
           </View>
         </ModalContent>
       </BottomModal>
-      <ModalPortal />
     </View>
   );
 }

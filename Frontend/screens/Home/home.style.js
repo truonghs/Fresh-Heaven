@@ -21,21 +21,19 @@ const styles = StyleSheet.create({
     fontFamily: font.regular,
     fontSize: SIZES.small + 2,
     color: '#000',
-    maxWidth: 160,
   },
-  // modalContainer: {
-  //   backgroundColor: 'blue',
-  //   alignItems: 'flex-end',
-  // },
+  modalContainer: {
+    // justifyContent: 'flex-end',
+  },
   modal: {
     width: '100%',
-    height: 450,
-    marginBottom: 180,
+    height: 380,
   },
   addressContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 200,
+    width: 300,
+    // backgroundColor:'red',
   },
   addressTitle: {
     color: COLORS.secondary,

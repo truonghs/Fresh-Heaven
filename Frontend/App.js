@@ -7,7 +7,7 @@ import {useContext, useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Intro} from './screens';
 import IntroStack from './navigation/IntroStack';
-
+import {ModalPortal} from 'react-native-modals'
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState('loading');
   useEffect(() => {
@@ -37,6 +37,7 @@ function App() {
         <ProductsProvider>
           <CartProvider>
             <StackNavigation isFirstLaunch={isFirstLaunch} />
+            <ModalPortal/>
           </CartProvider>
         </ProductsProvider>
       </UserProvider>

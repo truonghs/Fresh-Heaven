@@ -5,7 +5,7 @@ router.post("/register", userController.regitation);
 router.get("/verify/:token", userController.verifyToken);
 router.post("/login", userController.login);
 router.get("/addresses/:userId", userController.getAddress);
-router.post("/addresses", userController.setAddress);
+router.put("/setaddresses/:userId", userController.setAddress);
 router.get("/profile/:userId", userController.getUserProfile);
 router.put("/forgot", userController.forgotPassword);
 router.put("/getOtp", userController.giveOTP);

@@ -110,7 +110,6 @@ function SortView({visible, setVisible, priceRange, setPriceRange, sortChoices, 
           </ScrollView>
         </ModalContent>
       </Modal>
-      <ModalPortal />
     </>
   );
 }
