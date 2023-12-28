@@ -16,11 +16,11 @@ export default function Map() {
   });
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         moveToLocation(position.coords.latitude, position.coords.longitude);
         setLocation(position.coords);
       },
-      error => console.log(error),
+      (error) => console.log(error),
     );
   }, []);
   const moveToLocation = (latitude, longitude) => {
@@ -38,9 +38,7 @@ export default function Map() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.btnBack}
-          onPress={() => navigate('UserLocation', {location})}>
+        <TouchableOpacity style={styles.btnBack} onPress={() => navigate('UserLocation', {location})}>
           <Ionicons name="checkmark" size={24} color={COLORS.brown} />
         </TouchableOpacity>
         <Text style={styles.title}>Set your location</Text>
@@ -58,10 +56,10 @@ export default function Map() {
             moveToLocation(currentLocation.lat, currentLocation.lng);
           }}
           query={{
-            key: 'AIzaSyBp4P1vUuiTWRyfNokbd7986t-_KEf7Ntc',
+            key: 'AIzaSyDdc7aNFmYhxl-llWhRgHhqpKrDI6b2cug',
             language: 'vi',
           }}
-          onFail={error => console.log(error)}
+          onFail={(error) => console.log(error)}
         />
       </View>
       <MapView
@@ -74,11 +72,9 @@ export default function Map() {
           longitudeDelta: 0.0421,
         }}
         showsUserLocation={true}
-        showsMyLocationButton={true}>
-        <Marker
-          coordinate={location}
-          draggable
-          onDragEnd={e => console.log(e.nativeEvent.coordinate)}></Marker>
+        showsMyLocationButton={true}
+      >
+        <Marker coordinate={location} draggable onDragEnd={(e) => console.log(e.nativeEvent.coordinate)}></Marker>
       </MapView>
     </View>
   );

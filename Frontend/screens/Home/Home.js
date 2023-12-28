@@ -69,7 +69,7 @@ function Home() {
           <View style={{alignItems: 'flex-end'}}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Cart');
+                navigation.navigate('Order');
               }}
             >
               <View style={styles.dot} />
