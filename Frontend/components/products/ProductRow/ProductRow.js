@@ -4,15 +4,8 @@ import styles from './productRow.style';
 import {COLORS, SIZES} from '../../../constants';
 import ProductCartView from '../ProductCardView/ProductCardView';
 
-const ProductRow = ({
-  products, 
-  isLoadingProducts, 
-  scale, 
-  amount,
-  horizontal=true,
-  numColumns,
-  scrollEnabled=true
-}) => {
+const ProductRow = ({products, isLoadingProducts, scale, amount, horizontal = true, numColumns, scrollEnabled = true, from = null}) => {
+  console.log(from);
   return (
     <View style={styles.container}>
       {isLoadingProducts ? (
@@ -20,7 +13,7 @@ const ProductRow = ({
       ) : (
         <FlatList
           showsHorizontalScrollIndicator={false}
-          data={ amount ? products.slice(0, amount) : products}
+          data={amount ? (from ? products.slice(from, amount) : products.slice(0, amount)) : products}
           keyExtractor={(item) => item._id}
           horizontal={horizontal}
           numColumns={numColumns}

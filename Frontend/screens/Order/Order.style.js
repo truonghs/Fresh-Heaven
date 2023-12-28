@@ -12,8 +12,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 20,
     padding: 10,
+
     elevation: 4,
-    margin: 10,
+    marginHorizontal: 16,
+    marginVertical: 10,
   },
   topRow: {
     flexDirection: 'row',

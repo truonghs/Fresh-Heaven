@@ -133,11 +133,12 @@ function Home({route}) {
       <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={isScrollEnable}>
         <View style={styles.scrollView}>
           <Slider setIsScrollEnable={setIsScrollEnable} />
-          <Heading />
-          {/* <TouchableOpacity onPress={handleAddProduct}>
-            <Text style={styles.addProduct}>Add Product</Text>
-          </TouchableOpacity> */}
+          <Heading title={'Super Fresh'} />
+
           <ProductRow products={products} isLoadingProducts={isLoadingProducts} amount={10} />
+          <Heading title={'Special Offer'} />
+
+          <ProductRow products={products} isLoadingProducts={isLoadingProducts} amount={20} from={10} />
         </View>
       </ScrollView>
       <BottomModal
@@ -175,7 +176,11 @@ function Home({route}) {
               </TouchableOpacity>
 
               {currentUser.addresses?.map((item, index) => (
-                <TouchableOpacity key={index} onPress={() => handlePickAddress(item.addressDetail)} style={styles.addressLect(selectedAddress.addressDetail == item.addressDetail ? COLORS.brownlight : 'white')}>
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handlePickAddress(item.addressDetail)}
+                  style={styles.addressLect(selectedAddress.addressDetail == item.addressDetail ? COLORS.brownlight : 'white')}
+                >
                   <View style={styles.addressName}>
                     <Text style={styles.addressTxt(selectedAddress.addressDetail == item.addressDetail ? COLORS.red : COLORS.blue)}>{item?.name}</Text>
                     <Ionicons name="location-outline" size={24} color={selectedAddress.addressDetail == item.addressDetail ? COLORS.red : COLORS.blue} />

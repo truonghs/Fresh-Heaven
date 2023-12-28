@@ -4,6 +4,9 @@ import font from '../../assets/fonts/font';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.offwhite,
+  },
+  main: {
+    backgroundColor: COLORS.white,
     flex: 1,
   },
   heading: {
@@ -13,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: COLORS.secondary,
     justifyContent: 'center',
-    marginTop: 10,
+    marginVertical: 10,
     backgroundColor: '#fff',
   },
   headingTitle: {
@@ -25,7 +28,6 @@ const styles = StyleSheet.create({
   deliveryRow: {
     backgroundColor: COLORS.secondary,
     width: '100%',
-    marginTop: 10,
     padding: 16,
   },
   deliveryHeading: {
@@ -74,7 +76,6 @@ const styles = StyleSheet.create({
   },
   copy: {
     fontFamily: font.bold,
-    color: COLORS.blue,
     lineHeight: 30,
   },
   orderIdTitle: {
@@ -118,8 +119,8 @@ const styles = StyleSheet.create({
   productItem: {
     backgroundColor: '#fff',
     marginBottom: 16,
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
+    borderTopWidth: 0.6,
+    borderBottomWidth: 0.6,
     borderColor: '#000',
     // width: SIZES.width - 32,
     // marginHorizontal: 16,
@@ -196,8 +197,8 @@ const styles = StyleSheet.create({
   feedbackContainer: {
     width: '100%',
     alignItems: 'center',
-    marginTop: 10,
-    paddingBottom: 20,
+    marginTop: 20,
+    marginBottom: 60,
   },
 });
 export default styles;

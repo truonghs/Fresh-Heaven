@@ -3,6 +3,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home, Profile, Search, Cart, Menu} from '../screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {COLORS} from '../constants';
 import {cartContext} from '../Context/CartContext';
 import font from '../assets/fonts/font';
@@ -52,7 +54,12 @@ function BottomTabNavigatior() {
         component={Menu}
         options={{
           tabBarIcon: ({focused}) => {
-            return <Feather name={'shopping-bag'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
+            return <MaterialCommunityIcons name={focused ? 'shopping' : 'shopping-outline'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
+          },
+          tabBarLabelStyle: {
+            fontFamily: font.semiBold,
+            top: -2,
+            fontSize: 12,
           },
           freezeOnBlur: true,
         }}
@@ -67,7 +74,11 @@ function BottomTabNavigatior() {
             justifyContent: 'center',
             paddingTop: 1,
           },
-
+          tabBarLabelStyle: {
+            fontFamily: font.semiBold,
+            top: -2,
+            fontSize: 12,
+          },
           tabBarIcon: ({focused}) => {
             return <Icon name={focused ? 'cart' : 'cart-outline'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
           },
@@ -81,6 +92,11 @@ function BottomTabNavigatior() {
             return <Icon name={focused ? 'person' : 'person-outline'} size={24} color={focused ? COLORS.primary : COLORS.gray2} />;
           },
           freezeOnBlur: true,
+          tabBarLabelStyle: {
+            fontFamily: font.semiBold,
+            top: -2,
+            fontSize: 12,
+          },
         }}
       />
     </Tab.Navigator>

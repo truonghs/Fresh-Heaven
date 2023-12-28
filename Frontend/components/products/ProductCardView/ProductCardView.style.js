@@ -2,9 +2,9 @@ import {StyleSheet} from 'react-native';
 import {COLORS, SIZES} from '../../../constants';
 import font from '../../../assets/fonts/font';
 const styles = StyleSheet.create({
-  container: scale => ({
+  container: (scale) => ({
     transform: [{scale: scale ? scale : 1}],
-    width: 190,
+    width: 170,
     height: 260,
     borderRadius: SIZES.medium,
     backgroundColor: '#fff',
@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     paddingHorizontal: 10,
     marginHorizontal: scale ? 0 : 5,
-
+    borderWidth: 1,
+    borderColor: '#ccc',
     // marginRight: scale ? (1 - parseInt(scale)) * -24 : 0,
     // marginTop: scale ? (1 - parseInt(scale)) * -22 : 0,
   }),
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
   tagContainer: {
     width: '100%',
     marginTop: 6,
+    height: 20,
   },
   tag: {
     width: 60,

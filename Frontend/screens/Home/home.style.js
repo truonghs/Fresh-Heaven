@@ -133,8 +133,8 @@ const styles = StyleSheet.create({
   scrollView: {
     width: '100%',
     height: '100%',
-    paddingBottom: 200,
-    marginBottom: 200,
+    paddingBottom: 150,
+    marginBottom: 150,
   },
   headingIcon: {
     // width: 8,
