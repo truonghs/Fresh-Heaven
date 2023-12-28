@@ -2,45 +2,77 @@ import {StyleSheet} from 'react-native';
 import {COLORS, SIZES} from '../../constants';
 import font from '../../assets/fonts/font';
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: COLORS.offwhite,
+    flex: 1,
+  },
+  header: {
+    padding: 20,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    color: '#000',
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  imageBackground: {
+    position: 'absolute',
+    width: SIZES.width,
+    height: SIZES.height,
+    opacity: 0.3,
+  },
   searchContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: COLORS.secondary,
     borderRadius: SIZES.medium,
-    marginVertical: SIZES.medium,
+    marginBottom: SIZES.medium,
     height: 50,
     marginHorizontal: SIZES.small,
   },
-  searchIcon: {
-    marginHorizontal: 10,
-    color: COLORS.gray,
+  searchBtn: {
+    width: 30,
+    marginLeft: 60,
   },
   searchWrapper: {
     flex: 1,
-    backgroundColor: COLORS.secondary,
-    borderRadius: 4,
+    backgroundColor: '#fff8e8',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: 50,
+    elevation: 4,
+    borderRadius: 10,
+    // backgroundColor: 'red',
   },
   searchInput: {
     fontFamily: font.regular,
     width: '100%',
     height: '100%',
     paddingHorizontal: SIZES.small,
-    color: COLORS.gray,
+    backgroundColor: 'transparent',
   },
-  searchBtn: {
+  btnBack: {
     width: 50,
     height: '100%',
-    borderRadius: 16,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.primary,
+    backgroundColor: '#fff8e8',
+    elevation: 4,
+    marginRight: 10,
   },
-  searchImage: {
-    resizeMode: 'center',
-    width: SIZES.width - 100,
-    height: SIZES.height - 100,
-    opacity: 0.9,
+  bannerSearchContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  bannerSearch: {
+    width: '100%',
+    height: 400,
   },
 });
 export default styles;

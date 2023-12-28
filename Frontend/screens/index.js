@@ -17,5 +17,5 @@ import Order from './Order/Order';
 
 import Congratulations from './Guidance/Congratulations/Congratulations';
 import EditProfile from './EditProfile/EditProfile';
-export {Home, Search, Profile, Cart, ProductDetail, Login, Register, AddAddress, AddressDetail, NewRivals, Confirm, OrderSuccess, VnPay, Congratulations, Menu, Intro, Order  EditProfile
+export {Home, Search, Profile, Cart, ProductDetail, Login, Register, AddAddress, AddressDetail, NewRivals, Confirm, OrderSuccess, VnPay, Congratulations, Menu, Intro, Order,  EditProfile
 };

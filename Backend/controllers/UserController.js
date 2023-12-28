@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-const Ip = "192.168.1.4";
+const Ip = "10.0.183.47";
 const jwt = require("jsonwebtoken");
 const { log } = require("console");
 const { use } = require("../routes/user");

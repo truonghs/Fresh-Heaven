@@ -27,7 +27,7 @@ export default function Welcome() {
           <TextInput
             style={styles.searchInput}
             value=""
-            onPressIn={() => navigation.navigate('Search')}
+            onPressIn={() => navigation.navigate('Search',{name:"Home"})}
             placeholder="What are you looking for"
             placeholderTextColor={COLORS.orange}
           />

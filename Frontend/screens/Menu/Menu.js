@@ -1,5 +1,5 @@
 import {Text, TextInput, TouchableOpacity, View, ScrollView, Pressable} from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,12 +8,16 @@ import {COLORS, SIZES} from '../../constants';
 import {productsContext} from '../../Context/ProductContext';
 import ProductRow from '../../components/products/ProductRow/ProductRow';
 import SortView from '../SortView/SortView';
-function Menu() {
-  console.log('menu');
+function Menu({route}) {
   const {navigate} = useNavigation();
   const {products, isLoadingProducts} = useContext(productsContext);
   const [visible, setVisible] = useState(false);
   const [arrProduct, setArrProduct] = useState([...products]);
+  useEffect(() => {
+    if (route?.params) {
+      setArrProduct(route.params.searchResults);
+    }
+  }, [route.params]);
   const [sortList, setSortList] = useState([
     {
       sortItemName: 'Menu',
@@ -82,25 +86,18 @@ function Menu() {
   const handleApplySort = () => {
     const arr = [...products];
     const filteredProducts = arr.filter((product) => {
-       const meetsQualityCriteria =
-          sortChoices['quality_standards'].length === 0 ||
-          sortChoices['quality_standards'].includes(product.quality_standards);
- 
-       const meetsOriginCriteria =
-          sortChoices['origin'].length === 0 || sortChoices['origin'].includes(product.origin);
- 
-       const meetsPriceCriteria =
-          product.packing[0].price >= Number(priceRange.minPrice) &&
-          (Number(priceRange.maxPrice) === 0 || product.packing[0].price <= Number(priceRange.maxPrice));
- 
-       return meetsQualityCriteria && meetsOriginCriteria && meetsPriceCriteria;
+      const meetsQualityCriteria = sortChoices['quality_standards'].length === 0 || sortChoices['quality_standards'].includes(product.quality_standards);
+
+      const meetsOriginCriteria = sortChoices['origin'].length === 0 || sortChoices['origin'].includes(product.origin);
+
+      const meetsPriceCriteria = product.packing[0].price >= Number(priceRange.minPrice) && (Number(priceRange.maxPrice) === 0 || product.packing[0].price <= Number(priceRange.maxPrice));
+
+      return meetsQualityCriteria && meetsOriginCriteria && meetsPriceCriteria;
     });
- 
+
     setArrProduct(filteredProducts);
     setVisible(false);
- };
- 
-
+  };
   const handleResetSort = () => {
     setSortChoices({
       quality_standards: [],
@@ -113,21 +110,17 @@ function Menu() {
     setArrProduct([...products]);
     // setVisible(false);
   };
+
   return (
     <View style={{flex: 1}}>
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.searchContainer}>
-            {/* <TouchableOpacity
-            style={styles.btnBack}
-            onPress={() => navigate('UserInfo')}>
-            <Ionicons name="chevron-back" size={24} color={COLORS.brown} />
-          </TouchableOpacity> */}
             <View style={styles.searchWrapper}>
               <TouchableOpacity>
                 <Feather name="search" size={24} style={styles.searchIcon} color={COLORS.brown} />
               </TouchableOpacity>
-              <TextInput style={styles.searchInput} value="" onPressIn={() => navigate('Search')} placeholder="What are you looking for" placeholderTextColor={COLORS.orange} />
+              <TextInput style={styles.searchInput} value="" onPressIn={() => navigate('Search',{name:"Menu"})} placeholder="What are you looking for" placeholderTextColor={COLORS.orange} />
             </View>
             <TouchableOpacity style={styles.searchBtn} onPress={() => setVisible(true)}>
               <Feather name="filter" size={SIZES.xLarge} color={COLORS.brown} />
@@ -142,17 +135,15 @@ function Menu() {
             </Pressable>
           ))}
         </View>
-        {arrProduct?.length === 0 &&
-         <View style={styles.noResult}>
-          <Text style={styles.noResultText}>No product founded</Text>
-          </View>}
+        {arrProduct?.length === 0 && (
+          <View style={styles.noResult}>
+            <Text style={styles.noResultText}>No product founded</Text>
+          </View>
+        )}
         {!visible && arrProduct?.length > 0 && (
-            <ProductRow 
-            products={arrProduct} 
-            isLoadingProducts={isLoadingProducts} 
-            horizontal={false}
-            numColumns={2}
-            />
+          <ScrollView>
+            <ProductRow products={arrProduct} isLoadingProducts={isLoadingProducts} horizontal={false} numColumns={2} scrollEnabled={false} />
+          </ScrollView>
         )}
       </View>
       <SortView

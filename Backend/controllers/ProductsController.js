@@ -33,7 +33,7 @@ module.exports = {
         [
           {
             $search: {
-              index: "furniture",
+              index: "fruits",
               text: {
                 query: req.params.key,
                 path: {
@@ -48,5 +48,6 @@ module.exports = {
     } catch (error) {
       res.status(500).json("failed to get the products");
     }
+  
   },
 };
