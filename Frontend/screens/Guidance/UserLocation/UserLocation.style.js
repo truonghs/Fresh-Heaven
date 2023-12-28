@@ -77,8 +77,7 @@ const styles = StyleSheet.create({
   btnNext: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 52,
-    left: 16,
+    marginBottom: 60,
   },
 });
 export default styles;

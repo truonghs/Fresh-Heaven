@@ -67,11 +67,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   btnNext: {
-    // position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop:120,
-    left: 16,
   },
 });
 

@@ -2,6 +2,7 @@ const User = require("../models/User");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const Ip = "192.168.1.3";
+
 const jwt = require("jsonwebtoken");
 const { log } = require("console");
 const { use } = require("../routes/user");
@@ -187,20 +188,18 @@ module.exports = {
             });
         }
     },
-
     //endpoint to store a new address to the backend
     setAddress: async (req, res) => {
         try {
-            const { userId, address } = req.body;
+            const { userId } = req.params;
 
             //find the user by the Userid
             const user = await User.findById(userId);
             if (!user) {
                 return res.status(402).json({ message: "User not found" });
             }
-            console.log(address);
             //add the new address to the user's addresses array
-            user.addresses.push(address);
+            user.addresses.push(req.body);
 
             //save the updated user in te backend
             await user.save();
@@ -215,7 +214,6 @@ module.exports = {
     getUserProfile: async (req, res) => {
         try {
             const userId = req.params.userId;
-            console.log(1);
 
             const user = await User.findById(userId);
             if (!user) {

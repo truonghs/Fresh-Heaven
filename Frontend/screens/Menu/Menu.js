@@ -147,14 +147,12 @@ function Menu() {
           <Text style={styles.noResultText}>No product founded</Text>
           </View>}
         {!visible && arrProduct?.length > 0 && (
-          <ScrollView>
             <ProductRow 
             products={arrProduct} 
             isLoadingProducts={isLoadingProducts} 
             horizontal={false}
             numColumns={2}
             />
-          </ScrollView>
         )}
       </View>
       <SortView

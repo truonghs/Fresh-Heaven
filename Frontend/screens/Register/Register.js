@@ -38,12 +38,12 @@ function Register() {
       axios
         .post(`http://${Ip}:3000/register`, user)
         .then((response) => {
+          navigation.navigate('Login');
           Alert.alert('Registration successful', 'You have been registered Successfully');
           // setName('');
           // setEmail('');
           // setPassword('');
           // setCPassword('');
-          navigation.navigate('Login');
         })
         .catch((error) => {
           Alert.alert('Registration Error', 'An error occurred while registering');

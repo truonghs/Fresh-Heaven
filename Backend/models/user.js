@@ -25,12 +25,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  addresses: [
-    // location: {
-    //   type: String,
-    //   default: '',
-    // },
-  ],
+  addresses: [ ],
   email: {
     type: String,
     required: true,

@@ -18,29 +18,13 @@ import axios from 'axios';
 import styles from './AddressDetail.style';
 import {COLORS} from '../../constants';
 import {userContext} from '../../Context/UserContext';
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
 const AddressDetail = () => {
   const navigation = useNavigation();
   const [addresses, setAddresses] = useState([]);
-  const {userId, setUserId} = useContext(userContext);
-  useEffect(() => {
-    fetchAddresses();
-  }, []);
-  const fetchAddresses = async () => {
-    try {
-      const response = await axios.get(`http://${Ip}:3000/addresses/${userId}`);
-      const {addresses} = response.data;
-
-      setAddresses(addresses);
-    } catch (error) {
-      console.log('error address detail', error);
-    }
-  };
-  //refresh the addresses when the component comes to the focus ie basically when we navigate back
-  useFocusEffect(
-    useCallback(() => {
-      fetchAddresses();
-    }, []),
-  );
+  const [alertVisible, setAlertVisible] = useState(false);
+  const {currentUser, setCurrentUser} = useContext(userContext);
+ 
   return (
     <View>
       <View style={{}}>
@@ -60,25 +44,16 @@ const AddressDetail = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* all the added adresses */}
           <View style={styles.scroll}>
-            {addresses?.map((item, index) => (
+            {currentUser.addresses?.map((item, index) => (
               <View key={index} style={styles.itemContainer}>
                 <View style={styles.itemTitle}>
-                  <Text style={styles.itemName}>Name: {item?.name}</Text>
+                  <Text style={styles.itemName}>Name: {item?.fullName}</Text>
                   <Entypo name="location-pin" size={24} color="red" />
                 </View>
-
-                <Text style={styles.itemTxt}>
-                  House Number: {item?.houseNumber}
-                </Text>
-
-                <Text style={styles.itemTxt}>Detail: {item?.detail}</Text>
-
-                <Text style={styles.itemTxt}>Viet Nam</Text>
-
                 <Text style={styles.itemTxt}>
                   phone Number : {item?.phoneNumber}
                 </Text>
-
+                <Text style={styles.itemTxt}>{item.addressDetail}</Text>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -103,6 +78,15 @@ const AddressDetail = () => {
           </View>
         </ScrollView>
       </View>
+      <CustomAlert
+        title={'Are you want to remove this product from your cart?'}
+        setAlertVisible={setAlertVisible}
+        alertVisible={alertVisible}
+        leftBtnText={'Cancel'}
+        rightBtnText={'Yes'}
+        leftBtnFnc={() => setAlertVisible(false)}
+        rightBtnFnc={() => deleteItem(alertParams.item, alertParams.index)}
+      />
     </View>
   );
 };

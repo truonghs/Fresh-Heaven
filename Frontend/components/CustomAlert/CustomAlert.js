@@ -2,7 +2,14 @@ import React, {useState} from 'react';
 import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import styles from './CustomAlert.style';
 import CustomButton from '../CustomButton/CustomButton';
-const CustomAlert = ({setAlertVisible, alertVisible, title, message, leftBtnText, rightBtnText, leftBtnFnc, rightBtnFnc}) => {
+const CustomAlert = ({
+  setAlertVisible, 
+  alertVisible, 
+  title, 
+  message, 
+  leftBtnText, 
+  rightBtnText, 
+  leftBtnFnc, rightBtnFnc}) => {
   return (
     <Modal
       animationType="slide"
