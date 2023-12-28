@@ -38,19 +38,25 @@ const Confirm = ({route}) => {
       console.log('error', error);
     }
   };
-  const [address, setAdress] = useState('');
+  const [address, setAdress] = useState(null);
   const [delivery, setDelivery] = useState('');
   const [payment, setPayment] = useState('');
   const [totalFee, setTotalFee] = useState(parseFloat(orderData.totalPrice));
   const handlePlaceOrder = async () => {
     try {
+      const orderProducts = orderData.products.map((item) => {
+        const {inCartIndex, ...rest} = item;
+        return rest;
+      });
       const orderParam = {
         userId: userId,
-        cartProducts: orderData.products,
+        cartProducts: orderProducts,
+        // totalProduct: orderData.totalProduct,
         totalPrice: totalFee,
-        shippingAddress: address,
+        shippingAddress: addresses[address],
         paymentMethod: payment,
         shippingMethod: delivery,
+        shippingFee: delivery == 'standard' ? 2 : 4,
       };
       const response = await axios.post(`http://${Ip}:3000/api/order/orders`, orderParam);
       if (response.status === 200) {
@@ -61,7 +67,7 @@ const Confirm = ({route}) => {
           isLoading: false,
         });
         setCurrentStep(0);
-        setAdress('');
+        setAdress(null);
         setDelivery('');
         setPayment('');
         navigation.navigate('OrderSuccess');
@@ -156,24 +162,22 @@ const Confirm = ({route}) => {
           <View>
             {addresses?.map((item, index) => (
               <Pressable
-                onPress={() => setAdress(item)}
+                onPress={() => setAdress(index)}
                 key={index}
                 style={[
                   styles.address,
                   {
-                    borderColor: address && address._id === item?._id ? COLORS.thirth : '#D0D0D0',
+                    borderColor: address == index ? COLORS.thirth : '#D0D0D0',
                   },
                 ]}
               >
                 <View style={{marginLeft: 6}}>
                   <View style={styles.addressTitle}>
-                    <Text style={styles.addressTitleTxt}>{item?.name}</Text>
+                    <Text style={styles.addressTitleTxt}>{item?.fullName}</Text>
                     <Entypo name="location-pin" size={24} color="red" />
                   </View>
 
-                  <Text style={styles.addressTxt}>
-                    {item?.houseNumber}, {item?.detail}
-                  </Text>
+                  <Text style={styles.addressTxt}>{item?.addressDetail}</Text>
 
                   <Text style={styles.addressTxt}>{item?.city}</Text>
 
@@ -192,11 +196,11 @@ const Confirm = ({route}) => {
                   </View> */}
 
                   <View style={styles.addressSubmitContainer}>
-                    {address && address._id === item?._id && (
+                    {address == index ? (
                       <TouchableOpacity onPress={() => setCurrentStep(1)} style={styles.submitActive}>
                         <Text style={styles.submitTxt}>Deliver to this Address</Text>
                       </TouchableOpacity>
-                    )}
+                    ) : null}
                   </View>
                 </View>
               </Pressable>

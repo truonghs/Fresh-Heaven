@@ -71,15 +71,15 @@ const StackNavigation = ({isFirstLaunch}) => {
           name="Order"
           component={Order}
           options={{
-            // headerShown: true,
-            // headerStyle: {
-            //   backgroundColor: COLORS.thirth,
-            // },
-            // headerTitleStyle: {
-            //   fontFamily: font.bold,
-            // },
-            // headerTintColor: '#fff',
-            headerShown: false,
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: COLORS.thirth,
+            },
+            headerTitleStyle: {
+              fontFamily: font.bold,
+            },
+            headerTintColor: '#fff',
+            // headerShown: false,
           }}
         />
         <Stack.Screen name="OrderSuccess" component={OrderSuccess} options={{headerShown: false}} />

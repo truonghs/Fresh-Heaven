@@ -5,7 +5,7 @@ module.exports = {
     //endpoint to store all the orders
     createOrder: async (req, res) => {
         try {
-            const { userId, cartProducts, totalPrice, shippingAddress, paymentMethod, shippingMethod } = req.body;
+            const { userId, cartProducts, totalPrice, shippingAddress, paymentMethod, shippingMethod, shippingFee } = req.body;
 
             //create an array of product objects from the cart Items
             // const products = cartProducts.map((item) => ({
@@ -21,23 +21,31 @@ module.exports = {
                 shippingAddress: shippingAddress,
                 paymentMethod: paymentMethod,
                 shippingMethod: shippingMethod,
+                shippingFee: shippingFee,
                 totalProduct: 0,
             });
             const cart = await Cart.findOne({ user: userId });
-            var newCart = cart;
+            var newCart = [...cart.products];
+            console.log(cart);
             var deleteAmount = 0;
-            newCart.products.forEach((cartItem, cartIndex) => {
+            var deleteIndex = 0;
+            newCart.forEach((cartItem, cartIndex) => {
+                // console.log("cartItem id: ", cartItem.productId);
                 order.products.forEach((orderItem, orderIndex) => {
+                    // console.log("orderItem id: ", orderItem.productId);
+
                     if (cartItem.productId.equals(orderItem.productId) && cartItem.packing == orderItem.packing) {
+                        // console.log("1");
+                        // console.log("deleteItem: ", cart.products[cartIndex - deleteIndex].productId);
+                        cart.products.splice(cartIndex - deleteIndex, 1);
                         deleteAmount += parseInt(cartItem.quantity);
-                        newCart.products.splice(cartIndex, 1);
+                        deleteIndex++;
                     }
                 });
             });
             order.totalProduct = deleteAmount;
 
             await order.save();
-            console.log(newCart);
 
             if (!cart) {
                 res.status(400).json({ message: "Cart not found!" });

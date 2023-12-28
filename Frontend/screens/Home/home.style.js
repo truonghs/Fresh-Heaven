@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     fontFamily: font.regular,
     fontSize: SIZES.small + 2,
     color: '#000',
+    maxWidth: SIZES.width * 0.5,
   },
   modalContainer: {
     // justifyContent: 'flex-end',
