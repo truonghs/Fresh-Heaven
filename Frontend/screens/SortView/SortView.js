@@ -14,6 +14,9 @@ function SortView({visible, setVisible, priceRange, setPriceRange, sortChoices, 
             slideFrom: 'right',
           })
         }
+        swipeDirection={['left', 'right']}
+        onHardwareBackPress={() => setVisible(false)}
+        onSwipeOut={() => setVisible(false)}
         style={styles.modalContainer}
       >
         <ModalContent style={styles.modal}>

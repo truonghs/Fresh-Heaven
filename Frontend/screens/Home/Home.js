@@ -149,6 +149,7 @@ function Home({route}) {
             slideFrom: 'bottom',
           })
         }
+        onSwipeOut={() => setModalVisible(false)}
         onHardwareBackPress={() => setModalVisible(false)}
         onTouchOutside={() => setModalVisible(false)}
         style={styles.modalContainer}

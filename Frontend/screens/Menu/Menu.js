@@ -8,7 +8,7 @@ import {COLORS, SIZES} from '../../constants';
 import {productsContext} from '../../Context/ProductContext';
 import ProductRow from '../../components/products/ProductRow/ProductRow';
 import SortView from '../SortView/SortView';
-function Menu() {
+function Menu({route}) {
   const {navigate} = useNavigation();
   const {products, isLoadingProducts} = useContext(productsContext);
   const [visible, setVisible] = useState(false);
@@ -146,16 +146,18 @@ function Menu() {
           </ScrollView>
         )}
       </View>
-      <SortView
-        visible={visible}
-        setVisible={setVisible}
-        priceRange={priceRange}
-        setPriceRange={setPriceRange}
-        sortChoices={sortChoices}
-        handleSortAdvanced={handleSortAdvanced}
-        handleApplySort={handleApplySort}
-        handleResetSort={handleResetSort}
-      />
+      {visible ? (
+        <SortView
+          visible={visible}
+          setVisible={setVisible}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
+          sortChoices={sortChoices}
+          handleSortAdvanced={handleSortAdvanced}
+          handleApplySort={handleApplySort}
+          handleResetSort={handleResetSort}
+        />
+      ) : null}
     </View>
   );
 }
