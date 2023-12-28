@@ -9,9 +9,10 @@ import {Screen} from 'react-native-screens';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import font from '../../assets/fonts/font';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import {useNavigation} from '@react-navigation/native';
 import {COLORS, SIZES} from '../../constants';
 const Order = () => {
+  const navigation = useNavigation();
   const {userId} = useContext(userContext);
   const {products} = useContext(productsContext);
   const [orders, setOrders] = useState([]);
@@ -36,7 +37,7 @@ const Order = () => {
         <View style={styles.productsContainer}>
           {!isLoading ? (
             orders?.map((item, index) => (
-              <View key={index} style={styles.orderItemContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('AllOrderProducts', {order: item})} key={index} style={styles.orderItemContainer}>
                 <View style={styles.topRow}>
                   <View style={styles.imageContainer}>
                     <Image style={styles.productImage} source={{uri: products.find((product) => product._id == item.products[0].productId).imageUrl[0]}} />
@@ -52,12 +53,12 @@ const Order = () => {
                         <Text style={styles.packing}>Type: {item.products[0].packing}</Text>
                         <Text style={styles.quantity}>Quantity: {item.products[0].quantity}</Text>
                       </View>
-                      {item.products.length > 1 ? (
-                        <TouchableOpacity style={styles.viewmoreContainer}>
+                      {/* {item.products.length > 1 ? (
+                        <View style={styles.viewmoreContainer}>
                           <Text style={styles.viewmore}>View more</Text>
                           <MaterialIcons color={'#ccc'} name={'keyboard-arrow-right'} size={20} />
-                        </TouchableOpacity>
-                      ) : null}
+                        </View>
+                      ) : null} */}
                     </View>
                   </View>
                 </View>
@@ -71,12 +72,12 @@ const Order = () => {
                   </View>
                 </View>
                 <View style={styles.statusRow}>
-                  <Text style={styles.status}>The order has been successfully delivered</Text>
+                  <Text style={styles.status}>The order has been successfully created</Text>
                 </View>
                 <View style={styles.feedbackRow}>
-                  <CustomButton widh={200} height={40} text={'Leave a FeedBack'} />
+                  <CustomButton onPress={() => navigation.navigate('FeedBack')} widh={200} height={40} text={'Leave a FeedBack'} />
                 </View>
-              </View>
+              </TouchableOpacity>
             ))
           ) : (
             <ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary} />

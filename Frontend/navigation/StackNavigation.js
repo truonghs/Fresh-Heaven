@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ProductDetail, AddAddress, AddressDetail, NewRivals, Confirm, OrderSuccess, Order, EditProfile} from '../screens';
+import {ProductDetail, AddAddress, AddressDetail, NewRivals, Confirm, OrderSuccess, Order, EditProfile, FeedBack, AllOrderProducts} from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
 import GuidanceStack from './GuidanceStack';
 import AuthStack from './AuthStack';
@@ -82,9 +82,41 @@ const StackNavigation = ({isFirstLaunch}) => {
             },
             headerTintColor: '#fff',
             // headerShown: false,
+            headerTitle: 'Your Orders',
+          }}
+        />
+        <Stack.Screen
+          name="FeedBack"
+          component={FeedBack}
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: COLORS.thirth,
+            },
+            headerTitleStyle: {
+              fontFamily: font.bold,
+            },
+            headerTintColor: '#fff',
+            // headerShown: false,
           }}
         />
         <Stack.Screen name="OrderSuccess" component={OrderSuccess} options={{headerShown: false}} />
+        <Stack.Screen
+          name="AllOrderProducts"
+          component={AllOrderProducts}
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: COLORS.thirth,
+            },
+            headerTitleStyle: {
+              fontFamily: font.bold,
+            },
+            headerTintColor: '#fff',
+            headerTitle: 'Order details',
+            // headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

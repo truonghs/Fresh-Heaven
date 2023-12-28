@@ -22,12 +22,13 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     backgroundColor: '#fff',
-    elevation: 4,
     marginRight: 20,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
     overflow: 'hidden',
+    borderWidth: 0.5,
+    borderColor: '#ccc',
   },
   productImage: {
     width: 60,
