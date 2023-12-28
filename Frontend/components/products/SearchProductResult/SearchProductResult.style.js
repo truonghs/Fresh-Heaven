@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     padding: SIZES.medium,
     borderRadius: SIZES.small,
     ...SHADOWS.medium,
-    shadowColor: COLORS.lightWhite,
+    shadowColor: '#9fadf4',
+    elevation:10
   },
   image: {
     width: 70,
@@ -28,20 +29,28 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   textContainer: {
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
     flex: 1,
     marginHorizontal: SIZES.medium,
   },
   productTitle: {
-    fontSize: SIZES.medium,
+    fontSize: SIZES.medium + 2,
     fontWeight: 'bold',
     color: COLORS.primary,
   },
-  supplier: {
-    fontSize: SIZES.small + 2,
-    fontWeight: '500',
+  origin: {
+    fontSize: SIZES.small + 5,
+    fontWeight: '300',
     color: COLORS.gray,
     marginTop: 3,
   },
+  price: {
+    fontSize:20,
+    color:'#fdad1c',
+    fontWeight:'900'
+  }
 });
 
 export default styles;
