@@ -10,7 +10,7 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import Ip from '../../constants/ipAddress';
 import {userContext} from '../../Context/UserContext';
 
-export default function UserInfo() {
+export default function EditProfile() {
   const {navigate} = useNavigation();
   const {userId, currentUser, setCurrentUser} = useContext(userContext);
   const [userInfo, setUserInfo] = useState({
@@ -18,7 +18,7 @@ export default function UserInfo() {
     lastName: currentUser.lastName,
     phoneNumber: currentUser.phoneNumber,
   });
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState(currentUser.avatar);
   const onPressCamera = async () => {
     if (Platform.OS === 'android') {
       try {
@@ -60,7 +60,7 @@ export default function UserInfo() {
       axios
         .put(`http://${Ip}:3000/updateuserinfo/${userId}`, {...currentUser, ...userInfo, avatar: imageUrl, isEdit: true})
         .then(({data}) => {
-          console.log(data);
+          
         })
         .catch((error) => {
           console.log(error);

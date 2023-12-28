@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import axios from 'axios';
 import styles from './Profile.style';
 import {COLORS} from '../../constants';
@@ -14,15 +16,26 @@ import {userContext} from '../../Context/UserContext';
 import CustomButton from '../../components/CustomButton/CustomButton';
 function Profile() {
   const navigation = useNavigation();
-  const {currentUser, setCurrentUser} = useContext(userContext);
+  const {userId, currentUser} = useContext(userContext);
+  const [orders, setOrders] = useState([]);
   const logout = async () => {
     await AsyncStorage.removeItem('authToken');
     await AsyncStorage.removeItem('isFirstTime');
     navigation.replace('AuthStack');
   };
   const [statusMemberShip, setStatusMemberShip] = useState(
-    currentUser.order?.length < 5 ? 'Silver member' : currentUser.order?.length < 10 ? 'Gold member' : currentUser.order?.length < 20 ? 'Platinum member' : 'Rookie',
+    orders?.length < 5 ? 'Silver member' : orders?.length < 10 ? 'Gold member' : orders?.length < 20 ? 'Platinum member' : 'Rookie',
   );
+  useEffect(() => {
+    axios
+      .get(`http://${Ip}:3000/api/order/orders/${userId}`)
+      .then(({data}) => {
+        setOrders(data.orders);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.backGroundImage}>
@@ -34,7 +47,7 @@ function Profile() {
           </View>
           <View style={styles.userMemberShipRow}>
             <Ionicons name="bag-handle" size={24} color={COLORS.orange} />
-            <Text style={styles.userMemberShipText}>Total orders: {currentUser.order?.length ?? 0}</Text>
+            <Text style={styles.userMemberShipText}>Total orders: {orders.length ?? 0}</Text>
           </View>
         </View>
         <Pressable style={styles.btnEditProfile} onPress={() => navigation.navigate('EditProfile')}>
@@ -58,7 +71,11 @@ function Profile() {
           <Ionicons name="location-sharp" size={24} color={COLORS.primary} />
           <Text style={styles.userInfoItemText}>{currentUser.addresses[0].addressDetail}</Text>
         </View>
-        <Pressable style={styles.userInfoItem}>
+        <Pressable style={styles.userInfoItem} onPress={() => navigation.navigate('Order')}>
+          <FontAwesome name="shopping-bag" size={24} color={COLORS.primary} />
+          <Text style={styles.userInfoItemText}>View order</Text>
+        </Pressable>
+        <Pressable style={styles.userInfoItem} onPress={() => navigation.navigate('ForgotPassword')}>
           <Ionicons name="lock-closed" size={24} color={COLORS.primary} />
           <Text style={styles.userInfoItemText}>Change password</Text>
         </Pressable>

@@ -4,7 +4,7 @@ import font from '../../../assets/fonts/font';
 const styles = StyleSheet.create({
   container: (scale) => ({
     transform: [{scale: scale ? scale : 1}],
-    width: 170,
+    width: 190,
     height: 260,
     borderRadius: SIZES.medium,
     backgroundColor: '#fff',

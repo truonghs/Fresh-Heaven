@@ -4,7 +4,7 @@ import font from '../../assets/fonts/font';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 200,
+    backgroundColor:COLORS.offwhite
   },
   header: {
     backgroundColor: '#fff',
