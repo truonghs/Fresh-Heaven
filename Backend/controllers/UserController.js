@@ -1,8 +1,7 @@
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-const Ip = "192.168.1.3";
-
+const Ip = "192.168.1.4";
 const jwt = require("jsonwebtoken");
 const { log } = require("console");
 const { use } = require("../routes/user");
@@ -142,39 +141,55 @@ module.exports = {
                 const generateSecretKey = () => {
                     const secretKey = crypto.randomBytes(32).toString("hex");
 
-                    return secretKey;
-                };
-                var secretKey = generateSecretKey();
-                var token = jwt.sign({ userId: user._id, firstTime: user.firstTime }, secretKey);
-            } else {
-                var token = false;
-            }
-            res.status(200).json({ token });
-        } catch (error) {
-            res.status(500).json({ message: "Login Failed!" });
-        }
-    },
-    updateUserInfo: async (req, res) => {
-        try {
-            const { userId } = req.params;
-            const { firstName, lastName, phoneNumber, paymentMethod, avatar, address } = req.body;
-            const existingUser = await User.findById(userId);
-            if (!existingUser) {
-                return res.status(404).send({
-                    status: false,
-                    message: "User not found",
-                });
-            }
-            Object.assign(existingUser, {
-                firstName,
-                lastName,
-                phoneNumber,
-                paymentMethod,
-                avatar,
-                firstTime: false,
-            });
-            existingUser.addresses.push(address);
-            const updatedUser = await existingUser.save();
+          return secretKey;
+        };
+        var secretKey = generateSecretKey();
+        var token = jwt.sign(
+          { userId: user._id, firstTime: user.firstTime },
+          secretKey
+        );
+      } else {
+        var token = false;
+      }
+      res.status(200).json({ token });
+    } catch (error) {
+      res.status(500).json({ message: "Login Failed!" });
+    }
+  },
+  updateUserInfo: async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { isEdit } = req.body;
+      const existingUser = await User.findById(userId);
+      if (!existingUser) {
+        return res.status(404).send({
+          status: false,
+          message: "User not found",
+        });
+      }
+      if (isEdit) {
+        Object.assign(existingUser, req.body);
+      } else {
+        const {
+          firstName,
+          lastName,
+          phoneNumber,
+          paymentMethod,
+          avatar,
+          address,
+        } = req.body;
+
+        Object.assign(existingUser, {
+          firstName,
+          lastName,
+          phoneNumber,
+          paymentMethod,
+          avatar,
+          firstTime: false,
+        });
+        existingUser.addresses.push(address);
+      }
+      const updatedUser = await existingUser.save();
 
             return res.status(201).send({
                 status: true,
@@ -193,13 +208,17 @@ module.exports = {
         try {
             const { userId } = req.params;
 
-            //find the user by the Userid
-            const user = await User.findById(userId);
-            if (!user) {
-                return res.status(402).json({ message: "User not found" });
-            }
-            //add the new address to the user's addresses array
-            user.addresses.push(req.body);
+      //find the user by the Userid
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(402).json({ message: "User not found" });
+      }
+      if (Array.isArray(req.body)) {
+        user.addresses = [...req.body];
+      } else {
+        user.addresses.push(req.body);
+      }
+      //add the new address to the user's addresses array
 
             //save the updated user in te backend
             await user.save();

@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ProductDetail, AddAddress, AddressDetail, NewRivals, Confirm, OrderSuccess, Order} from '../screens';
+import {ProductDetail, AddAddress, AddressDetail, NewRivals, Confirm, OrderSuccess, Order, EditProfile} from '../screens';
 import BottomTabNavigatior from './BottomTabNavigation';
 import GuidanceStack from './GuidanceStack';
 import AuthStack from './AuthStack';
@@ -24,6 +24,8 @@ const StackNavigation = ({isFirstLaunch}) => {
         <Stack.Screen name="ProductDetail" component={ProductDetail} options={{headerShown: false}} />
         <Stack.Screen name="ProductList" component={NewRivals} options={{headerShown: false}} />
         <Stack.Screen name="Map" component={Map} options={{headerShown: false}} />
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}} />
+
         <Stack.Screen
           name="AddAddress"
           component={AddAddress}
