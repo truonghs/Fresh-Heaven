@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     height: SIZES.height - 200,
     width: SIZES.width,
+    paddingTop: 10,
   },
   scroll: {
     flex: 1,
@@ -24,8 +25,7 @@ const styles = StyleSheet.create({
   },
   main: {
     backgroundColor: 'white',
-    marginVertical: 4,
-    marginTop: 16,
+    marginVertical: 10,
     borderRadius: 20,
     paddingHorizontal: 10,
     height: 90,
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
     marginLeft: 6,
   },
   productImg: {
-    width: 60,
-    height: 60,
+    width: SIZES.width * 0.14,
+    height: SIZES.width * 0.14,
     resizeMode: 'center',
     borderRadius: 10,
   },
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   nameRow: {
     flexDirection: 'row',
-    width: 200,
+    width: SIZES.width * 0.6,
     justifyContent: 'space-between',
   },
   productName: {
@@ -92,7 +92,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   detailFlex: {
+    width: SIZES.width * 0.57,
+
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   priceRow: {
     flexDirection: 'row',
@@ -129,10 +132,7 @@ const styles = StyleSheet.create({
   quantityLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    // paddingHorizontal: 10,
-    // paddingVertical: 5,
     borderRadius: 7,
-
     marginTop: 4,
   },
   decreaseBtn: {

@@ -1,4 +1,4 @@
-import {Text, View, ScrollView, Image, TouchableOpacity, Button} from 'react-native';
+import {Text, View, ScrollView, Image, TouchableOpacity, Button, ActivityIndicator} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';

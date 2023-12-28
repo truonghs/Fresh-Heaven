@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     fontFamily: font.regular,
     fontSize: SIZES.small + 2,
     color: '#000',
+    maxWidth: SIZES.width * 0.5,
   },
   modalContainer: {
     // justifyContent: 'flex-end',
@@ -132,8 +133,8 @@ const styles = StyleSheet.create({
   scrollView: {
     width: '100%',
     height: '100%',
-    paddingBottom: 200,
-    marginBottom: 200,
+    paddingBottom: 150,
+    marginBottom: 150,
   },
   headingIcon: {
     // width: 8,

@@ -1,6 +1,6 @@
 import {View, TouchableOpacity, Image, Text, Alert, Pressable, ScrollView} from 'react-native';
 import React, {useState, useContext} from 'react';
-import styles from './productDetail.style';
+import styles from './ProductDetail.style';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -202,7 +202,7 @@ const ProducDetail = ({navigation, route}) => {
             </View>
             <View style={styles.relatedWraper}>
               <Text style={styles.relatedTitle}>Related Offer</Text>
-              {/* <ProductRow scale={0.8} products={products} isLoadingProducts={isLoadingProducts} amount={4} /> */}
+              <ProductRow scale={0.8} products={products} isLoadingProducts={isLoadingProducts} amount={4} />
             </View>
           </View>
         </View>

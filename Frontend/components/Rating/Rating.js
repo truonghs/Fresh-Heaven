@@ -8,7 +8,7 @@ const Rating = ({rating}) => {
       {arr.map((item) =>
         rating >= item ? (
           <Image key={item} style={styles.ratingIcon} source={require('../../assets/icons/star.png')} />
-        ) : rating >= item - 1 && rating < item ? (
+        ) : rating > item - 1 && rating < item ? (
           <Image key={item} style={styles.ratingIcon} source={require('../../assets/icons/rating.png')} />
         ) : (
           <Image key={item} style={styles.ratingIcon} source={require('../../assets/icons/star-gray.png')} />
