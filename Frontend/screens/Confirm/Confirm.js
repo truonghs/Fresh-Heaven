@@ -64,7 +64,7 @@ const Confirm = ({route}) => {
         setAdress('');
         setDelivery('');
         setPayment('');
-        navigation.navigate('Order');
+        navigation.navigate('OrderSuccess');
         console.log('order created successfully');
       } else {
         console.log('error creating order');
@@ -121,7 +121,7 @@ const Confirm = ({route}) => {
 
           isLoading: false,
         });
-        navigation.navigate('Order');
+        navigation.navigate('OrderSuccess');
         console.log('order created successfully', response.data);
       } else {
         console.log('error creating order', response.data);

@@ -16,11 +16,11 @@ export default function Map({route}) {
   });
   useEffect(() => {
     Geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         moveToLocation(position.coords.latitude, position.coords.longitude);
         setLocation(position.coords);
       },
-      error => console.log(error),
+      (error) => console.log(error),
     );
   }, []);
   const moveToLocation = (latitude, longitude) => {
@@ -38,9 +38,7 @@ export default function Map({route}) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.btnBack}
-          onPress={() => navigate(route?.params?.name, {location})}>
+        <TouchableOpacity style={styles.btnBack} onPress={() => navigate(route?.params?.name, {location})}>
           <Ionicons name="checkmark" size={24} color={COLORS.brown} />
         </TouchableOpacity>
         <Text style={styles.title}>Set your location</Text>
@@ -51,7 +49,7 @@ export default function Map({route}) {
           placeholder="Enter your address"
           onPress={(data, details = null) => {
             const currentLocation = details?.geometry?.location;
-            console.log(currentLocation)
+            console.log(currentLocation);
             setLocation({
               latitude: currentLocation.lat,
               longitude: currentLocation.lng,
@@ -62,7 +60,7 @@ export default function Map({route}) {
             key: 'AIzaSyDdc7aNFmYhxl-llWhRgHhqpKrDI6b2cug',
             language: 'vi',
           }}
-          onFail={error => console.log(error)}
+          onFail={(error) => console.log(error)}
         />
       </View>
       <MapView
@@ -75,11 +73,9 @@ export default function Map({route}) {
           longitudeDelta: 0.0421,
         }}
         showsUserLocation={true}
-        showsMyLocationButton={true}>
-        <Marker
-          coordinate={location}
-          draggable
-          onDragEnd={e => console.log(e.nativeEvent.coordinate)}></Marker>
+        showsMyLocationButton={true}
+      >
+        <Marker coordinate={location} draggable onDragEnd={(e) => console.log(e.nativeEvent.coordinate)}></Marker>
       </MapView>
     </View>
   );

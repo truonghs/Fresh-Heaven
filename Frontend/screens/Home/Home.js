@@ -117,7 +117,7 @@ function Home({route}) {
           <View style={{alignItems: 'flex-end'}}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Cart');
+                navigation.navigate('Order');
               }}
             >
               <View style={styles.dot} />
