@@ -20,7 +20,6 @@ function Home({route}) {
   const navigation = useNavigation();
   const {userId, currentUser, setCurrentUser} = useContext(userContext);
   const {products, isLoadingProducts} = useContext(productsContext);
-  const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAdress] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [isScrollEnable, setIsScrollEnable] = useState(true);

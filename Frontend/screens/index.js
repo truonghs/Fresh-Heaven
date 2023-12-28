@@ -14,6 +14,7 @@ import VnPay from './VnPay/VnPay';
 import Intro from './Intro/Intro1';
 import Menu from './Menu/Menu';
 import Congratulations from './Guidance/Congratulations/Congratulations';
+import EditProfile from './EditProfile/EditProfile';
 export {
   Home,
   Search,
@@ -31,4 +32,5 @@ export {
   Congratulations,
   Menu,
   Intro,
+  EditProfile
 };

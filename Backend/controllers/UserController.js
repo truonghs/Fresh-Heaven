@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-const Ip = "192.168.1.5";
+const Ip = "192.168.1.4";
 const jwt = require("jsonwebtoken");
 const { log } = require("console");
 const { use } = require("../routes/user");
@@ -160,14 +160,7 @@ module.exports = {
   updateUserInfo: async (req, res) => {
     try {
       const { userId } = req.params;
-      const {
-        firstName,
-        lastName,
-        phoneNumber,
-        paymentMethod,
-        avatar,
-        address,
-      } = req.body;
+      const { isEdit } = req.body;
       const existingUser = await User.findById(userId);
       if (!existingUser) {
         return res.status(404).send({
@@ -175,15 +168,28 @@ module.exports = {
           message: "User not found",
         });
       }
-      Object.assign(existingUser, {
-        firstName,
-        lastName,
-        phoneNumber,
-        paymentMethod,
-        avatar,
-        firstTime: false,
-      });
-      existingUser.addresses.push(address);
+      if (isEdit) {
+        Object.assign(existingUser, req.body);
+      } else {
+        const {
+          firstName,
+          lastName,
+          phoneNumber,
+          paymentMethod,
+          avatar,
+          address,
+        } = req.body;
+
+        Object.assign(existingUser, {
+          firstName,
+          lastName,
+          phoneNumber,
+          paymentMethod,
+          avatar,
+          firstTime: false,
+        });
+        existingUser.addresses.push(address);
+      }
       const updatedUser = await existingUser.save();
 
       return res.status(201).send({
@@ -208,8 +214,12 @@ module.exports = {
       if (!user) {
         return res.status(402).json({ message: "User not found" });
       }
+      if (Array.isArray(req.body)) {
+        user.addresses = [...req.body];
+      } else {
+        user.addresses.push(req.body);
+      }
       //add the new address to the user's addresses array
-      user.addresses.push(req.body);
 
       //save the updated user in te backend
       await user.save();

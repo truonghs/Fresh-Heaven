@@ -13,6 +13,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  btnEditProfile : {
+    flex:1,
+    marginLeft:90,
+    marginBottom:10
+  },
   userImage: {
     width: 90,
     height: 90,

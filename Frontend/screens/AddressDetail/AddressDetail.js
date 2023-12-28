@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, TouchableOpacity, TextInput} from 'react-native';
 import React, {useEffect, useContext, useState, useCallback} from 'react';
 
 import Feather from 'react-native-vector-icons/Feather';
@@ -21,24 +14,35 @@ import {userContext} from '../../Context/UserContext';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 const AddressDetail = () => {
   const navigation = useNavigation();
-  const [addresses, setAddresses] = useState([]);
+  const [addressIdxRemove, setAddressIdxRemove] = useState([]);
   const [alertVisible, setAlertVisible] = useState(false);
-  const {currentUser, setCurrentUser} = useContext(userContext);
- 
+  const {userId,currentUser, setCurrentUser} = useContext(userContext);
+  const handleAlertDeleteAddress = (indexAddress) => {
+    setAddressIdxRemove(indexAddress);
+    setAlertVisible(true);
+  };
+  const handleDeleteAddress = () => {
+    const newAddresses = currentUser.addresses.filter((address, index) => index !== addressIdxRemove);
+
+    setCurrentUser({...currentUser, addresses: newAddresses});
+    setAlertVisible(false);
+    axios
+      .put(`http://${Ip}:3000/setaddresses/${userId}`, newAddresses)
+      .then((response) => {
+        console.log('add location success');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <View>
       <View style={{}}>
         {/* <Text style={styles.title}>Your Addresses</Text> */}
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AddAddress')}
-          style={styles.link}>
+        <TouchableOpacity onPress={() => navigation.navigate('AddAddress')} style={styles.link}>
           <Text style={styles.linkTxt}>Add a new Address</Text>
-          <MaterialIcons
-            name="keyboard-arrow-right"
-            size={24}
-            color={COLORS.blue}
-          />
+          <MaterialIcons name="keyboard-arrow-right" size={24} color={COLORS.blue} />
         </TouchableOpacity>
 
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -50,9 +54,7 @@ const AddressDetail = () => {
                   <Text style={styles.itemName}>Name: {item?.fullName}</Text>
                   <Entypo name="location-pin" size={24} color="red" />
                 </View>
-                <Text style={styles.itemTxt}>
-                  phone Number : {item?.phoneNumber}
-                </Text>
+                <Text style={styles.itemTxt}>phone Number : {item?.phoneNumber}</Text>
                 <Text style={styles.itemTxt}>{item.addressDetail}</Text>
                 <View
                   style={{
@@ -60,12 +62,13 @@ const AddressDetail = () => {
                     alignItems: 'center',
                     gap: 10,
                     marginTop: 7,
-                  }}>
+                  }}
+                >
                   <TouchableOpacity style={styles.btnContainer}>
                     <Text style={styles.btn}>Edit</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.btnContainer}>
+                  <TouchableOpacity onPress={() => handleAlertDeleteAddress(index)} style={styles.btnContainer}>
                     <Text style={styles.btn}>Remove</Text>
                   </TouchableOpacity>
 
@@ -85,7 +88,7 @@ const AddressDetail = () => {
         leftBtnText={'Cancel'}
         rightBtnText={'Yes'}
         leftBtnFnc={() => setAlertVisible(false)}
-        rightBtnFnc={() => deleteItem(alertParams.item, alertParams.index)}
+        rightBtnFnc={() => handleDeleteAddress()}
       />
     </View>
   );
