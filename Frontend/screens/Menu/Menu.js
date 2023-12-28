@@ -9,7 +9,6 @@ import {productsContext} from '../../Context/ProductContext';
 import ProductRow from '../../components/products/ProductRow/ProductRow';
 import SortView from '../SortView/SortView';
 function Menu() {
-  console.log('menu');
   const {navigate} = useNavigation();
   const {products, isLoadingProducts} = useContext(productsContext);
   const [visible, setVisible] = useState(false);
@@ -82,24 +81,18 @@ function Menu() {
   const handleApplySort = () => {
     const arr = [...products];
     const filteredProducts = arr.filter((product) => {
-       const meetsQualityCriteria =
-          sortChoices['quality_standards'].length === 0 ||
-          sortChoices['quality_standards'].includes(product.quality_standards);
- 
-       const meetsOriginCriteria =
-          sortChoices['origin'].length === 0 || sortChoices['origin'].includes(product.origin);
- 
-       const meetsPriceCriteria =
-          product.packing[0].price >= Number(priceRange.minPrice) &&
-          (Number(priceRange.maxPrice) === 0 || product.packing[0].price <= Number(priceRange.maxPrice));
- 
-       return meetsQualityCriteria && meetsOriginCriteria && meetsPriceCriteria;
+      const meetsQualityCriteria = sortChoices['quality_standards'].length === 0 || sortChoices['quality_standards'].includes(product.quality_standards);
+
+      const meetsOriginCriteria = sortChoices['origin'].length === 0 || sortChoices['origin'].includes(product.origin);
+
+      const meetsPriceCriteria = product.packing[0].price >= Number(priceRange.minPrice) && (Number(priceRange.maxPrice) === 0 || product.packing[0].price <= Number(priceRange.maxPrice));
+
+      return meetsQualityCriteria && meetsOriginCriteria && meetsPriceCriteria;
     });
- 
+
     setArrProduct(filteredProducts);
     setVisible(false);
- };
- 
+  };
 
   const handleResetSort = () => {
     setSortChoices({
@@ -142,18 +135,12 @@ function Menu() {
             </Pressable>
           ))}
         </View>
-        {arrProduct?.length === 0 &&
-         <View style={styles.noResult}>
-          <Text style={styles.noResultText}>No product founded</Text>
-          </View>}
-        {!visible && arrProduct?.length > 0 && (
-            <ProductRow 
-            products={arrProduct} 
-            isLoadingProducts={isLoadingProducts} 
-            horizontal={false}
-            numColumns={2}
-            />
+        {arrProduct?.length === 0 && (
+          <View style={styles.noResult}>
+            <Text style={styles.noResultText}>No product founded</Text>
+          </View>
         )}
+        {!visible && arrProduct?.length > 0 && <ProductRow products={arrProduct} isLoadingProducts={isLoadingProducts} horizontal={false} numColumns={2} />}
       </View>
       <SortView
         visible={visible}
