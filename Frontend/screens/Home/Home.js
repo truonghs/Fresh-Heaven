@@ -135,10 +135,10 @@ function Home({route}) {
           <Slider setIsScrollEnable={setIsScrollEnable} />
           <Heading title={'Super Fresh'} />
 
-          <ProductRow products={products} isLoadingProducts={isLoadingProducts} amount={10} />
+          <ProductRow products={products} isLoadingProducts={isLoadingProducts} amount={5} />
           <Heading title={'Special Offer'} />
 
-          <ProductRow products={products} isLoadingProducts={isLoadingProducts} amount={20} from={10} />
+          <ProductRow products={products} isLoadingProducts={isLoadingProducts} amount={15} from={10} />
         </View>
       </ScrollView>
       <BottomModal
@@ -168,7 +168,7 @@ function Home({route}) {
               <TouchableOpacity
                 onPress={() => {
                   setModalVisible(false);
-                  navigation.navigate('AddAddress');
+                  navigation.navigate('AddAddress', {name: 'AddAddress'});
                 }}
                 style={styles.addressAddBox}
               >

@@ -1,4 +1,4 @@
-import {Text, TextInput, TouchableOpacity, View, ScrollView, Pressable} from 'react-native';
+import {Text, TextInput, TouchableOpacity, View, ScrollView, Pressable, ActivityIndicator} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
@@ -13,6 +13,7 @@ function Menu({route}) {
   const {products, isLoadingProducts} = useContext(productsContext);
   const [visible, setVisible] = useState(false);
   const [arrProduct, setArrProduct] = useState([...products]);
+  const [initPage, setInitPage] = useState(null);
   useEffect(() => {
     if (route?.params) {
       setArrProduct(route.params.searchResults);
@@ -41,6 +42,8 @@ function Menu({route}) {
     origin: [],
   });
   const handleSortBasic = (sortName) => {
+    // console.log('Loading...................................................');
+    // setOnLoading(true);
     let tempArrProduct = [...arrProduct];
     setSortList((prevSortList) =>
       prevSortList.map((sortItem) => ({
@@ -50,16 +53,24 @@ function Menu({route}) {
     );
     if (sortName === 'Menu') {
       tempArrProduct.sort((thisProduct, thatProduct) => thisProduct.title.length - thatProduct.title.length);
+      setInitPage(0);
       setArrProduct([...tempArrProduct]);
     }
     if (sortName === 'Newest') {
       tempArrProduct.sort((thisProduct, thatProduct) => new Date(thisProduct.updatedAt) - new Date(thatProduct.updatedAt));
+      setInitPage(0);
+
       setArrProduct([...tempArrProduct]);
     } else if (sortName === 'Hot Sale') {
       tempArrProduct.sort((thisProduct, thatProduct) => thatProduct.packing[0].price - thisProduct.packing[0].price);
+      setInitPage(0);
+
       setArrProduct([...tempArrProduct.slice(0, 20)]);
     } else {
     }
+    // console.log('End...................................................');
+
+    // setOnLoading(false);
   };
   const handleSortAdvanced = (sortType, sortOption) => {
     Object.keys(sortChoices).forEach((key) => {
@@ -140,10 +151,24 @@ function Menu({route}) {
             <Text style={styles.noResultText}>No product founded</Text>
           </View>
         )}
-        {!visible && arrProduct?.length > 0 && (
+        {/* {!visible && arrProduct?.length > 0 && (
           <ScrollView>
             <ProductRow products={arrProduct} isLoadingProducts={isLoadingProducts} horizontal={false} numColumns={2} scrollEnabled={false} />
           </ScrollView>
+        )} */}
+        {arrProduct?.length > 0 && (
+          <View style={{}}>
+            <ProductRow
+              initPage={initPage}
+              setInitPage={setInitPage}
+              param={sortList}
+              products={arrProduct}
+              isLoadingProducts={isLoadingProducts}
+              horizontal={false}
+              numColumns={2}
+              scrollEnabled={true}
+            />
+          </View>
         )}
       </View>
       {visible ? (

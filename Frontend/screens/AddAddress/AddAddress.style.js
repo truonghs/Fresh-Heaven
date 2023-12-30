@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
   },
   btnTxt: {
     color: '#fff',

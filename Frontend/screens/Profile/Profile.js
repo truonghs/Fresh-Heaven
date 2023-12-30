@@ -23,9 +23,7 @@ function Profile() {
     await AsyncStorage.removeItem('isFirstTime');
     navigation.replace('AuthStack');
   };
-  const [statusMemberShip, setStatusMemberShip] = useState(
-    orders?.length < 5 ? 'Silver member' : orders?.length < 10 ? 'Gold member' : orders?.length < 20 ? 'Platinum member' : 'Rookie',
-  );
+  const [statusMemberShip, setStatusMemberShip] = useState(orders?.length < 5 ? 'Silver member' : orders?.length < 10 ? 'Gold member' : orders?.length < 20 ? 'Platinum member' : 'Rookie');
   useEffect(() => {
     axios
       .get(`http://${Ip}:3000/api/order/orders/${userId}`)

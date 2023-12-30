@@ -41,7 +41,7 @@ const ProducDetail = ({navigation, route}) => {
       .post(`http://${Ip}:3000/api/cart/addcart/${userId}`, {
         productId: id,
         packingIndex: packingIndex,
-        quantity: 1,
+        quantity: count,
       })
       .then((response) => {
         Alert.alert(`${1} product added to cart!`);

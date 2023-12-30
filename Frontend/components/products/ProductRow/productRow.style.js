@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: (scale) => ({
     transform: [{scale: scale ? scale : 1}],
-    width: scale ? 120 * scale : null,
+    width: scale ? SIZES.width * 0.325 * scale : null,
     height: scale ? 230 * scale : null,
     alignItems: 'center',
     justifyContent: 'center',

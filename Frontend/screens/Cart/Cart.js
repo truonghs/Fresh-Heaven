@@ -1,4 +1,4 @@
-import {Text, View, ScrollView, Image, TouchableOpacity, Button, ActivityIndicator} from 'react-native';
+import {Text, View, ScrollView, Image, TouchableOpacity, FlatList, ActivityIndicator} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -19,6 +19,8 @@ import Alert from '../../components/CustomAlert/CustomAlert';
 import {useIsFocused} from '@react-navigation/native';
 
 const Cart = ({route}) => {
+  const [visible, setVisible] = useState(true);
+  console.log('begin: ', performance.now());
   const {cartData, setCartData} = useContext(cartContext);
 
   const {userId} = useContext(userContext);
@@ -46,8 +48,11 @@ const Cart = ({route}) => {
 
   useEffect(() => {
     if (isFocused) {
+      setVisible(true);
     } else {
       route.params = undefined;
+      setVisible(false);
+
       setOrderInfo([]);
       setCartRenderData({
         cartRenderProducts: [],
@@ -57,7 +62,6 @@ const Cart = ({route}) => {
       setIsAddedByDefault(false);
     }
   }, [isFocused]);
-
   const createCartRenderData = () => {
     let newCartTotalPrice = 0;
     let newCartTotalProduct = 0;
@@ -262,21 +266,33 @@ const Cart = ({route}) => {
       });
   };
   //------------------------------------------------//
-
+  useEffect(() => {
+    console.log('CartData Changed!');
+  }, [cartRenderData]);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.scrollContainer}>
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-          <View style={{margin: 10, flex: 1, paddingBottom: 40}}>
-            {cartRenderData.cartRenderProducts == [] ? <Text style={styles.empty}>You don't have any thing in your cart.</Text> : null}
-            {cartRenderData.cartRenderProducts?.map((item, index) => {
+        {/* <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}> */}
+        <View style={{margin: 10, flex: 1, paddingBottom: 40}}>
+          {cartRenderData.cartRenderProducts == [] ? <Text style={styles.empty}>You don't have any thing in your cart.</Text> : null}
+          {/* {cartRenderData.cartRenderProducts?.map((item, index) => {
               if (route.params?.firstCheckedIndex == index && !isAddedByDefault) {
                 setAddToOrder(item, index);
                 setIsAddedByDefault(true);
               }
 
               return (
+                
+              );
+            })} */}
+          {visible ? (
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              data={cartRenderData.cartRenderProducts ? cartRenderData.cartRenderProducts : []}
+              horizontal={false}
+              renderItem={({item, index}) => (
                 <View style={styles.main} key={index}>
+                  {index == cartRenderData.cartRenderProducts.length - 1 ? console.log('end: ', performance.now()) : null}
                   <View style={styles.productInfo}>
                     <View style={styles.checkArea}>
                       <BouncyCheckbox
@@ -360,10 +376,12 @@ const Cart = ({route}) => {
                     </View>
                   </View>
                 </View>
-              );
-            })}
-          </View>
-        </ScrollView>
+              )}
+              keyExtractor={(item, index) => index}
+            />
+          ) : null}
+        </View>
+        {/* </ScrollView> */}
       </View>
 
       {/* <View style={styles.checkOutContainer}> */}
