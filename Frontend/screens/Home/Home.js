@@ -115,11 +115,7 @@ function Home({route}) {
           </TouchableOpacity>
 
           <View style={{alignItems: 'flex-end'}}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Order');
-              }}
-            >
+            <TouchableOpacity>
               <View style={styles.dot} />
               <View style={styles.headingIcon}>
                 <Feather name="bell" size={24} color={COLORS.secondary} />

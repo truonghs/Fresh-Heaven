@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     height: 90,
     elevation: 2,
+    marginHorizontal: 10,
   },
   productInfo: {
     flexDirection: 'row',

@@ -75,7 +75,7 @@ const Order = () => {
                   <Text style={styles.status}>The order has been successfully created</Text>
                 </View>
                 <View style={styles.feedbackRow}>
-                  <CustomButton onPress={() => navigation.navigate('FeedBack')} widh={200} height={40} text={'Leave a FeedBack'} />
+                  <CustomButton widh={200} height={40} text={'Leave a FeedBack'} />
                 </View>
               </TouchableOpacity>
             ))
