@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-const Ip = "10.0.183.47";
+const Ip = "192.168.1.7";
 const jwt = require("jsonwebtoken");
 const { log } = require("console");
 const { use } = require("../routes/user");
@@ -118,8 +118,6 @@ module.exports = {
 
     //endpoint to login the user!
     login: async (req, res) => {
-        console.log(req.body);
-
         try {
             const { email, password } = req.body;
 

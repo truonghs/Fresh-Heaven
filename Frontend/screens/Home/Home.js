@@ -168,7 +168,7 @@ function Home({route}) {
               <TouchableOpacity
                 onPress={() => {
                   setModalVisible(false);
-                  navigation.navigate('AddAddress');
+                  navigation.navigate('AddAddress', {name: 'AddAddress'});
                 }}
                 style={styles.addressAddBox}
               >

@@ -29,7 +29,8 @@ const StackNavigation = ({isFirstLaunch}) => {
         <Stack.Screen
           name="AddAddress"
           component={AddAddress}
-          options={{
+          options={({route}) => ({
+            headerTitle: route.params.name,
             headerShown: true,
             headerStyle: {
               backgroundColor: COLORS.thirth,
@@ -38,7 +39,7 @@ const StackNavigation = ({isFirstLaunch}) => {
               fontFamily: font.bold,
             },
             headerTintColor: '#fff',
-          }}
+          })}
         />
         <Stack.Screen
           name="AddressDetail"

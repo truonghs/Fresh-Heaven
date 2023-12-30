@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.small,
     ...SHADOWS.medium,
     shadowColor: '#9fadf4',
-    elevation:10
+    elevation: 10,
   },
   image: {
     width: 70,
@@ -29,13 +29,14 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   textContainer: {
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     flex: 1,
     marginHorizontal: SIZES.medium,
   },
   productTitle: {
+    width: 190,
     fontSize: SIZES.medium + 2,
     fontWeight: 'bold',
     color: COLORS.primary,
@@ -47,10 +48,10 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   price: {
-    fontSize:20,
-    color:'#fdad1c',
-    fontWeight:'900'
-  }
+    fontSize: 20,
+    color: '#fdad1c',
+    fontWeight: '900',
+  },
 });
 
 export default styles;

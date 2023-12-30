@@ -16,7 +16,7 @@ const AddressDetail = () => {
   const navigation = useNavigation();
   const [addressIdxRemove, setAddressIdxRemove] = useState([]);
   const [alertVisible, setAlertVisible] = useState(false);
-  const {userId,currentUser, setCurrentUser} = useContext(userContext);
+  const {userId, currentUser, setCurrentUser} = useContext(userContext);
   const handleAlertDeleteAddress = (indexAddress) => {
     setAddressIdxRemove(indexAddress);
     setAlertVisible(true);
@@ -40,7 +40,7 @@ const AddressDetail = () => {
       <View style={{}}>
         {/* <Text style={styles.title}>Your Addresses</Text> */}
 
-        <TouchableOpacity onPress={() => navigation.navigate('AddAddress')} style={styles.link}>
+        <TouchableOpacity onPress={() => navigation.navigate('AddAddress', {name: 'AddAddress'})} style={styles.link}>
           <Text style={styles.linkTxt}>Add a new Address</Text>
           <MaterialIcons name="keyboard-arrow-right" size={24} color={COLORS.blue} />
         </TouchableOpacity>
@@ -64,7 +64,7 @@ const AddressDetail = () => {
                     marginTop: 7,
                   }}
                 >
-                  <TouchableOpacity style={styles.btnContainer}>
+                  <TouchableOpacity style={styles.btnContainer} onPress={() => navigation.navigate('AddAddress', {currentAddress: item, name: 'EditAddress', addressId: index})}>
                     <Text style={styles.btn}>Edit</Text>
                   </TouchableOpacity>
 

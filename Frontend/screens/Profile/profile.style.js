@@ -2,9 +2,8 @@ import {StyleSheet} from 'react-native';
 import {COLORS, SIZES} from '../../constants';
 const styles = StyleSheet.create({
   container: {
-    // alignItems: 'center',
+    flex: 1,
     backgroundColor: '#fff',
-    height: '100%',
   },
   backGroundImage: {
     backgroundColor: COLORS.primary,
@@ -13,18 +12,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  btnEditProfile : {
-    flex:1,
-    marginLeft:90,
-    marginBottom:10
+  btnEditProfile: {
+    flex: 1,
+    marginBottom: 10,
   },
   userImage: {
     width: 90,
     height: 90,
     borderRadius: 50,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
-  userMemberShip: {},
+  userMemberShip: {
+    width: 220,
+  },
   userMemberShipRow: {
     flexDirection: 'row',
   },
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 30,
     marginVertical: 40,
-
   },
   userInfoItem: {
     flexDirection: 'row',
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
     // left:'12%',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems:'center'
+    alignItems: 'center',
   },
 });
 export default styles;

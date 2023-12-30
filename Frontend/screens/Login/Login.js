@@ -168,7 +168,7 @@ function Login() {
 
             <View style={styles.linkContainer}>
               <Text style={styles.linkText}>
-                Don't have an account?{' '}
+                Don't have an account?
                 <Text onPress={() => navigation.navigate('Register')} style={styles.link}>
                   Sign up here!
                 </Text>

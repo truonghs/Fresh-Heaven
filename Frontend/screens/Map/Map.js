@@ -38,7 +38,15 @@ export default function Map({route}) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.btnBack} onPress={() => navigate(route?.params?.name, {location})}>
+        <TouchableOpacity
+          style={styles.btnBack}
+          onPress={() =>
+            navigate(route?.params?.name === 'EditAddress' ? 'AddAddress' : route?.params?.name, {
+              location: location,
+              name: route.params.name,
+            })
+          }
+        >
           <Ionicons name="checkmark" size={24} color={COLORS.brown} />
         </TouchableOpacity>
         <Text style={styles.title}>Set your location</Text>
