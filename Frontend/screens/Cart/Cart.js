@@ -20,7 +20,6 @@ import {useIsFocused} from '@react-navigation/native';
 
 const Cart = ({route}) => {
   const [visible, setVisible] = useState(true);
-  console.log('begin: ', performance.now());
   const {cartData, setCartData} = useContext(cartContext);
 
   const {userId} = useContext(userContext);
@@ -266,9 +265,7 @@ const Cart = ({route}) => {
       });
   };
   //------------------------------------------------//
-  useEffect(() => {
-    console.log('CartData Changed!');
-  }, [cartRenderData]);
+  useEffect(() => {}, [cartRenderData]);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.scrollContainer}>
@@ -292,7 +289,6 @@ const Cart = ({route}) => {
               horizontal={false}
               renderItem={({item, index}) => (
                 <View style={styles.main} key={index}>
-                  {index == cartRenderData.cartRenderProducts.length - 1 ? console.log('end: ', performance.now()) : null}
                   <View style={styles.productInfo}>
                     <View style={styles.checkArea}>
                       <BouncyCheckbox

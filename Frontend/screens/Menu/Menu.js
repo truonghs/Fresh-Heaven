@@ -42,9 +42,7 @@ function Menu({route}) {
     origin: [],
   });
   const handleSortBasic = (sortName) => {
-    // console.log('Loading...................................................');
-    // setOnLoading(true);
-    let tempArrProduct = [...arrProduct];
+    let tempArrProduct = [...products];
     setSortList((prevSortList) =>
       prevSortList.map((sortItem) => ({
         ...sortItem,
@@ -68,9 +66,6 @@ function Menu({route}) {
       setArrProduct([...tempArrProduct.slice(0, 20)]);
     } else {
     }
-    // console.log('End...................................................');
-
-    // setOnLoading(false);
   };
   const handleSortAdvanced = (sortType, sortOption) => {
     Object.keys(sortChoices).forEach((key) => {

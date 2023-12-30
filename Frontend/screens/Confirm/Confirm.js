@@ -66,11 +66,11 @@ const Confirm = ({route}) => {
 
           isLoading: false,
         });
+        navigation.navigate('OrderSuccess');
         setCurrentStep(0);
         setAdress(null);
         setDelivery('');
         setPayment('');
-        navigation.navigate('OrderSuccess');
         console.log('order created successfully');
       } else {
         console.log('error creating order');
@@ -110,15 +110,20 @@ const Confirm = ({route}) => {
       };
 
       const data = await RazorpayCheckout.open(options);
-
+      const orderProducts = orderData.products.map((item) => {
+        const {inCartIndex, ...rest} = item;
+        return rest;
+      });
       const orderParam = {
         userId: userId,
-        cartProducts: orderData.products,
+        cartProducts: orderProducts,
         totalPrice: totalFee,
-        shippingAddress: address,
+        shippingAddress: addresses[address],
         paymentMethod: payment,
         shippingMethod: delivery,
+        shippingFee: delivery == 'standard' ? 2 : 4,
       };
+      console.log('order param: ', orderParam);
       const response = await axios.post(`http://${Ip}:3000/api/order/orders`, orderParam);
       if (response.status === 200) {
         setCartData({
@@ -128,9 +133,13 @@ const Confirm = ({route}) => {
           isLoading: false,
         });
         navigation.navigate('OrderSuccess');
-        console.log('order created successfully', response.data);
+        setCurrentStep(0);
+        setAdress(null);
+        setDelivery('');
+        setPayment('');
+        console.log('order created successfully');
       } else {
-        console.log('error creating order', response.data);
+        console.log('error creating order');
       }
     } catch (error) {
       console.log('error', error);

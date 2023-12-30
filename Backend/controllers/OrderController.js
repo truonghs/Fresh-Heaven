@@ -12,7 +12,7 @@ module.exports = {
             //     id: item?._id,
             //     quantity: item.quantity,
             // }));
-
+            console.log(req.body);
             //create a new Order
             var order = new Order({
                 user: userId,
