@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   main: {
     backgroundColor: 'white',
-    marginVertical: 10,
+    marginVertical: 8,
     borderRadius: 20,
     paddingHorizontal: 10,
     height: 90,
@@ -72,28 +72,20 @@ const styles = StyleSheet.create({
   },
   productName: {
     fontSize: 16,
-    width: 100,
+    width: 150,
     color: '#000',
     fontFamily: font.semiBold,
     paddingBottom: 4,
   },
   deleteItem: {
     backgroundColor: 'white',
-    width: 26,
-    height: 26,
+    width: 30,
+    height: 30,
     borderRadius: 5,
     borderColor: '#C0C0C0',
-    borderWidth: 0.6,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 20,
-    top: -20,
-    right: 0,
-    position: 'absolute',
   },
   detailFlex: {
     width: SIZES.width * 0.57,
-
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -126,8 +118,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 20,
-    marginLeft: 60,
+    marginLeft: 40,
+    // backgroundColor:'red',
+    minWidth: 100,
   },
   quantityLeft: {
     flexDirection: 'row',
@@ -137,19 +130,24 @@ const styles = StyleSheet.create({
   },
   decreaseBtn: {
     backgroundColor: COLORS.greenBtn,
-    padding: 2,
+    padding: 3,
     borderRadius: 7,
   },
   increaseBtn: {
-    padding: 2,
+    padding: 3,
     borderRadius: 7,
   },
   quantityTxt: {
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     paddingHorizontal: 8,
     color: '#000',
+    minWidth: 35,
   },
-
+  txt: {
+    color: '#000',
+    fontSize: 16,
+    textAlign: 'center',
+  },
   totalContainer: {
     paddingHorizontal: 10,
     flexDirection: 'row',
@@ -200,10 +198,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 
-  txt: {
-    color: '#000',
-  },
-
   checkOutBase: {
     backgroundColor: '#fff',
     borderRadius: 20,
@@ -227,6 +221,10 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 20,
     padding: 10,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
 export default styles;

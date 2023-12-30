@@ -265,7 +265,6 @@ const Cart = ({route}) => {
       });
   };
   //------------------------------------------------//
-  useEffect(() => {}, [cartRenderData]);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.scrollContainer}>
@@ -328,12 +327,12 @@ const Cart = ({route}) => {
                             {item.product?.title}
                           </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleDelete(item, index)} style={styles.deleteItem}>
+                        {/* <TouchableOpacity onPress={() => handleDelete(item, index)} style={styles.deleteItem}>
                           <AntDesign name="close" size={16} color={COLORS.red} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                       </View>
                       <View style={styles.detailFlex}>
-                        <View>
+                        <View style={{minWidth:100}}>
                           {item.discount == 0 ? (
                             <Text style={styles.productPriceFinal}>${item?.price}</Text>
                           ) : (
@@ -368,6 +367,9 @@ const Cart = ({route}) => {
                             </TouchableOpacity>
                           </View>
                         </View>
+                        <TouchableOpacity onPress={() => handleDelete(item, index)} style={styles.deleteItem}>
+                          <AntDesign name="close" size={20} color={COLORS.red} />
+                        </TouchableOpacity>
                       </View>
                     </View>
                   </View>
@@ -375,7 +377,11 @@ const Cart = ({route}) => {
               )}
               keyExtractor={(item, index) => index}
             />
-          ) : null}
+          ) : (
+            <View style={[styles.loading]}>
+              <ActivityIndicator size="large" color={COLORS.secondary} />
+            </View>
+          )}
         </View>
         {/* </ScrollView> */}
       </View>
