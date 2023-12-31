@@ -75,7 +75,6 @@ module.exports = {
             // Generate and store the verification token
             newUser.verificationToken = crypto.randomBytes(20).toString("hex");
 
-            console.log(1);
             // Save the user to the database
             await newUser.save();
             // Send verification email to the user

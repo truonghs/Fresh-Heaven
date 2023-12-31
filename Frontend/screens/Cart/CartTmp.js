@@ -136,8 +136,6 @@ const Cart = ({route}) => {
       console.log('Title: ', newCartRenderData.cartRenderProducts[element.inCartIndex].product.title);
       console.log('inOrderIndex: ', newCartRenderData.cartRenderProducts[element.inCartIndex].inOrderIndex);
       if (element.productId == item.product._id && element.packing == item.packing) {
-        console.log(1);
-
         newOrderInfo.totalProducts = newOrderInfo.totalProducts - element.quantity;
         newOrderInfo.totalPrice = Math.round((newOrderInfo.totalPrice - parseFloat(element.finalPrice) * parseFloat(element.quantity)) * 10) / 10;
         newOrderInfo.products.splice(index, 1);

@@ -82,7 +82,6 @@ module.exports = {
         }
     },
     updateCart: async (req, res) => {
-        console.log(1);
         try {
             const userId = req.params.id;
             const { newCart } = req.body;

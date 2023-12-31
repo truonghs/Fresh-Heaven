@@ -64,13 +64,11 @@ const ProducDetail = ({navigation, route}) => {
     cartData.cart.products.forEach((item, index) => {
       if (item.productId == product._id && product.packing[packingIndex].unit == item.packing) {
         isExist = true;
-        console.log('params: ', index);
         navigation.navigate('Cart', {firstCheckedIndex: index});
       }
     });
     if (!isExist) {
       addItemToCart();
-      console.log('params: ', cartData.cart.products.length);
 
       navigation.navigate('Cart', {
         firstCheckedIndex: cartData.cart.products.length,

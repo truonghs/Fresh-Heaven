@@ -40,15 +40,12 @@ const Cart = ({route}) => {
   // const [checkBoxValues, setCheckBoxValues] = useState([])
   // Create Data for render
   useEffect(() => {
-    console.log(1);
     if (isFocused) {
       createCartRenderData();
     }
   }, [cartData.cart, isFocused]);
 
   useEffect(() => {
-    console.log(2);
-
     if (isFocused) {
       setVisible(true);
     } else {
@@ -172,7 +169,6 @@ const Cart = ({route}) => {
       });
       newOrderTotalPrice = Math.round((newOrderTotalPrice + parseFloat(item.finalPrice) * parseFloat(item.quantity)) * 10) / 10;
       newOrderTotalProduct = newOrderTotalProduct + item.quantity;
-      console.log(newOrderTotalPrice);
     }
 
     // setCartInfo({
@@ -274,16 +270,12 @@ const Cart = ({route}) => {
         {/* <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}> */}
         <View style={{marginVertical: 10, flex: 1, paddingBottom: 40}}>
           {cartRenderData.cartRenderProducts.length == 0 ? <Text style={styles.empty}>You don't have any thing in your cart.</Text> : null}
-          {/* {cartRenderData.cartRenderProducts?.map((item, index) => {
-              if (route.params?.firstCheckedIndex == index && !isAddedByDefault) {
-                setAddToOrder(item, index);
-                setIsAddedByDefault(true);
-              }
-
-              return (
-                
-              );
-            })} */}
+          {cartRenderData.cartRenderProducts?.forEach((item, index) => {
+            if (route.params?.firstCheckedIndex == index && !isAddedByDefault) {
+              setAddToOrder(item, index);
+              setIsAddedByDefault(true);
+            }
+          })}
 
           <FlatList
             showsHorizontalScrollIndicator={false}
@@ -378,7 +370,9 @@ const Cart = ({route}) => {
                 </View>
               </View>
             )}
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => {
+              return index;
+            }}
           />
         </View>
         {/* </ScrollView> */}
