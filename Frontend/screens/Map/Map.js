@@ -65,7 +65,7 @@ export default function Map({route}) {
             moveToLocation(currentLocation.lat, currentLocation.lng);
           }}
           query={{
-            key: 'AIzaSyDdc7aNFmYhxl-llWhRgHhqpKrDI6b2cug',
+            key: 'AIzaSyDgWziS3fY3EP-UUYtFHFFSlip8ZImRrFw',
             language: 'vi',
           }}
           onFail={(error) => console.log(error)}

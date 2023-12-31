@@ -151,7 +151,7 @@ function Menu({route}) {
             <ProductRow products={arrProduct} isLoadingProducts={isLoadingProducts} horizontal={false} numColumns={2} scrollEnabled={false} />
           </ScrollView>
         )} */}
-        {!visible && arrProduct?.length > 0 && (
+        {arrProduct?.length > 0 && (
           <View style={{}}>
             <ProductRow
               initPage={initPage}

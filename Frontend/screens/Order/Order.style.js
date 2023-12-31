@@ -7,7 +7,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.offwhite,
     paddingTop: 10,
   },
-
+  empty: {
+    fontFamily: font.bold,
+    fontSize: SIZES.large,
+    color: '#000',
+    paddingHorizontal: 20,
+    textAlign: 'center',
+    marginTop: 20,
+  },
   orderItemContainer: {
     backgroundColor: '#fff',
     borderRadius: 20,

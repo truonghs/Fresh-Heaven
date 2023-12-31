@@ -36,49 +36,53 @@ const Order = () => {
       <ScrollView>
         <View style={styles.productsContainer}>
           {!isLoading ? (
-            orders?.map((item, index) => (
-              <TouchableOpacity onPress={() => navigation.navigate('AllOrderProducts', {order: item})} key={index} style={styles.orderItemContainer}>
-                <View style={styles.topRow}>
-                  <View style={styles.imageContainer}>
-                    <Image style={styles.productImage} source={{uri: products.find((product) => product._id == item.products[0].productId).imageUrl[0]}} />
-                  </View>
-                  <View style={styles.titleContainer}>
-                    <View style={styles.titleRow}>
-                      <Text numberOfLines={1} style={styles.title}>
-                        {item.products[0].title}
-                      </Text>
+            orders.length > 0 ? (
+              orders?.map((item, index) => (
+                <TouchableOpacity onPress={() => navigation.navigate('AllOrderProducts', {order: item})} key={index} style={styles.orderItemContainer}>
+                  <View style={styles.topRow}>
+                    <View style={styles.imageContainer}>
+                      <Image style={styles.productImage} source={{uri: products.find((product) => product._id == item.products[0].productId).imageUrl[0]}} />
                     </View>
-                    <View style={styles.moreRow}>
-                      <View style={styles.typeRow}>
-                        <Text style={styles.packing}>Type: {item.products[0].packing}</Text>
-                        <Text style={styles.quantity}>Quantity: {item.products[0].quantity}</Text>
+                    <View style={styles.titleContainer}>
+                      <View style={styles.titleRow}>
+                        <Text numberOfLines={1} style={styles.title}>
+                          {item.products[0].title}
+                        </Text>
                       </View>
-                      {/* {item.products.length > 1 ? (
+                      <View style={styles.moreRow}>
+                        <View style={styles.typeRow}>
+                          <Text style={styles.packing}>Type: {item.products[0].packing}</Text>
+                          <Text style={styles.quantity}>Quantity: {item.products[0].quantity}</Text>
+                        </View>
+                        {/* {item.products.length > 1 ? (
                         <View style={styles.viewmoreContainer}>
                           <Text style={styles.viewmore}>View more</Text>
                           <MaterialIcons color={'#ccc'} name={'keyboard-arrow-right'} size={20} />
                         </View>
                       ) : null} */}
+                      </View>
                     </View>
                   </View>
-                </View>
-                <View style={styles.middleRow}>
-                  <View style={styles.totalRow}>
-                    <Text style={styles.totalProduct}>Total products: {item.totalProduct}</Text>
+                  <View style={styles.middleRow}>
+                    <View style={styles.totalRow}>
+                      <Text style={styles.totalProduct}>Total products: {item.totalProduct}</Text>
+                    </View>
+                    <View style={styles.priceRow}>
+                      <Text style={styles.priceTitle}>Total Price:</Text>
+                      <Text style={styles.priceValue}> ${item.totalPrice}</Text>
+                    </View>
                   </View>
-                  <View style={styles.priceRow}>
-                    <Text style={styles.priceTitle}>Total Price:</Text>
-                    <Text style={styles.priceValue}> ${item.totalPrice}</Text>
+                  <View style={styles.statusRow}>
+                    <Text style={styles.status}>The order has been successfully created</Text>
                   </View>
-                </View>
-                <View style={styles.statusRow}>
-                  <Text style={styles.status}>The order has been successfully created</Text>
-                </View>
-                <View style={styles.feedbackRow}>
-                  <CustomButton widh={200} height={40} text={'Leave a FeedBack'} />
-                </View>
-              </TouchableOpacity>
-            ))
+                  <View style={styles.feedbackRow}>
+                    <CustomButton widh={200} height={40} text={'Leave a FeedBack'} />
+                  </View>
+                </TouchableOpacity>
+              ))
+            ) : (
+              <Text style={styles.empty}>You don't have any order.</Text>
+            )
           ) : (
             <ActivityIndicator size={SIZES.xxLarge} color={COLORS.primary} />
           )}

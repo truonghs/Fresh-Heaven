@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   input: {
     color: '#000',
     marginVertical: 10,
-    width: 250,
+    width: 300,
     fontSize: 16,
     paddingVertical: 2,
     lineHeight: 20,
