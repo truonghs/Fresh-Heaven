@@ -55,7 +55,7 @@ const ProductCartView = ({product, scale}) => {
           ) : (
             <View style={styles.priceContainer}>
               <Text style={styles.priceBefore}>${product.packing[0].price}</Text>
-              <Text style={styles.priceAfter}>${product.packing[0].price - (product.packing[0].price * product.packing[0].discount) / 100}</Text>
+              <Text style={styles.priceAfter}>${(product.packing[0].price - (product.packing[0].price * product.packing[0].discount) / 100).toFixed(1)}</Text>
             </View>
           )}
           <View style={styles.tagContainer}>

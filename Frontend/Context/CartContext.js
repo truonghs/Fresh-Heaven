@@ -10,7 +10,6 @@ const CartProvider = ({children}) => {
   });
   const [fetchCartError, setFetchCartError] = useState(null);
   const FetchCart = async (userId) => {
-    console.log('Fetching cart with userId: ', userId);
     await axios
       .get(`http://${Ip}:3000/api/cart/getcart/${userId}`)
       .then((response) => {
@@ -20,6 +19,7 @@ const CartProvider = ({children}) => {
         response.data.products.forEach((item) => {
           total = total + parseInt(item.quantity);
         });
+        console.log("total cart là:", total)
         setCartData({
           cart: response.data,
           totalProduct: total,

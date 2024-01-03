@@ -42,7 +42,7 @@ function Menu({route}) {
     origin: [],
   });
   const handleSortBasic = (sortName) => {
-    let tempArrProduct = route?.params ? [...route.params.searchResults] : [...products];
+    let tempArrProduct = route?.params?.searchResults.length > 0 ? [...route.params.searchResults] : [...products];
 
     setSortList((prevSortList) =>
       prevSortList.map((sortItem) => ({
@@ -115,6 +115,9 @@ function Menu({route}) {
       maxPrice: '',
     });
     setArrProduct([...products]);
+    if (route?.params) {
+      route.params.searchResults = []
+    }
     // setVisible(false);
   };
 
