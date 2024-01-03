@@ -68,7 +68,7 @@ function BottomTabNavigatior() {
         name="Cart"
         component={Cart}
         options={{
-          tabBarBadge: cartData.cart.products?.length ? cartData.cart.products?.length : 0,
+          tabBarBadge: cartData?.cart?.products?.length ? cartData.cart.products?.length : 0,
           tabBarBadgeStyle: {
             alignItems: 'center',
             justifyContent: 'center',

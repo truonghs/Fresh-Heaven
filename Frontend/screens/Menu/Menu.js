@@ -42,7 +42,8 @@ function Menu({route}) {
     origin: [],
   });
   const handleSortBasic = (sortName) => {
-    let tempArrProduct = [...products];
+    let tempArrProduct = route?.params ? [...route.params.searchResults] : [...products];
+
     setSortList((prevSortList) =>
       prevSortList.map((sortItem) => ({
         ...sortItem,
