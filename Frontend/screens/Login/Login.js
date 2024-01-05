@@ -37,10 +37,10 @@ function Login() {
         if (token) {
           const decodedToken = jwt_decode(token);
           const userId = decodedToken.userId;
+          FetchCart(userId);
           if (isFirstTime === 'true') {
             navigation.replace('GuidanceStack');
           } else {
-            FetchCart(userId);
             navigation.replace('BottomTabNavigation');
           }
           console.log('login id: ', userId);
@@ -69,10 +69,10 @@ function Login() {
           const decodedToken = jwt_decode(token);
           const userId = decodedToken.userId;
           const firstTime = decodedToken.firstTime;
+          FetchCart(userId);
           if (firstTime) {
             navigation.replace('GuidanceStack');
           } else {
-            FetchCart(userId);
             navigation.replace('BottomTabNavigation');
           }
           console.log('login id: ', userId);

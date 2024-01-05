@@ -14,6 +14,7 @@ function Menu({route}) {
   const [visible, setVisible] = useState(false);
   const [arrProduct, setArrProduct] = useState([...products]);
   const [initPage, setInitPage] = useState(null);
+  const [isSorted, setIsSorted] = useState(false);
   useEffect(() => {
     if (route?.params) {
       setArrProduct(route.params.searchResults);
@@ -42,7 +43,10 @@ function Menu({route}) {
     origin: [],
   });
   const handleSortBasic = (sortName) => {
-    let tempArrProduct = route?.params?.searchResults.length > 0 ? [...route.params.searchResults] : [...products];
+    let tempArrProduct = 
+    route?.params?.searchResults.length > 0 ? [...route.params.searchResults] 
+    : isSorted ? [...arrProduct]
+    : [...products];
 
     setSortList((prevSortList) =>
       prevSortList.map((sortItem) => ({
@@ -98,7 +102,7 @@ function Menu({route}) {
       const meetsOriginCriteria = sortChoices['origin'].length === 0 || sortChoices['origin'].includes(product.origin);
 
       const meetsPriceCriteria = product.packing[0].price >= Number(priceRange.minPrice) && (Number(priceRange.maxPrice) === 0 || product.packing[0].price <= Number(priceRange.maxPrice));
-
+      setIsSorted(true);
       return meetsQualityCriteria && meetsOriginCriteria && meetsPriceCriteria;
     });
 
@@ -116,8 +120,10 @@ function Menu({route}) {
     });
     setArrProduct([...products]);
     if (route?.params) {
-      route.params.searchResults = []
+      route.params.searchResults = [];
     }
+    setIsSorted(false);
+
     // setVisible(false);
   };
 

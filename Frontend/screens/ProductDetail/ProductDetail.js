@@ -158,7 +158,7 @@ const ProducDetail = ({navigation, route}) => {
               ) : (
                 <View style={styles.priceFlex}>
                   <Text style={styles.priceBefore}>${product.packing[packingIndex].price}</Text>
-                  <Text style={styles.priceAfter}>${product.packing[packingIndex].price - (product.packing[packingIndex].price * product.packing[packingIndex].discount) / 100}</Text>
+                  <Text style={styles.priceAfter}>${(product.packing[packingIndex].price - (product.packing[packingIndex].price * product.packing[packingIndex].discount) / 100).toFixed(1)}</Text>
                 </View>
               )}
               <View style={styles.counter}>
